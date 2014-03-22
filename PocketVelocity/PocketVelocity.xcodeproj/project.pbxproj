@@ -1,0 +1,582 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0AB457AE18D4CCCC00C47B8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AD18D4CCCC00C47B8C /* Foundation.framework */; };
+		0AB457B018D4CCCC00C47B8C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */; };
+		0AB457B218D4CCCC00C47B8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457B118D4CCCC00C47B8C /* UIKit.framework */; };
+		0AB457B818D4CCCC00C47B8C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AB457B618D4CCCC00C47B8C /* InfoPlist.strings */; };
+		0AB457BA18D4CCCC00C47B8C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457B918D4CCCC00C47B8C /* main.m */; };
+		0AB457BE18D4CCCC00C47B8C /* PVAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457BD18D4CCCC00C47B8C /* PVAppDelegate.m */; };
+		0AB457C118D4CCCC00C47B8C /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB457BF18D4CCCC00C47B8C /* Main_iPhone.storyboard */; };
+		0AB457C418D4CCCC00C47B8C /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AB457C218D4CCCC00C47B8C /* Main_iPad.storyboard */; };
+		0AB457C718D4CCCC00C47B8C /* PVMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457C618D4CCCC00C47B8C /* PVMasterViewController.m */; };
+		0AB457CA18D4CCCC00C47B8C /* PVDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457C918D4CCCC00C47B8C /* PVDetailViewController.m */; };
+		0AB457CC18D4CCCC00C47B8C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AB457CB18D4CCCC00C47B8C /* Images.xcassets */; };
+		0AB457D318D4CCCC00C47B8C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457D218D4CCCC00C47B8C /* XCTest.framework */; };
+		0AB457D418D4CCCC00C47B8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AD18D4CCCC00C47B8C /* Foundation.framework */; };
+		0AB457D518D4CCCC00C47B8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457B118D4CCCC00C47B8C /* UIKit.framework */; };
+		0AB457DD18D4CCCC00C47B8C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AB457DB18D4CCCC00C47B8C /* InfoPlist.strings */; };
+		0AB457DF18D4CCCC00C47B8C /* PocketVelocityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457DE18D4CCCC00C47B8C /* PocketVelocityTests.m */; };
+		0AB457ED18D4CEF300C47B8C /* PVNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457EC18D4CEF300C47B8C /* PVNote.m */; };
+		0AB457EE18D4CEF300C47B8C /* PVNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457EC18D4CEF300C47B8C /* PVNote.m */; };
+		0AB457F118D4D14700C47B8C /* PVNotesDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457F018D4D14700C47B8C /* PVNotesDatabase.m */; };
+		0AB457F218D4D14700C47B8C /* PVNotesDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457F018D4D14700C47B8C /* PVNotesDatabase.m */; };
+		0AB457FA18D4D34000C47B8C /* PVAnnouncer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457F918D4D34000C47B8C /* PVAnnouncer.m */; };
+		0AB457FB18D4D34000C47B8C /* PVAnnouncer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457F918D4D34000C47B8C /* PVAnnouncer.m */; };
+		0AB457FE18D64DBA00C47B8C /* BDLongestCommonSubsequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457FD18D64DBA00C47B8C /* BDLongestCommonSubsequence.m */; };
+		0AB457FF18D64DBA00C47B8C /* BDLongestCommonSubsequence.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB457FD18D64DBA00C47B8C /* BDLongestCommonSubsequence.m */; };
+		0AB4580318D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4580218D6C23D00C47B8C /* NSArray+PVUtilities.m */; };
+		0AB4580418D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4580218D6C23D00C47B8C /* NSArray+PVUtilities.m */; };
+		0AB4580718D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */; };
+		0AB4580818D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */; };
+		0AB4581418D8058100C47B8C /* PVArrayChangeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */; };
+		0AB4581518D8058100C47B8C /* PVArrayChangeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */; };
+		0AB4581818D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */; };
+		0AB4581918D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */; };
+		0AB4582118DCFBEB00C47B8C /* PVListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */; };
+		0AB4582218DCFBEB00C47B8C /* PVListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */; };
+		0AB4582518DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
+		0AB4582618DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0AB457D618D4CCCC00C47B8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0AB457A218D4CCCC00C47B8C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0AB457A918D4CCCC00C47B8C;
+			remoteInfo = PocketVelocity;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0AB457AA18D4CCCC00C47B8C /* PocketVelocity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketVelocity.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AB457AD18D4CCCC00C47B8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		0AB457B118D4CCCC00C47B8C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		0AB457B518D4CCCC00C47B8C /* PocketVelocity-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PocketVelocity-Info.plist"; sourceTree = "<group>"; };
+		0AB457B718D4CCCC00C47B8C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0AB457B918D4CCCC00C47B8C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0AB457BB18D4CCCC00C47B8C /* PocketVelocity-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PocketVelocity-Prefix.pch"; sourceTree = "<group>"; };
+		0AB457BC18D4CCCC00C47B8C /* PVAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVAppDelegate.h; sourceTree = "<group>"; };
+		0AB457BD18D4CCCC00C47B8C /* PVAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVAppDelegate.m; sourceTree = "<group>"; };
+		0AB457C018D4CCCC00C47B8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		0AB457C318D4CCCC00C47B8C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		0AB457C518D4CCCC00C47B8C /* PVMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVMasterViewController.h; sourceTree = "<group>"; };
+		0AB457C618D4CCCC00C47B8C /* PVMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVMasterViewController.m; sourceTree = "<group>"; };
+		0AB457C818D4CCCC00C47B8C /* PVDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVDetailViewController.h; sourceTree = "<group>"; };
+		0AB457C918D4CCCC00C47B8C /* PVDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PVDetailViewController.m; sourceTree = "<group>"; };
+		0AB457CB18D4CCCC00C47B8C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0AB457D118D4CCCC00C47B8C /* PocketVelocityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PocketVelocityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0AB457D218D4CCCC00C47B8C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		0AB457DA18D4CCCC00C47B8C /* PocketVelocityTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PocketVelocityTests-Info.plist"; sourceTree = "<group>"; };
+		0AB457DC18D4CCCC00C47B8C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0AB457DE18D4CCCC00C47B8C /* PocketVelocityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PocketVelocityTests.m; sourceTree = "<group>"; };
+		0AB457EB18D4CEF300C47B8C /* PVNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVNote.h; sourceTree = "<group>"; };
+		0AB457EC18D4CEF300C47B8C /* PVNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVNote.m; sourceTree = "<group>"; };
+		0AB457EF18D4D14700C47B8C /* PVNotesDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVNotesDatabase.h; sourceTree = "<group>"; };
+		0AB457F018D4D14700C47B8C /* PVNotesDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVNotesDatabase.m; sourceTree = "<group>"; };
+		0AB457F718D4D2B900C47B8C /* PVAnnouncing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVAnnouncing.h; sourceTree = "<group>"; };
+		0AB457F818D4D34000C47B8C /* PVAnnouncer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVAnnouncer.h; sourceTree = "<group>"; };
+		0AB457F918D4D34000C47B8C /* PVAnnouncer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVAnnouncer.m; sourceTree = "<group>"; };
+		0AB457FC18D64DBA00C47B8C /* BDLongestCommonSubsequence.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDLongestCommonSubsequence.h; sourceTree = "<group>"; };
+		0AB457FD18D64DBA00C47B8C /* BDLongestCommonSubsequence.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDLongestCommonSubsequence.m; sourceTree = "<group>"; };
+		0AB4580018D6BE7500C47B8C /* PVUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVUtilities.h; sourceTree = "<group>"; };
+		0AB4580118D6C23D00C47B8C /* NSArray+PVUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PVUtilities.h"; sourceTree = "<group>"; };
+		0AB4580218D6C23D00C47B8C /* NSArray+PVUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PVUtilities.m"; sourceTree = "<group>"; };
+		0AB4580518D7FB6B00C47B8C /* PVMasterViewCellConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVMasterViewCellConfiguration.h; sourceTree = "<group>"; };
+		0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMasterViewCellConfiguration.m; sourceTree = "<group>"; };
+		0AB4581218D8058100C47B8C /* PVArrayChangeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVArrayChangeDescription.h; sourceTree = "<group>"; };
+		0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVArrayChangeDescription.m; sourceTree = "<group>"; };
+		0AB4581618D80D9100C47B8C /* PVListenableArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVListenableArrayDataSource.h; sourceTree = "<group>"; };
+		0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVListenableArrayDataSource.m; sourceTree = "<group>"; };
+		0AB4581A18DCF89B00C47B8C /* PVListenable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVListenable.h; sourceTree = "<group>"; };
+		0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVListenersCollection.h; sourceTree = "<group>"; };
+		0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVListenersCollection.m; sourceTree = "<group>"; };
+		0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVSectionedDataSource.h; sourceTree = "<group>"; };
+		0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVSectionedDataSource.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0AB457A718D4CCCC00C47B8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AB457B018D4CCCC00C47B8C /* CoreGraphics.framework in Frameworks */,
+				0AB457B218D4CCCC00C47B8C /* UIKit.framework in Frameworks */,
+				0AB457AE18D4CCCC00C47B8C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AB457CE18D4CCCC00C47B8C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AB457D318D4CCCC00C47B8C /* XCTest.framework in Frameworks */,
+				0AB457D518D4CCCC00C47B8C /* UIKit.framework in Frameworks */,
+				0AB457D418D4CCCC00C47B8C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0AB457A118D4CCCC00C47B8C = {
+			isa = PBXGroup;
+			children = (
+				0AB457B318D4CCCC00C47B8C /* PocketVelocity */,
+				0AB457D818D4CCCC00C47B8C /* PocketVelocityTests */,
+				0AB457AC18D4CCCC00C47B8C /* Frameworks */,
+				0AB457AB18D4CCCC00C47B8C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0AB457AB18D4CCCC00C47B8C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0AB457AA18D4CCCC00C47B8C /* PocketVelocity.app */,
+				0AB457D118D4CCCC00C47B8C /* PocketVelocityTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0AB457AC18D4CCCC00C47B8C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0AB457AD18D4CCCC00C47B8C /* Foundation.framework */,
+				0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */,
+				0AB457B118D4CCCC00C47B8C /* UIKit.framework */,
+				0AB457D218D4CCCC00C47B8C /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0AB457B318D4CCCC00C47B8C /* PocketVelocity */ = {
+			isa = PBXGroup;
+			children = (
+				0AB457FC18D64DBA00C47B8C /* BDLongestCommonSubsequence.h */,
+				0AB457FD18D64DBA00C47B8C /* BDLongestCommonSubsequence.m */,
+				0AB457BC18D4CCCC00C47B8C /* PVAppDelegate.h */,
+				0AB457BD18D4CCCC00C47B8C /* PVAppDelegate.m */,
+				0AB457BF18D4CCCC00C47B8C /* Main_iPhone.storyboard */,
+				0AB457C218D4CCCC00C47B8C /* Main_iPad.storyboard */,
+				0AB457C518D4CCCC00C47B8C /* PVMasterViewController.h */,
+				0AB457C618D4CCCC00C47B8C /* PVMasterViewController.m */,
+				0AB457C818D4CCCC00C47B8C /* PVDetailViewController.h */,
+				0AB457C918D4CCCC00C47B8C /* PVDetailViewController.m */,
+				0AB457CB18D4CCCC00C47B8C /* Images.xcassets */,
+				0AB457B418D4CCCC00C47B8C /* Supporting Files */,
+				0AB457EB18D4CEF300C47B8C /* PVNote.h */,
+				0AB457EC18D4CEF300C47B8C /* PVNote.m */,
+				0AB457EF18D4D14700C47B8C /* PVNotesDatabase.h */,
+				0AB457F018D4D14700C47B8C /* PVNotesDatabase.m */,
+				0AB457F718D4D2B900C47B8C /* PVAnnouncing.h */,
+				0AB457F818D4D34000C47B8C /* PVAnnouncer.h */,
+				0AB457F918D4D34000C47B8C /* PVAnnouncer.m */,
+				0AB4580018D6BE7500C47B8C /* PVUtilities.h */,
+				0AB4580118D6C23D00C47B8C /* NSArray+PVUtilities.h */,
+				0AB4580218D6C23D00C47B8C /* NSArray+PVUtilities.m */,
+				0AB4580518D7FB6B00C47B8C /* PVMasterViewCellConfiguration.h */,
+				0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */,
+				0AB4581218D8058100C47B8C /* PVArrayChangeDescription.h */,
+				0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */,
+				0AB4581618D80D9100C47B8C /* PVListenableArrayDataSource.h */,
+				0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */,
+				0AB4581A18DCF89B00C47B8C /* PVListenable.h */,
+				0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */,
+				0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */,
+				0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */,
+				0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */,
+			);
+			path = PocketVelocity;
+			sourceTree = "<group>";
+		};
+		0AB457B418D4CCCC00C47B8C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0AB457B518D4CCCC00C47B8C /* PocketVelocity-Info.plist */,
+				0AB457B618D4CCCC00C47B8C /* InfoPlist.strings */,
+				0AB457B918D4CCCC00C47B8C /* main.m */,
+				0AB457BB18D4CCCC00C47B8C /* PocketVelocity-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0AB457D818D4CCCC00C47B8C /* PocketVelocityTests */ = {
+			isa = PBXGroup;
+			children = (
+				0AB457DE18D4CCCC00C47B8C /* PocketVelocityTests.m */,
+				0AB457D918D4CCCC00C47B8C /* Supporting Files */,
+			);
+			path = PocketVelocityTests;
+			sourceTree = "<group>";
+		};
+		0AB457D918D4CCCC00C47B8C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0AB457DA18D4CCCC00C47B8C /* PocketVelocityTests-Info.plist */,
+				0AB457DB18D4CCCC00C47B8C /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0AB457A918D4CCCC00C47B8C /* PocketVelocity */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0AB457E218D4CCCC00C47B8C /* Build configuration list for PBXNativeTarget "PocketVelocity" */;
+			buildPhases = (
+				0AB457A618D4CCCC00C47B8C /* Sources */,
+				0AB457A718D4CCCC00C47B8C /* Frameworks */,
+				0AB457A818D4CCCC00C47B8C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PocketVelocity;
+			productName = PocketVelocity;
+			productReference = 0AB457AA18D4CCCC00C47B8C /* PocketVelocity.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0AB457D018D4CCCC00C47B8C /* PocketVelocityTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0AB457E518D4CCCC00C47B8C /* Build configuration list for PBXNativeTarget "PocketVelocityTests" */;
+			buildPhases = (
+				0AB457CD18D4CCCC00C47B8C /* Sources */,
+				0AB457CE18D4CCCC00C47B8C /* Frameworks */,
+				0AB457CF18D4CCCC00C47B8C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0AB457D718D4CCCC00C47B8C /* PBXTargetDependency */,
+			);
+			name = PocketVelocityTests;
+			productName = PocketVelocityTests;
+			productReference = 0AB457D118D4CCCC00C47B8C /* PocketVelocityTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0AB457A218D4CCCC00C47B8C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = PV;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Brian Dewey";
+				TargetAttributes = {
+					0AB457D018D4CCCC00C47B8C = {
+						TestTargetID = 0AB457A918D4CCCC00C47B8C;
+					};
+				};
+			};
+			buildConfigurationList = 0AB457A518D4CCCC00C47B8C /* Build configuration list for PBXProject "PocketVelocity" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0AB457A118D4CCCC00C47B8C;
+			productRefGroup = 0AB457AB18D4CCCC00C47B8C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0AB457A918D4CCCC00C47B8C /* PocketVelocity */,
+				0AB457D018D4CCCC00C47B8C /* PocketVelocityTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0AB457A818D4CCCC00C47B8C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AB457C418D4CCCC00C47B8C /* Main_iPad.storyboard in Resources */,
+				0AB457CC18D4CCCC00C47B8C /* Images.xcassets in Resources */,
+				0AB457C118D4CCCC00C47B8C /* Main_iPhone.storyboard in Resources */,
+				0AB457B818D4CCCC00C47B8C /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AB457CF18D4CCCC00C47B8C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AB457DD18D4CCCC00C47B8C /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0AB457A618D4CCCC00C47B8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AB457F118D4D14700C47B8C /* PVNotesDatabase.m in Sources */,
+				0AB4581418D8058100C47B8C /* PVArrayChangeDescription.m in Sources */,
+				0AB4580318D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
+				0AB457ED18D4CEF300C47B8C /* PVNote.m in Sources */,
+				0AB4581818D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */,
+				0AB4580718D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
+				0AB457BE18D4CCCC00C47B8C /* PVAppDelegate.m in Sources */,
+				0AB4582118DCFBEB00C47B8C /* PVListenersCollection.m in Sources */,
+				0AB457BA18D4CCCC00C47B8C /* main.m in Sources */,
+				0AB457FA18D4D34000C47B8C /* PVAnnouncer.m in Sources */,
+				0AB457FE18D64DBA00C47B8C /* BDLongestCommonSubsequence.m in Sources */,
+				0AB4582518DD06E000C47B8C /* PVSectionedDataSource.m in Sources */,
+				0AB457C718D4CCCC00C47B8C /* PVMasterViewController.m in Sources */,
+				0AB457CA18D4CCCC00C47B8C /* PVDetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0AB457CD18D4CCCC00C47B8C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0AB457F218D4D14700C47B8C /* PVNotesDatabase.m in Sources */,
+				0AB4581918D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */,
+				0AB4580818D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
+				0AB4580418D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
+				0AB457DF18D4CCCC00C47B8C /* PocketVelocityTests.m in Sources */,
+				0AB4582218DCFBEB00C47B8C /* PVListenersCollection.m in Sources */,
+				0AB4581518D8058100C47B8C /* PVArrayChangeDescription.m in Sources */,
+				0AB457FF18D64DBA00C47B8C /* BDLongestCommonSubsequence.m in Sources */,
+				0AB457EE18D4CEF300C47B8C /* PVNote.m in Sources */,
+				0AB4582618DD06E000C47B8C /* PVSectionedDataSource.m in Sources */,
+				0AB457FB18D4D34000C47B8C /* PVAnnouncer.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0AB457D718D4CCCC00C47B8C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0AB457A918D4CCCC00C47B8C /* PocketVelocity */;
+			targetProxy = 0AB457D618D4CCCC00C47B8C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		0AB457B618D4CCCC00C47B8C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0AB457B718D4CCCC00C47B8C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0AB457BF18D4CCCC00C47B8C /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0AB457C018D4CCCC00C47B8C /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		0AB457C218D4CCCC00C47B8C /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0AB457C318D4CCCC00C47B8C /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		0AB457DB18D4CCCC00C47B8C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0AB457DC18D4CCCC00C47B8C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0AB457E018D4CCCC00C47B8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0AB457E118D4CCCC00C47B8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0AB457E318D4CCCC00C47B8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PocketVelocity/PocketVelocity-Prefix.pch";
+				INFOPLIST_FILE = "PocketVelocity/PocketVelocity-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0AB457E418D4CCCC00C47B8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PocketVelocity/PocketVelocity-Prefix.pch";
+				INFOPLIST_FILE = "PocketVelocity/PocketVelocity-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		0AB457E618D4CCCC00C47B8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PocketVelocity.app/PocketVelocity";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PocketVelocity/PocketVelocity-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "PocketVelocityTests/PocketVelocityTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		0AB457E718D4CCCC00C47B8C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/PocketVelocity.app/PocketVelocity";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PocketVelocity/PocketVelocity-Prefix.pch";
+				INFOPLIST_FILE = "PocketVelocityTests/PocketVelocityTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0AB457A518D4CCCC00C47B8C /* Build configuration list for PBXProject "PocketVelocity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0AB457E018D4CCCC00C47B8C /* Debug */,
+				0AB457E118D4CCCC00C47B8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0AB457E218D4CCCC00C47B8C /* Build configuration list for PBXNativeTarget "PocketVelocity" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0AB457E318D4CCCC00C47B8C /* Debug */,
+				0AB457E418D4CCCC00C47B8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		0AB457E518D4CCCC00C47B8C /* Build configuration list for PBXNativeTarget "PocketVelocityTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0AB457E618D4CCCC00C47B8C /* Debug */,
+				0AB457E718D4CCCC00C47B8C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0AB457A218D4CCCC00C47B8C /* Project object */;
+}
