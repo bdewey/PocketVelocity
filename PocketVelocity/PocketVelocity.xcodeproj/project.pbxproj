@@ -35,8 +35,8 @@
 		0AB4580818D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */; };
 		0AB4581418D8058100C47B8C /* PVArrayChangeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */; };
 		0AB4581518D8058100C47B8C /* PVArrayChangeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */; };
-		0AB4581818D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */; };
-		0AB4581918D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */; };
+		0AB4581818D80D9100C47B8C /* PVListenableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* PVListenableArray.m */; };
+		0AB4581918D80D9100C47B8C /* PVListenableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* PVListenableArray.m */; };
 		0AB4582118DCFBEB00C47B8C /* PVListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */; };
 		0AB4582218DCFBEB00C47B8C /* PVListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */; };
 		0AB4582518DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
@@ -92,8 +92,8 @@
 		0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMasterViewCellConfiguration.m; sourceTree = "<group>"; };
 		0AB4581218D8058100C47B8C /* PVArrayChangeDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVArrayChangeDescription.h; sourceTree = "<group>"; };
 		0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVArrayChangeDescription.m; sourceTree = "<group>"; };
-		0AB4581618D80D9100C47B8C /* PVListenableArrayDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVListenableArrayDataSource.h; sourceTree = "<group>"; };
-		0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVListenableArrayDataSource.m; sourceTree = "<group>"; };
+		0AB4581618D80D9100C47B8C /* PVListenableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVListenableArray.h; sourceTree = "<group>"; };
+		0AB4581718D80D9100C47B8C /* PVListenableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVListenableArray.m; sourceTree = "<group>"; };
 		0AB4581A18DCF89B00C47B8C /* PVListenable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVListenable.h; sourceTree = "<group>"; };
 		0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVListenersCollection.h; sourceTree = "<group>"; };
 		0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVListenersCollection.m; sourceTree = "<group>"; };
@@ -184,8 +184,8 @@
 				0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */,
 				0AB4581218D8058100C47B8C /* PVArrayChangeDescription.h */,
 				0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */,
-				0AB4581618D80D9100C47B8C /* PVListenableArrayDataSource.h */,
-				0AB4581718D80D9100C47B8C /* PVListenableArrayDataSource.m */,
+				0AB4581618D80D9100C47B8C /* PVListenableArray.h */,
+				0AB4581718D80D9100C47B8C /* PVListenableArray.m */,
 				0AB4581A18DCF89B00C47B8C /* PVListenable.h */,
 				0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */,
 				0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */,
@@ -329,7 +329,7 @@
 				0AB4580318D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
 				0AB457ED18D4CEF300C47B8C /* PVNote.m in Sources */,
 				0AB4582918DD1D7000C47B8C /* NSIndexSet+PVUtilities.m in Sources */,
-				0AB4581818D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */,
+				0AB4581818D80D9100C47B8C /* PVListenableArray.m in Sources */,
 				0AB4580718D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
 				0AB457BE18D4CCCC00C47B8C /* PVAppDelegate.m in Sources */,
 				0AB4582118DCFBEB00C47B8C /* PVListenersCollection.m in Sources */,
@@ -346,7 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AB4581918D80D9100C47B8C /* PVListenableArrayDataSource.m in Sources */,
+				0AB4581918D80D9100C47B8C /* PVListenableArray.m in Sources */,
 				0AB4580818D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
 				0AB4580418D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
 				0AB457DF18D4CCCC00C47B8C /* PocketVelocityTests.m in Sources */,

@@ -8,7 +8,7 @@
 
 #import "PVArrayChangeDescription.h"
 #import "PVSectionedDataSource.h"
-#import "PVListenableArrayDataSource.h"
+#import "PVListenableArray.h"
 #import "PVListenersCollection.h"
 
 @interface PVSectionedDataSource () <PVListening>
@@ -30,7 +30,7 @@
   if (self != nil) {
     _listeners = [[PVListenersCollection alloc] init];
     _sectionDataSources = [sectionDataSources copy];
-    for (PVListenableArrayDataSource *dataSource in _sectionDataSources) {
+    for (PVListenableArray *dataSource in _sectionDataSources) {
       [dataSource addListener:self];
     }
   }
@@ -39,7 +39,7 @@
 
 - (void)dealloc
 {
-  for (PVListenableArrayDataSource *section in _sectionDataSources) {
+  for (PVListenableArray *section in _sectionDataSources) {
     [section removeListener:self];
   }
 }
@@ -88,7 +88,7 @@
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(PVListenableArrayDataSource *)array didChangeWithDescription:(PVArrayChangeDescription *)delta
+- (void)listenableObject:(PVListenableArray *)array didChangeWithDescription:(PVArrayChangeDescription *)delta
 {
   NSUInteger section = [_sectionDataSources indexOfObject:array];
   NSMutableArray *insertedIndexPaths = [[NSMutableArray alloc] initWithCapacity:delta.indexesToAddFromUpdatedValues.count];

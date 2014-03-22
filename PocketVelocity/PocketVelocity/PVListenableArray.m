@@ -7,10 +7,10 @@
 //
 
 #import "PVArrayChangeDescription.h"
-#import "PVListenableArrayDataSource.h"
+#import "PVListenableArray.h"
 #import "PVListenersCollection.h"
 
-@implementation PVListenableArrayDataSource
+@implementation PVListenableArray
 {
   NSArray *_values;
   PVListenersCollection *_listeners;

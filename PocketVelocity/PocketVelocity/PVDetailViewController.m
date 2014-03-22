@@ -8,7 +8,7 @@
 
 #import "PVDetailViewController.h"
 #import "PVListenersCollection.h"
-#import "PVListenableArrayDataSource.h"
+#import "PVListenableArray.h"
 #import "PVNote.h"
 #import "PVUtilities.h"
 

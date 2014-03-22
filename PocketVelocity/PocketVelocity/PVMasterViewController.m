@@ -10,12 +10,13 @@
 #import "NSIndexSet+PVUtilities.h"
 #import "PVArrayChangeDescription.h"
 #import "PVDetailViewController.h"
-#import "PVListenableArrayDataSource.h"
+#import "PVListenableArray.h"
+#import "PVMasterViewCellConfiguration.h"
 #import "PVMasterViewController.h"
 #import "PVNote.h"
 
 @interface PVMasterViewController () <PVListening> {
-  PVListenableArrayDataSource *_notes;
+  PVListenableArray *_notes;
 }
 @end
 
@@ -45,7 +46,7 @@
   self.navigationItem.rightBarButtonItem = addButton;
   self.detailViewController = (PVDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
-  _notes = [[PVListenableArrayDataSource alloc] init];
+  _notes = [[PVListenableArray alloc] init];
   [_notes addListener:self];
 }
 
