@@ -7,14 +7,15 @@
 //
 
 #import "BDLongestCommonSubsequence.h"
+#import "NSIndexSet+PVUtilities.h"
+#import "PVArrayChangeDescription.h"
 #import "PVDetailViewController.h"
+#import "PVListenableArrayDataSource.h"
 #import "PVMasterViewController.h"
 #import "PVNote.h"
-#import "PVNotesDatabase.h"
 
-@interface PVMasterViewController () <PVNotesDatabaseListening> {
-  NSArray *_notes;
-  PVNotesDatabase *_notesDatabase;
+@interface PVMasterViewController () <PVListening> {
+  PVListenableArrayDataSource *_notes;
 }
 @end
 
@@ -22,7 +23,7 @@
 
 - (void)dealloc
 {
-  [_notesDatabase removeListener:self];
+  [_notes removeListener:self];
 }
 
 - (void)awakeFromNib
@@ -44,9 +45,8 @@
   self.navigationItem.rightBarButtonItem = addButton;
   self.detailViewController = (PVDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
-  _notesDatabase = [[PVNotesDatabase alloc] init];
-  [_notesDatabase addListener:self];
-  _notes = _notesDatabase.notes;
+  _notes = [[PVListenableArrayDataSource alloc] init];
+  [_notes addListener:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,36 +61,18 @@
   NSString *noteTitle = [NSString stringWithFormat:@"Note %u", noteCounter++];
   NSDate *now = [NSDate date];
   PVNote *note = [[PVNote alloc] initWithTitle:noteTitle note:@"Note body" tags:@[@"tag1", @"tag2"] dateAdded:now dateModified:now];
-  [_notesDatabase addNote:note];
+  [_notes addObject:note];
 }
 
-#pragma mark - PVNotesDatabaseListening
+#pragma mark - PVListening
 
-- (void)notesDatabaseWillChange:(PVNotesDatabase *)notesDatabase
+- (void)listenableObject:(id)object didChangeWithDescription:(PVArrayChangeDescription *)changeDescription
 {
-  // NOTHING
-}
-
-- (void)notesDatabaseDidChange:(PVNotesDatabase *)notesDatabase
-{
-  NSArray *newNotes = notesDatabase.notes;
-  BDLongestCommonSubsequence *subsequence = [BDLongestCommonSubsequence subsequenceWithFirstArray:_notes andSecondArray:newNotes];
-  NSMutableIndexSet *indexesToRemove = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, _notes.count)];
-  [indexesToRemove removeIndexes:subsequence.firstArraySubsequenceIndexes];
-  NSMutableIndexSet *indexesToAdd = [NSMutableIndexSet indexSetWithIndexesInRange:NSMakeRange(0, newNotes.count)];
-  [indexesToAdd removeIndexes:subsequence.secondArraySubsequenceIndexes];
-  _notes = newNotes;
   [self.tableView beginUpdates];
-  NSMutableArray *indexPathsToRemove = [[NSMutableArray alloc] initWithCapacity:indexesToRemove.count];
-  [indexesToRemove enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-    [indexPathsToRemove addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-  }];
-  NSMutableArray *indexPathsToAdd = [[NSMutableArray alloc] initWithCapacity:indexesToAdd.count];
-  [indexesToAdd enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-    [indexPathsToAdd addObject:[NSIndexPath indexPathForRow:idx inSection:0]];
-  }];
-  [self.tableView deleteRowsAtIndexPaths:indexPathsToRemove withRowAnimation:UITableViewRowAnimationAutomatic];
-  [self.tableView insertRowsAtIndexPaths:indexPathsToAdd withRowAnimation:UITableViewRowAnimationAutomatic];
+  [self.tableView deleteRowsAtIndexPaths:[changeDescription.indexesToRemoveFromOldValues pv_indexPathsForSection:0]
+                        withRowAnimation:UITableViewRowAnimationAutomatic];
+  [self.tableView insertRowsAtIndexPaths:[changeDescription.indexesToAddFromUpdatedValues pv_indexPathsForSection:0]
+                        withRowAnimation:UITableViewRowAnimationAutomatic];
   [self.tableView endUpdates];
 }
 
@@ -124,8 +106,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    PVNote *note = _notes[indexPath.row];
-    [_notesDatabase removeNote:note];
+    [_notes removeObjectAtIndex:indexPath.row];
   } else if (editingStyle == UITableViewCellEditingStyleInsert) {
     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
   }
@@ -151,7 +132,7 @@
 {
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
     self.detailViewController.detailItem = _notes[indexPath.row];
-    self.detailViewController.notesDatabase = _notesDatabase;
+    self.detailViewController.notesDatabase = _notes;
   }
 }
 
@@ -161,7 +142,7 @@
     PVDetailViewController *detailViewController = segue.destinationViewController;
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
     [detailViewController setDetailItem:_notes[indexPath.row]];
-    detailViewController.notesDatabase = _notesDatabase;
+    detailViewController.notesDatabase = _notes;
   }
 }
 

@@ -41,7 +41,7 @@
   [self addListener:observer callbackQueue:nil];
 }
 
-- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath
+- (void)removeListener:(id<PVListening>)observer
 {
   @synchronized(_listeners) {
     for (PVListenerQueuePair *pair in _listeners) {

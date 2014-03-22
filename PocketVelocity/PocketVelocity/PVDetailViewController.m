@@ -7,8 +7,10 @@
 //
 
 #import "PVDetailViewController.h"
+#import "PVListenersCollection.h"
+#import "PVListenableArrayDataSource.h"
 #import "PVNote.h"
-#import "PVNotesDatabase.h"
+#import "PVUtilities.h"
 
 @interface PVDetailViewController () <UITextViewDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -81,7 +83,13 @@
   PVNoteBuilder *builder = [[PVNoteBuilder alloc] initWithNote:_detailItem];
   builder.note = textView.text;
   PVNote *newNote = [builder newNote];
-  [_notesDatabase replaceNote:_detailItem withNote:newNote];
+  for (int i = 0; i < _notesDatabase.count; i++) {
+    PVNote *oldNote = _notesDatabase[i];
+    if (PVObjectsAreEqual(_detailItem, oldNote)) {
+      _notesDatabase[i] = newNote;
+      break;
+    }
+  }
   _detailItem = newNote;
 }
 
