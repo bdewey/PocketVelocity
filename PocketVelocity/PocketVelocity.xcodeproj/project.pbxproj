@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A206C5718DE40E3002ABA88 /* PVMutableListenableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C5618DE40E3002ABA88 /* PVMutableListenableArray.m */; };
 		0AB457AE18D4CCCC00C47B8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AD18D4CCCC00C47B8C /* Foundation.framework */; };
 		0AB457B018D4CCCC00C47B8C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */; };
 		0AB457B218D4CCCC00C47B8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457B118D4CCCC00C47B8C /* UIKit.framework */; };
@@ -56,6 +57,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A206C5518DE40E3002ABA88 /* PVMutableListenableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVMutableListenableArray.h; sourceTree = "<group>"; };
+		0A206C5618DE40E3002ABA88 /* PVMutableListenableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMutableListenableArray.m; sourceTree = "<group>"; };
+		0A206C5818DF2545002ABA88 /* PVListenableArray_Internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVListenableArray_Internal.h; sourceTree = "<group>"; };
 		0AB457AA18D4CCCC00C47B8C /* PocketVelocity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketVelocity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB457AD18D4CCCC00C47B8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -162,37 +166,40 @@
 			children = (
 				0AB457FC18D64DBA00C47B8C /* BDLongestCommonSubsequence.h */,
 				0AB457FD18D64DBA00C47B8C /* BDLongestCommonSubsequence.m */,
-				0AB457BC18D4CCCC00C47B8C /* PVAppDelegate.h */,
-				0AB457BD18D4CCCC00C47B8C /* PVAppDelegate.m */,
-				0AB457BF18D4CCCC00C47B8C /* Main_iPhone.storyboard */,
-				0AB457C218D4CCCC00C47B8C /* Main_iPad.storyboard */,
-				0AB457C518D4CCCC00C47B8C /* PVMasterViewController.h */,
-				0AB457C618D4CCCC00C47B8C /* PVMasterViewController.m */,
-				0AB457C818D4CCCC00C47B8C /* PVDetailViewController.h */,
-				0AB457C918D4CCCC00C47B8C /* PVDetailViewController.m */,
 				0AB457CB18D4CCCC00C47B8C /* Images.xcassets */,
-				0AB457B418D4CCCC00C47B8C /* Supporting Files */,
-				0AB457EB18D4CEF300C47B8C /* PVNote.h */,
-				0AB457EC18D4CEF300C47B8C /* PVNote.m */,
-				0AB457F718D4D2B900C47B8C /* PVAnnouncing.h */,
-				0AB457F818D4D34000C47B8C /* PVAnnouncer.h */,
-				0AB457F918D4D34000C47B8C /* PVAnnouncer.m */,
-				0AB4580018D6BE7500C47B8C /* PVUtilities.h */,
+				0AB457C218D4CCCC00C47B8C /* Main_iPad.storyboard */,
+				0AB457BF18D4CCCC00C47B8C /* Main_iPhone.storyboard */,
 				0AB4580118D6C23D00C47B8C /* NSArray+PVUtilities.h */,
 				0AB4580218D6C23D00C47B8C /* NSArray+PVUtilities.m */,
-				0AB4580518D7FB6B00C47B8C /* PVMasterViewCellConfiguration.h */,
-				0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */,
-				0AB4581218D8058100C47B8C /* PVArrayChangeDescription.h */,
-				0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */,
-				0AB4581618D80D9100C47B8C /* PVListenableArray.h */,
-				0AB4581718D80D9100C47B8C /* PVListenableArray.m */,
-				0AB4581A18DCF89B00C47B8C /* PVListenable.h */,
-				0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */,
-				0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */,
-				0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */,
-				0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */,
 				0AB4582718DD1D7000C47B8C /* NSIndexSet+PVUtilities.h */,
 				0AB4582818DD1D7000C47B8C /* NSIndexSet+PVUtilities.m */,
+				0AB457F818D4D34000C47B8C /* PVAnnouncer.h */,
+				0AB457F918D4D34000C47B8C /* PVAnnouncer.m */,
+				0AB457F718D4D2B900C47B8C /* PVAnnouncing.h */,
+				0AB457BC18D4CCCC00C47B8C /* PVAppDelegate.h */,
+				0AB457BD18D4CCCC00C47B8C /* PVAppDelegate.m */,
+				0AB4581218D8058100C47B8C /* PVArrayChangeDescription.h */,
+				0AB4581318D8058100C47B8C /* PVArrayChangeDescription.m */,
+				0AB457C818D4CCCC00C47B8C /* PVDetailViewController.h */,
+				0AB457C918D4CCCC00C47B8C /* PVDetailViewController.m */,
+				0AB4581A18DCF89B00C47B8C /* PVListenable.h */,
+				0AB4581618D80D9100C47B8C /* PVListenableArray.h */,
+				0AB4581718D80D9100C47B8C /* PVListenableArray.m */,
+				0A206C5818DF2545002ABA88 /* PVListenableArray_Internal.h */,
+				0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */,
+				0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */,
+				0AB4580518D7FB6B00C47B8C /* PVMasterViewCellConfiguration.h */,
+				0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */,
+				0AB457C518D4CCCC00C47B8C /* PVMasterViewController.h */,
+				0AB457C618D4CCCC00C47B8C /* PVMasterViewController.m */,
+				0A206C5518DE40E3002ABA88 /* PVMutableListenableArray.h */,
+				0A206C5618DE40E3002ABA88 /* PVMutableListenableArray.m */,
+				0AB457EB18D4CEF300C47B8C /* PVNote.h */,
+				0AB457EC18D4CEF300C47B8C /* PVNote.m */,
+				0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */,
+				0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */,
+				0AB4580018D6BE7500C47B8C /* PVUtilities.h */,
+				0AB457B418D4CCCC00C47B8C /* Supporting Files */,
 			);
 			path = PocketVelocity;
 			sourceTree = "<group>";
@@ -329,6 +336,7 @@
 				0AB4580318D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
 				0AB457ED18D4CEF300C47B8C /* PVNote.m in Sources */,
 				0AB4582918DD1D7000C47B8C /* NSIndexSet+PVUtilities.m in Sources */,
+				0A206C5718DE40E3002ABA88 /* PVMutableListenableArray.m in Sources */,
 				0AB4581818D80D9100C47B8C /* PVListenableArray.m in Sources */,
 				0AB4580718D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
 				0AB457BE18D4CCCC00C47B8C /* PVAppDelegate.m in Sources */,
@@ -567,6 +575,7 @@
 				0AB457E418D4CCCC00C47B8C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0AB457E518D4CCCC00C47B8C /* Build configuration list for PBXNativeTarget "PocketVelocityTests" */ = {
 			isa = XCConfigurationList;
@@ -575,6 +584,7 @@
 				0AB457E718D4CCCC00C47B8C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -8,22 +8,28 @@
 
 #import "PVArrayChangeDescription.h"
 #import "PVListenableArray.h"
+#import "PVListenableArray_Internal.h"
 #import "PVListenersCollection.h"
+#import "PVMutableListenableArray.h"
 
 @implementation PVListenableArray
 {
-  NSArray *_values;
   PVListenersCollection *_listeners;
+}
+
+- (instancetype)initWithValues:(NSArray *)values
+{
+  self = [super init];
+  if (self != nil) {
+    _values = [values copy];
+    _listeners = [[PVListenersCollection alloc] init];
+  }
+  return self;
 }
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self != nil) {
-    _values = [[NSArray alloc] init];
-    _listeners = [[PVListenersCollection alloc] init];
-  }
-  return self;
+  return [self initWithValues:[[NSArray alloc] init]];
 }
 
 #pragma mark - PVListenable
@@ -60,56 +66,6 @@
   return _values[index];
 }
 
-#pragma mark - NSMutableArray
-
-- (void)insertObject:(id)object atIndex:(NSUInteger)index
-{
-  NSMutableArray *updatedValues = [_values mutableCopy];
-  [updatedValues insertObject:object atIndex:index];
-  PVArrayChangeDescription *delta = [[PVArrayChangeDescription alloc] initWithOldValues:_values
-                                                                          updatedValues:updatedValues
-                                                           indexesToRemoveFromOldValues:[NSIndexSet indexSet]
-                                                          indexesToAddFromUpdatedValues:[NSIndexSet indexSetWithIndex:index]];
-  [self _updateValues:updatedValues changeDescription:delta];
-}
-
-- (void)removeObjectAtIndex:(NSUInteger)index
-{
-  NSMutableArray *updatedValues = [_values mutableCopy];
-  [updatedValues removeObjectAtIndex:index];
-  PVArrayChangeDescription *delta = [[PVArrayChangeDescription alloc] initWithOldValues:_values
-                                                                          updatedValues:updatedValues
-                                                           indexesToRemoveFromOldValues:[NSIndexSet indexSetWithIndex:index]
-                                                          indexesToAddFromUpdatedValues:[NSIndexSet indexSet]];
-  [self _updateValues:updatedValues changeDescription:delta];
-}
-
-- (void)addObject:(id)object
-{
-  [self insertObject:object atIndex:self.count];
-}
-
-- (void)removeLastObject
-{
-  [self removeObjectAtIndex:self.count-1];
-}
-
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object
-{
-  NSMutableArray *updatedValues = [_values mutableCopy];
-  [updatedValues replaceObjectAtIndex:index withObject:object];
-  PVArrayChangeDescription *delta = [[PVArrayChangeDescription alloc] initWithOldValues:_values
-                                                                          updatedValues:updatedValues
-                                                           indexesToRemoveFromOldValues:[NSIndexSet indexSetWithIndex:index]
-                                                          indexesToAddFromUpdatedValues:[NSIndexSet indexSetWithIndex:index]];
-  [self _updateValues:updatedValues changeDescription:delta];
-}
-
-- (void)setObject:(id)object atIndexedSubscript:(NSUInteger)index
-{
-  [self replaceObjectAtIndex:index withObject:object];
-}
-
 - (void)_updateValues:(NSArray *)updatedValues changeDescription:(PVArrayChangeDescription *)changeDescription
 {
   _values = [updatedValues copy];
@@ -123,6 +79,20 @@
       callbackBlock();
     }
   }];
+}
+
+#pragma mark - NSCopying
+
+- (instancetype)copyWithZone:(NSZone *)zone
+{
+  return self;
+}
+
+#pragma mark - NSMutableCopying
+
+- (id)mutableCopyWithZone:(NSZone *)zone
+{
+  return [[PVMutableListenableArray alloc] initWithValues:_values];
 }
 
 @end
