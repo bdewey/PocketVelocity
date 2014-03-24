@@ -71,11 +71,6 @@
 
 #pragma mark - PVListenable
 
-- (void)addListener:(id<PVListening>)observer callbackQueue:(dispatch_queue_t)queue
-{
-  [_listeners addListener:observer callbackQueue:queue];
-}
-
 - (void)addListener:(id<PVListening>)observer
 {
   [_listeners addListener:observer];
@@ -103,16 +98,7 @@
   }];
   PVSectionedDataSourceChangeDescription *changeDescription = [[PVSectionedDataSourceChangeDescription alloc] initWithInsertedIndexPaths:insertedIndexPaths
                                                                                                                        removedIndexPaths:removedIndexPaths];
-  [_listeners enumerateListenersWithBlock:^(PVListenerQueuePair *listenerQueuePair) {
-    dispatch_block_t callbackBlock = ^{
-      [listenerQueuePair.listener listenableObject:self didChangeWithDescription:changeDescription];
-    };
-    if (listenerQueuePair.callbackQueue) {
-      dispatch_async(listenerQueuePair.callbackQueue, callbackBlock);
-    } else {
-      callbackBlock();
-    }
-  }];
+  [_listeners listenableObject:self didChangeWithDescription:changeDescription];
 }
 
 @end

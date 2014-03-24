@@ -13,7 +13,6 @@
 @protocol PVListenable <NSObject>
 
 - (void)addListener:(id<PVListening>)observer;
-- (void)addListener:(id<PVListening>)observer callbackQueue:(dispatch_queue_t)queue;
 - (void)removeListener:(id<PVListening>)observer;
 
 @end

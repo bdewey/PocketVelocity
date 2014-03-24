@@ -12,17 +12,7 @@
 
 @class PVListenerQueuePair;
 
-typedef void (^PVListenerEnumerationBlock)(PVListenerQueuePair *listenerQueuePair);
-
-@interface PVListenersCollection : NSObject <PVListenable>
-
-- (void)enumerateListenersWithBlock:(PVListenerEnumerationBlock)block;
+@interface PVListenersCollection : NSObject <PVListenable, PVListening>
 
 @end
 
-@interface PVListenerQueuePair : NSObject
-
-@property (nonatomic, readonly, weak) id listener;
-@property (nonatomic, readonly, weak) dispatch_queue_t callbackQueue;
-
-@end
