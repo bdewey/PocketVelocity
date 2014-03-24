@@ -44,8 +44,6 @@
 		0AB4582218DCFBEB00C47B8C /* PVListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */; };
 		0AB4582518DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
 		0AB4582618DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
-		0AB4582918DD1D7000C47B8C /* NSIndexSet+PVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582818DD1D7000C47B8C /* NSIndexSet+PVUtilities.m */; };
-		0AB4582A18DD1D7000C47B8C /* NSIndexSet+PVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582818DD1D7000C47B8C /* NSIndexSet+PVUtilities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,8 +105,6 @@
 		0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVListenersCollection.m; sourceTree = "<group>"; };
 		0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVSectionedDataSource.h; sourceTree = "<group>"; };
 		0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVSectionedDataSource.m; sourceTree = "<group>"; };
-		0AB4582718DD1D7000C47B8C /* NSIndexSet+PVUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+PVUtilities.h"; sourceTree = "<group>"; };
-		0AB4582818DD1D7000C47B8C /* NSIndexSet+PVUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+PVUtilities.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,8 +171,6 @@
 				0AB457BF18D4CCCC00C47B8C /* Main_iPhone.storyboard */,
 				0AB4580118D6C23D00C47B8C /* NSArray+PVUtilities.h */,
 				0AB4580218D6C23D00C47B8C /* NSArray+PVUtilities.m */,
-				0AB4582718DD1D7000C47B8C /* NSIndexSet+PVUtilities.h */,
-				0AB4582818DD1D7000C47B8C /* NSIndexSet+PVUtilities.m */,
 				0AB457F818D4D34000C47B8C /* PVAnnouncer.h */,
 				0AB457F918D4D34000C47B8C /* PVAnnouncer.m */,
 				0AB457F718D4D2B900C47B8C /* PVAnnouncing.h */,
@@ -341,7 +335,6 @@
 				0AB4581418D8058100C47B8C /* PVArrayChangeDescription.m in Sources */,
 				0AB4580318D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
 				0AB457ED18D4CEF300C47B8C /* PVNote.m in Sources */,
-				0AB4582918DD1D7000C47B8C /* NSIndexSet+PVUtilities.m in Sources */,
 				0A206C5718DE40E3002ABA88 /* PVMutableListenableArray.m in Sources */,
 				0AB4581818D80D9100C47B8C /* PVListenableArray.m in Sources */,
 				0A206C5B18DF2B20002ABA88 /* PVMappedArray.m in Sources */,
@@ -371,7 +364,6 @@
 				0A206C6718DF37E2002ABA88 /* PVMappdedArrayTests.m in Sources */,
 				0AB457EE18D4CEF300C47B8C /* PVNote.m in Sources */,
 				0AB4582618DD06E000C47B8C /* PVSectionedDataSource.m in Sources */,
-				0AB4582A18DD1D7000C47B8C /* NSIndexSet+PVUtilities.m in Sources */,
 				0AB457FB18D4D34000C47B8C /* PVAnnouncer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
