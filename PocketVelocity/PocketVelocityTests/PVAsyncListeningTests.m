@@ -72,6 +72,16 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   XCTAssertEqual(_callbackQueueIdentifier, kCallbackQueueBackgroundQueue, @"");
 }
 
+- (void)testMainQueueOptimization
+{
+  PVAsyncListening *async = [[PVAsyncListening alloc] initWithListenableObject:_listeners
+                                                                         queue:dispatch_get_main_queue()];
+  [async addListener:self];
+  [_listeners listenableObject:self didChangeWithDescription:nil];
+  XCTAssertTrue(_callbackInvoked, @"");
+  XCTAssertEqual(_callbackQueueIdentifier, kCallbackQueueMainQueue, @"");
+}
+
 #pragma mark - PVListening
 
 - (void)listenableObject:(id)object didChangeWithDescription:(id)changeDescription

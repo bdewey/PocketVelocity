@@ -12,6 +12,7 @@
 @implementation PVAsyncListening
 {
   PVListenersCollection *_listeners;
+  BOOL _shouldInvokeSynchronouslyOnMainThread;
 }
 
 - (instancetype)initWithListenableObject:(id<PVListenable>)object queue:(dispatch_queue_t)queue
@@ -20,6 +21,7 @@
   if (self != nil) {
     _source = object;
     _queue = queue;
+    _shouldInvokeSynchronouslyOnMainThread = (_queue == dispatch_get_main_queue());
     _listeners = [[PVListenersCollection alloc] init];
     [_source addListener:self];
   }
@@ -47,9 +49,15 @@
 
 - (void)listenableObject:(id)object didChangeWithDescription:(id)changeDescription
 {
-  dispatch_async(_queue, ^{
+  // Main queue optimization: If we're supposed to run on the main queue and we're currently on the main thread,
+  // invoke synchronously.
+  if (_shouldInvokeSynchronouslyOnMainThread && [NSThread isMainThread]) {
     [_listeners listenableObject:object didChangeWithDescription:changeDescription];
-  });
+  } else {
+    dispatch_async(_queue, ^{
+      [_listeners listenableObject:object didChangeWithDescription:changeDescription];
+    });
+  }
 }
 
 @end
