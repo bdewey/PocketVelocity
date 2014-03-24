@@ -12,8 +12,8 @@
 
 @protocol PVListenable <NSObject>
 
-- (void)addListener:(id<PVListening>)observer;
-- (void)removeListener:(id<PVListening>)observer;
+- (void)addListener:(id<PVListening>)listener;
+- (void)removeListener:(id<PVListening>)listener;
 
 @end
 
