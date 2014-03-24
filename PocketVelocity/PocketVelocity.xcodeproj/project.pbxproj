@@ -12,6 +12,8 @@
 		0A206C5C18DF2B20002ABA88 /* PVMappedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C5A18DF2B20002ABA88 /* PVMappedArray.m */; };
 		0A206C6518DF37D3002ABA88 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A206C6418DF37D3002ABA88 /* XCTest.framework */; };
 		0A206C6718DF37E2002ABA88 /* PVMappedArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C6618DF37E2002ABA88 /* PVMappedArrayTests.m */; };
+		0A206C6E18DFF8CB002ABA88 /* PVNotesDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C6D18DFF8CB002ABA88 /* PVNotesDatabase.m */; };
+		0A206C6F18DFF8CB002ABA88 /* PVNotesDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C6D18DFF8CB002ABA88 /* PVNotesDatabase.m */; };
 		0AB457AE18D4CCCC00C47B8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AD18D4CCCC00C47B8C /* Foundation.framework */; };
 		0AB457B018D4CCCC00C47B8C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */; };
 		0AB457B218D4CCCC00C47B8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457B118D4CCCC00C47B8C /* UIKit.framework */; };
@@ -67,6 +69,8 @@
 		0A206C5A18DF2B20002ABA88 /* PVMappedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMappedArray.m; sourceTree = "<group>"; };
 		0A206C6418DF37D3002ABA88 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		0A206C6618DF37E2002ABA88 /* PVMappedArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMappedArrayTests.m; sourceTree = "<group>"; };
+		0A206C6C18DFF8CB002ABA88 /* PVNotesDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVNotesDatabase.h; sourceTree = "<group>"; };
+		0A206C6D18DFF8CB002ABA88 /* PVNotesDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVNotesDatabase.m; sourceTree = "<group>"; };
 		0AB457AA18D4CCCC00C47B8C /* PocketVelocity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketVelocity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB457AD18D4CCCC00C47B8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -204,6 +208,8 @@
 				0A206C5618DE40E3002ABA88 /* PVMutableListenableArray.m */,
 				0AB457EB18D4CEF300C47B8C /* PVNote.h */,
 				0AB457EC18D4CEF300C47B8C /* PVNote.m */,
+				0A206C6C18DFF8CB002ABA88 /* PVNotesDatabase.h */,
+				0A206C6D18DFF8CB002ABA88 /* PVNotesDatabase.m */,
 				0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */,
 				0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */,
 				0AB4580018D6BE7500C47B8C /* PVUtilities.h */,
@@ -341,6 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A206C6E18DFF8CB002ABA88 /* PVNotesDatabase.m in Sources */,
 				0AB4581418D8058100C47B8C /* PVArrayChangeDescription.m in Sources */,
 				0AB4580318D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
 				0AB457ED18D4CEF300C47B8C /* PVNote.m in Sources */,
@@ -364,6 +371,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0A206C6F18DFF8CB002ABA88 /* PVNotesDatabase.m in Sources */,
 				0AB4581918D80D9100C47B8C /* PVListenableArray.m in Sources */,
 				0AB4580818D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
 				D5A8820618E0A1C0007E32A9 /* PVAsyncListening.m in Sources */,
