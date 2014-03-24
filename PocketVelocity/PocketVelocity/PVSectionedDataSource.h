@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PVListenable.h"
+#import "PVListenableArray.h"
 
 /**
  When you listen for changes to this data source, the change description is class `PVSectionedDataSourceChangeDescription`
@@ -30,5 +31,11 @@
 
 @property (nonatomic, readonly, copy) NSArray *insertedIndexPaths;
 @property (nonatomic, readonly, copy) NSArray *removedIndexPaths;
+
+@end
+
+@interface PVListenableArray (PVSectionedDataSource)
+
+- (PVSectionedDataSource *)sectionedDataSource;
 
 @end

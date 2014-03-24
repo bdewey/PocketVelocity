@@ -11,12 +11,15 @@
 #import "PVArrayChangeDescription.h"
 #import "PVDetailViewController.h"
 #import "PVMutableListenableArray.h"
+#import "PVMappedArray.h"
 #import "PVMasterViewCellConfiguration.h"
 #import "PVMasterViewController.h"
 #import "PVNote.h"
+#import "PVSectionedDataSource.h"
 
 @interface PVMasterViewController () <PVListening> {
   PVMutableListenableArray *_notes;
+  PVSectionedDataSource *_cellConfigurations;
 }
 @end
 
@@ -47,7 +50,10 @@
   self.detailViewController = (PVDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
   _notes = [[PVMutableListenableArray alloc] init];
-  [_notes addListener:self];
+  _cellConfigurations = [[_notes mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
+    return [[PVMasterViewCellConfiguration alloc] initWithNote:note];
+  }] sectionedDataSource];
+  [_cellConfigurations addListener:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,12 +73,12 @@
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(id)object didChangeWithDescription:(PVArrayChangeDescription *)changeDescription
+- (void)listenableObject:(id)object didChangeWithDescription:(PVSectionedDataSourceChangeDescription *)changeDescription
 {
   [self.tableView beginUpdates];
-  [self.tableView deleteRowsAtIndexPaths:[changeDescription.indexesToRemoveFromOldValues pv_indexPathsForSection:0]
+  [self.tableView deleteRowsAtIndexPaths:changeDescription.removedIndexPaths
                         withRowAnimation:UITableViewRowAnimationAutomatic];
-  [self.tableView insertRowsAtIndexPaths:[changeDescription.indexesToAddFromUpdatedValues pv_indexPathsForSection:0]
+  [self.tableView insertRowsAtIndexPaths:changeDescription.insertedIndexPaths
                         withRowAnimation:UITableViewRowAnimationAutomatic];
   [self.tableView endUpdates];
 }
@@ -81,20 +87,21 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-  return 1;
+  return [_cellConfigurations countOfSections];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return _notes.count;
+  return [_cellConfigurations countOfItemsInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-  
-  PVNote *note = _notes[indexPath.row];
-  cell.textLabel.text = [note description];
+  PVMasterViewCellConfiguration *configuration = [_cellConfigurations objectAtIndexPath:indexPath];
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:configuration.reuseIdentifier
+                                                          forIndexPath:indexPath];
+
+  [configuration configureCell:cell];
   return cell;
 }
 

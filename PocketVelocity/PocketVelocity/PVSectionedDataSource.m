@@ -116,3 +116,12 @@
 }
 
 @end
+
+@implementation PVListenableArray (PVSectionedDataSource)
+
+- (PVSectionedDataSource *)sectionedDataSource
+{
+  return [[PVSectionedDataSource alloc] initWithSections:@[self]];
+}
+
+@end
