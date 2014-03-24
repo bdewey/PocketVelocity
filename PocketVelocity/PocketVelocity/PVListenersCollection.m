@@ -28,6 +28,11 @@
   return self;
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ _listeners = %@", [super description], _listeners];
+}
+
 - (void)addListener:(id<PVListening>)observer callbackQueue:(dispatch_queue_t)queue
 {
   PVListenerQueuePair *pair = [[PVListenerQueuePair alloc] initWithListener:observer callbackQueue:queue];
@@ -59,7 +64,7 @@
   @synchronized(_listeners) {
     listenersCopy = [_listeners copy];
   }
-  for (PVListenerQueuePair *pair in _listeners) {
+  for (PVListenerQueuePair *pair in listenersCopy) {
     block(pair);
   }
 }
@@ -77,6 +82,11 @@
     _callbackQueue = queue;
   }
   return self;
+}
+
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ listener = <%@ %p> queue = %@", [super description], [_listener class], _listener, _callbackQueue];
 }
 
 - (BOOL)isEqual:(id)object

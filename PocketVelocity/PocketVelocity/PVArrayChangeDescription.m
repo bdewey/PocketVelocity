@@ -39,6 +39,16 @@
                                indexesToAddFromUpdatedValues:newIndexes];
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ oldValues = %@; updatedValues = %@; indexesToRemoveFromOldValues = %@; indexesToAddFromUpdatedValues = %@",
+          [super description],
+          _oldValues,
+          _updatedValues,
+          _indexesToRemoveFromOldValues,
+          _indexesToAddFromUpdatedValues];
+}
+
 @end
 
 @implementation PVArrayChangeDescription (NSIndexPath)

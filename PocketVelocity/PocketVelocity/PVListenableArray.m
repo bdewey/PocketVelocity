@@ -32,6 +32,11 @@
   return [self initWithValues:[[NSArray alloc] init]];
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ _values = %@; _listeners = %@", [super description], _values, _listeners];
+}
+
 #pragma mark - PVListenable
 
 - (void)addListener:(id<PVListening>)observer callbackQueue:(dispatch_queue_t)queue
