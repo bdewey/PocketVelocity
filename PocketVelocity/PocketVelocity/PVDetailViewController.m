@@ -82,10 +82,11 @@
 {
   PVNoteBuilder *builder = [[PVNoteBuilder alloc] initWithNote:_detailItem];
   builder.note = textView.text;
+  builder.dirty = YES;
   PVNote *newNote = [builder newNote];
   for (int i = 0; i < _notesDatabase.count; i++) {
     PVNote *oldNote = _notesDatabase[i];
-    if (PVObjectsAreEqual(_detailItem, oldNote)) {
+    if (PVStringsAreEqual(_detailItem.title, oldNote.title)) {
       _notesDatabase[i] = newNote;
       break;
     }

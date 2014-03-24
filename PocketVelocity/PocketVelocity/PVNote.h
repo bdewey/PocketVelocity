@@ -15,8 +15,9 @@
 @property (nonatomic, readonly, copy) NSArray *tags;
 @property (nonatomic, readonly, strong) NSDate *dateAdded;
 @property (nonatomic, readonly, strong) NSDate *dateModified;
+@property (nonatomic, readonly, assign) BOOL dirty;
 
-- (instancetype)initWithTitle:(NSString *)title note:(NSString *)note tags:(NSArray *)tags dateAdded:(NSDate *)dateAdded dateModified:(NSDate *)dateModified;
+- (instancetype)initWithTitle:(NSString *)title note:(NSString *)note tags:(NSArray *)tags dateAdded:(NSDate *)dateAdded dateModified:(NSDate *)dateModified dirty:(BOOL)dirty;
 
 @end
 
@@ -27,6 +28,7 @@
 @property (nonatomic, readwrite, copy) NSArray *tags;
 @property (nonatomic, readwrite, strong) NSDate *dateAdded;
 @property (nonatomic, readwrite, strong) NSDate *dateModified;
+@property (nonatomic, readwrite, assign) BOOL dirty;
 
 - (instancetype)init;
 - (instancetype)initWithNote:(PVNote *)note;

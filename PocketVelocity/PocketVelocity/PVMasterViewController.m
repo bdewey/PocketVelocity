@@ -8,15 +8,18 @@
 
 #import "BDLongestCommonSubsequence.h"
 #import "PVArrayChangeDescription.h"
+#import "PVAsyncListening.h"
 #import "PVDetailViewController.h"
 #import "PVMutableListenableArray.h"
 #import "PVMappedArray.h"
 #import "PVMasterViewCellConfiguration.h"
 #import "PVMasterViewController.h"
 #import "PVNote.h"
+#import "PVNotesDatabase.h"
 #import "PVSectionedDataSource.h"
 
 @interface PVMasterViewController () <PVListening> {
+  PVNotesDatabase *_notesDatabase;
   PVMutableListenableArray *_notes;
   PVSectionedDataSource *_cellConfigurations;
 }
@@ -26,7 +29,7 @@
 
 - (void)dealloc
 {
-  [_notes removeListener:self];
+  [_cellConfigurations removeListener:self];
 }
 
 - (void)awakeFromNib
@@ -48,10 +51,16 @@
   self.navigationItem.rightBarButtonItem = addButton;
   self.detailViewController = (PVDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
   
-  _notes = [[PVMutableListenableArray alloc] init];
-  _cellConfigurations = [[_notes mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
+  NSError *error;
+  NSURL *documents = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:&error];
+  if (!documents) {
+    @throw [NSException exceptionWithName:NSDestinationInvalidException reason:@"Unable to open documents directory" userInfo:@{@"error": error}];
+  }
+  _notesDatabase = [[PVNotesDatabase alloc] initWithDirectory:documents];
+  _notes = [_notesDatabase notes];
+  _cellConfigurations = [[[[_notes defaultQueueArray] mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
     return [[PVMasterViewCellConfiguration alloc] initWithNote:note];
-  }] sectionedDataSource];
+  }] mainQueueArray] sectionedDataSource];
   [_cellConfigurations addListener:self];
 }
 
@@ -63,10 +72,9 @@
 
 - (void)insertNewObject:(id)sender
 {
-  static NSUInteger noteCounter = 0;
-  NSString *noteTitle = [NSString stringWithFormat:@"Note %u", noteCounter++];
+  NSString *noteTitle = [NSString stringWithFormat:@"Note %u", _notes.count + 1];
   NSDate *now = [NSDate date];
-  PVNote *note = [[PVNote alloc] initWithTitle:noteTitle note:@"Note body" tags:@[@"tag1", @"tag2"] dateAdded:now dateModified:now];
+  PVNote *note = [[PVNote alloc] initWithTitle:noteTitle note:@"Note body" tags:@[@"tag1", @"tag2"] dateAdded:now dateModified:now dirty:YES];
   [_notes addObject:note];
 }
 

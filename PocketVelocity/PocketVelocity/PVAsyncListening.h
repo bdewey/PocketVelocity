@@ -22,7 +22,7 @@
 
 @interface PVListenableArray (PVAsyncListening)
 
-- (PVAsyncListening *)defaultQueueArray;
-- (PVAsyncListening *)mainQueueArray;
+- (PVListenableArray *)defaultQueueArray;
+- (PVListenableArray *)mainQueueArray;
 
 @end

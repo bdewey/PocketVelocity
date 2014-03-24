@@ -17,7 +17,7 @@
   return nil;
 }
 
-- (instancetype)initWithTitle:(NSString *)title note:(NSString *)note tags:(NSArray *)tags dateAdded:(NSDate *)dateAdded dateModified:(NSDate *)dateModified
+- (instancetype)initWithTitle:(NSString *)title note:(NSString *)note tags:(NSArray *)tags dateAdded:(NSDate *)dateAdded dateModified:(NSDate *)dateModified dirty:(BOOL)dirty
 {
   self = [super init];
   if (self != nil) {
@@ -26,6 +26,7 @@
     _tags = [tags copy];
     _dateAdded = dateAdded;
     _dateModified = dateModified;
+    _dirty = dirty;
   }
   return self;
 }
@@ -48,7 +49,8 @@
     PVStringsAreEqual(_note, otherNote->_note) &&
     PVObjectsAreEqual(_tags, otherNote->_tags) &&
     PVObjectsAreEqual(_dateAdded, otherNote->_dateAdded) &&
-    PVObjectsAreEqual(_dateModified, otherNote->_dateModified);
+    PVObjectsAreEqual(_dateModified, otherNote->_dateModified) &&
+    _dirty == otherNote->_dirty;
 }
 
 - (NSUInteger)hash
@@ -58,6 +60,7 @@
   result = result * 33 + [_tags hash];
   result = result * 33 + [_dateAdded hash];
   result = result * 33 + [_dateModified hash];
+  result = result * 33 + [@(_dirty) hash];
   return result;
 }
 
@@ -87,13 +90,14 @@
     _tags = [note.tags copy];
     _dateAdded = note.dateAdded;
     _dateModified = note.dateModified;
+    _dirty = note.dirty;
   }
   return self;
 }
 
 - (PVNote *)newNote
 {
-  return [[PVNote alloc] initWithTitle:_title note:_note tags:_tags dateAdded:_dateAdded dateModified:_dateModified];
+  return [[PVNote alloc] initWithTitle:_title note:_note tags:_tags dateAdded:_dateAdded dateModified:_dateModified dirty:_dirty];
 }
 
 @end
