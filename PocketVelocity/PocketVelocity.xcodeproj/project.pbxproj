@@ -11,7 +11,7 @@
 		0A206C5B18DF2B20002ABA88 /* PVMappedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C5A18DF2B20002ABA88 /* PVMappedArray.m */; };
 		0A206C5C18DF2B20002ABA88 /* PVMappedArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C5A18DF2B20002ABA88 /* PVMappedArray.m */; };
 		0A206C6518DF37D3002ABA88 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A206C6418DF37D3002ABA88 /* XCTest.framework */; };
-		0A206C6718DF37E2002ABA88 /* PVMappdedArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C6618DF37E2002ABA88 /* PVMappdedArrayTests.m */; };
+		0A206C6718DF37E2002ABA88 /* PVMappedArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A206C6618DF37E2002ABA88 /* PVMappedArrayTests.m */; };
 		0AB457AE18D4CCCC00C47B8C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AD18D4CCCC00C47B8C /* Foundation.framework */; };
 		0AB457B018D4CCCC00C47B8C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */; };
 		0AB457B218D4CCCC00C47B8C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AB457B118D4CCCC00C47B8C /* UIKit.framework */; };
@@ -66,7 +66,7 @@
 		0A206C5918DF2B20002ABA88 /* PVMappedArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVMappedArray.h; sourceTree = "<group>"; };
 		0A206C5A18DF2B20002ABA88 /* PVMappedArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMappedArray.m; sourceTree = "<group>"; };
 		0A206C6418DF37D3002ABA88 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		0A206C6618DF37E2002ABA88 /* PVMappdedArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMappdedArrayTests.m; sourceTree = "<group>"; };
+		0A206C6618DF37E2002ABA88 /* PVMappedArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVMappedArrayTests.m; sourceTree = "<group>"; };
 		0AB457AA18D4CCCC00C47B8C /* PocketVelocity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PocketVelocity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AB457AD18D4CCCC00C47B8C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0AB457AF18D4CCCC00C47B8C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -227,7 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				0AB457D918D4CCCC00C47B8C /* Supporting Files */,
-				0A206C6618DF37E2002ABA88 /* PVMappdedArrayTests.m */,
+				0A206C6618DF37E2002ABA88 /* PVMappedArrayTests.m */,
 				D5A8820718E0A734007E32A9 /* PVAsyncListeningTests.m */,
 			);
 			path = PocketVelocityTests;
@@ -372,7 +372,7 @@
 				0AB4582218DCFBEB00C47B8C /* PVListenersCollection.m in Sources */,
 				0AB4581518D8058100C47B8C /* PVArrayChangeDescription.m in Sources */,
 				0AB457FF18D64DBA00C47B8C /* BDLongestCommonSubsequence.m in Sources */,
-				0A206C6718DF37E2002ABA88 /* PVMappdedArrayTests.m in Sources */,
+				0A206C6718DF37E2002ABA88 /* PVMappedArrayTests.m in Sources */,
 				D5A8820818E0A734007E32A9 /* PVAsyncListeningTests.m in Sources */,
 				0AB457EE18D4CEF300C47B8C /* PVNote.m in Sources */,
 				0AB4582618DD06E000C47B8C /* PVSectionedDataSource.m in Sources */,

@@ -29,14 +29,14 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
   }];
 }
 
-@interface PVMappdedArrayTests : XCTestCase <PVListening>
+@interface PVMappedArrayTests : XCTestCase <PVListening>
 
 @property (nonatomic, readonly, strong) PVMutableListenableArray *numbers;
 @property (nonatomic, readonly, strong) PVArrayChangeDescription *lastChangeDescription;
 
 @end
 
-@implementation PVMappdedArrayTests
+@implementation PVMappedArrayTests
 
 - (void)setUp
 {
