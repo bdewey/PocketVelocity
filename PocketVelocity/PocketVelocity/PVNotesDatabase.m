@@ -88,9 +88,9 @@
       if (note.dirty) {
         NSURL *url = [self _fileURLFromNote:note];
         [note.note writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-        PVNoteBuilder *builder = [[PVNoteBuilder alloc] initWithNote:note];
-        builder.dirty = NO;
-        _notes[idx] = [builder newNote];
+        PVMutableNote *updatedNote = [note mutableCopy];
+        updatedNote.dirty = NO;
+        _notes[idx] = updatedNote;
       }
     }];
   });

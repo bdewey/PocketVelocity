@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VOValueObjectIdentifying.h"
-
-@interface VOValueObject : NSObject <NSCopying, VOValueObjectIdentifying>
+@interface VOValueObject : NSObject <NSCopying>
 
 @end

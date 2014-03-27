@@ -15,9 +15,4 @@
   return self;
 }
 
-- (id<NSCopying>)identifier
-{
-  return [self copy];
-}
-
 @end
