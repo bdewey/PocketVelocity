@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "PVArrayChangeDescription.h"
+#import "VOArrayChangeDescription.h"
 #import "PVSectionedDataSource.h"
 #import "VOChangeDescribingArray.h"
 #import "PVListenersCollection.h"
@@ -73,7 +73,7 @@
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(VOChangeDescribingArray *)array didChangeWithDescription:(PVArrayChangeDescription *)delta
+- (void)listenableObject:(VOChangeDescribingArray *)array didChangeWithDescription:(VOArrayChangeDescription *)delta
 {
   NSUInteger section = [_sectionDataSources indexOfObject:array];
   NSMutableArray *insertedIndexPaths = [[NSMutableArray alloc] initWithCapacity:delta.indexesToAddFromUpdatedValues.count];

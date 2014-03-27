@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "VOChangeDescribingArray.h"
 
-@interface PVMutableChangeDescribingArray : VOChangeDescribingArray
+@interface VOMutableChangeDescribingArray : VOChangeDescribingArray
 
 - (void)setObject:(id<NSCopying>)object atIndexedSubscript:(NSUInteger)index;
 - (void)insertObject:(id<NSCopying>)object atIndex:(NSUInteger)index;

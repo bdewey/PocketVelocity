@@ -9,10 +9,12 @@
 #import "VOChangeDescribingArray.h"
 
 @interface VOChangeDescribingArray ()
+{
+  @protected
+  NSArray *_values;
+}
 
-@property (nonatomic, readonly, strong) NSArray *values;
-
-- (instancetype)initWithValues:(NSArray *)values changeDescription:(PVArrayChangeDescription *)changeDescription;
-- (void)_updateValues:(NSArray *)updatedValues changeDescription:(PVArrayChangeDescription *)changeDescription;
+- (instancetype)initWithValues:(NSArray *)values changeDescription:(VOArrayChangeDescription *)changeDescription;
+- (void)_updateValues:(NSArray *)updatedValues changeDescription:(VOArrayChangeDescription *)changeDescription;
 
 @end

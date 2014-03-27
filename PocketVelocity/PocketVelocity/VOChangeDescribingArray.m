@@ -6,18 +6,19 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "PVArrayChangeDescription.h"
+#import "VOArrayChangeDescription.h"
 #import "VOChangeDescribingArray.h"
 #import "VOChangeDescribingArray_Internal.h"
 #import "PVListenersCollection.h"
-#import "PVMutableChangeDescribingArray.h"
+#import "VOMutableChangeDescribingArray.h"
+#import "PVUtilities.h"
 
 @implementation VOChangeDescribingArray
 {
-  PVArrayChangeDescription *_changeDescription;
+  VOArrayChangeDescription *_changeDescription;
 }
 
-- (instancetype)initWithValues:(NSArray *)values changeDescription:(PVArrayChangeDescription *)changeDescription
+- (instancetype)initWithValues:(NSArray *)values changeDescription:(VOArrayChangeDescription *)changeDescription
 {
   self = [super init];
   if (self != nil) {
@@ -37,6 +38,20 @@
   return [NSString stringWithFormat:@"%@ _values = %@", [super description], _values];
 }
 
+- (BOOL)isEqual:(id)object
+{
+  if (![object isKindOfClass:[VOChangeDescribingArray class]]) {
+    return NO;
+  }
+  VOChangeDescribingArray *otherArray = (VOChangeDescribingArray *)object;
+  return PVObjectsAreEqual(_values, otherArray->_values);
+}
+
+- (NSUInteger)hash
+{
+  return [_values hash];
+}
+
 #pragma mark - NSArray
 
 - (id)objectAtIndex:(NSUInteger)index
@@ -54,7 +69,7 @@
   return _values[index];
 }
 
-- (void)_updateValues:(NSArray *)updatedValues changeDescription:(PVArrayChangeDescription *)changeDescription
+- (void)_updateValues:(NSArray *)updatedValues changeDescription:(VOArrayChangeDescription *)changeDescription
 {
   _values = [updatedValues copy];
   _changeDescription = changeDescription;
@@ -71,7 +86,7 @@
 
 - (id)mutableCopyWithZone:(NSZone *)zone
 {
-  return [[PVMutableChangeDescribingArray alloc] initWithValues:_values changeDescription:_changeDescription];
+  return [[VOMutableChangeDescribingArray alloc] initWithValues:_values changeDescription:_changeDescription];
 }
 
 @end

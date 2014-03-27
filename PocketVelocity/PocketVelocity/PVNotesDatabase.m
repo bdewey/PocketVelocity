@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "PVArrayChangeDescription.h"
+#import "VOArrayChangeDescription.h"
 #import "PVListenersCollection.h"
-#import "PVMutableChangeDescribingArray.h"
+#import "VOMutableChangeDescribingArray.h"
 #import "PVNote.h"
 #import "PVNotesDatabase.h"
 
@@ -63,7 +63,7 @@
     }
     if (notesFromDisk.count > 0) {
       [self updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
-        PVMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
+        VOMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
         for (PVNote *note in notesFromDisk) {
           [mutableNotes addObject:note];
         }

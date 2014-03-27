@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class PVMutableChangeDescribingArray;
+@class VOMutableChangeDescribingArray;
 
 typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescribingArray *currentNotes);
 

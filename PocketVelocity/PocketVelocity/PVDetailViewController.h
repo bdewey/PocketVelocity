@@ -11,12 +11,12 @@
 #import "PVAnnouncing.h"
 
 @class PVNote;
-@class PVMutableChangeDescribingArray;
+@class VOMutableChangeDescribingArray;
 
 @interface PVDetailViewController : UIViewController <UISplitViewControllerDelegate>
 
 @property (strong, nonatomic) PVNote *detailItem;
-@property (strong, nonatomic) PVMutableChangeDescribingArray *notesDatabase;
+@property (strong, nonatomic) VOMutableChangeDescribingArray *notesDatabase;
 
 @end
 

@@ -4,7 +4,7 @@
 
 #import "VOChangeDescribing.h"
 
-@class PVArrayChangeDescription;
+@class VOArrayChangeDescription;
 
 /**
  When listening to changes to this data source, the change description is class PVArrayChangeDescription.
@@ -16,7 +16,7 @@
 >
 
 @property (nonatomic, readonly, assign) NSUInteger count;
-@property (nonatomic, readonly, copy) PVArrayChangeDescription *changeDescription;
+@property (nonatomic, readonly, copy) VOArrayChangeDescription *changeDescription;
 
 - (id)objectAtIndex:(NSUInteger)index;
 - (id)objectAtIndexedSubscript:(NSUInteger)index;

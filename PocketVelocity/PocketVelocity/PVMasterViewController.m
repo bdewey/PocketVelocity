@@ -7,10 +7,10 @@
 //
 
 #import "BDLongestCommonSubsequence.h"
-#import "PVArrayChangeDescription.h"
+#import "VOArrayChangeDescription.h"
 #import "PVAsyncListening.h"
 #import "PVDetailViewController.h"
-#import "PVMutableChangeDescribingArray.h"
+#import "VOMutableChangeDescribingArray.h"
 #import "VOArrayMapTransformer.h"
 #import "PVMasterViewCellConfiguration.h"
 #import "PVMasterViewController.h"
@@ -20,7 +20,7 @@
 
 @interface PVMasterViewController () <PVListening> {
   PVNotesDatabase *_notesDatabase;
-  PVMutableChangeDescribingArray *_notes;
+  VOMutableChangeDescribingArray *_notes;
   PVSectionedDataSource *_cellConfigurations;
 }
 @end

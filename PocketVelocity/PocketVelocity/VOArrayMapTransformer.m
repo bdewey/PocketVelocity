@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "PVArrayChangeDescription.h"
+#import "VOArrayChangeDescription.h"
 #import "VOArrayMapTransformer.h"
 #import "VOChangeDescribingArray_Internal.h"
-#import "PVMutableChangeDescribingArray.h"
+#import "VOMutableChangeDescribingArray.h"
 
 @interface VOArrayMapTransformer()
 
@@ -33,8 +33,8 @@
 
 - (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)value
 {
-  PVArrayChangeDescription *changeDescription = value.changeDescription;
-  PVMutableChangeDescribingArray *updatedMappedValues = (_oldArray != nil) ? [_oldArray mutableCopy] : [[PVMutableChangeDescribingArray alloc] init];
+  VOArrayChangeDescription *changeDescription = value.changeDescription;
+  VOMutableChangeDescribingArray *updatedMappedValues = (_oldArray != nil) ? [_oldArray mutableCopy] : [[VOMutableChangeDescribingArray alloc] init];
   [changeDescription.indexesToRemoveFromOldValues enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
     [updatedMappedValues removeObjectAtIndex:idx];
   }];
