@@ -2,20 +2,21 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PVListenable.h"
+#import "VOChangeDescribing.h"
 
 @class PVArrayChangeDescription;
 
 /**
  When listening to changes to this data source, the change description is class PVArrayChangeDescription.
  */
-@interface PVListenableArray : NSObject <
+@interface VOChangeDescribingArray : NSObject <
   NSCopying,
   NSMutableCopying,
-  PVListenable
+  VOChangeDescribing
 >
 
 @property (nonatomic, readonly, assign) NSUInteger count;
+@property (nonatomic, readonly, copy) PVArrayChangeDescription *changeDescription;
 
 - (id)objectAtIndex:(NSUInteger)index;
 - (id)objectAtIndexedSubscript:(NSUInteger)index;

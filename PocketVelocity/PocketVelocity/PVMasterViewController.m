@@ -10,8 +10,8 @@
 #import "PVArrayChangeDescription.h"
 #import "PVAsyncListening.h"
 #import "PVDetailViewController.h"
-#import "PVMutableListenableArray.h"
-#import "PVMappedArray.h"
+#import "PVMutableChangeDescribingArray.h"
+#import "VOArrayMapTransformer.h"
 #import "PVMasterViewCellConfiguration.h"
 #import "PVMasterViewController.h"
 #import "PVNote.h"
@@ -20,7 +20,7 @@
 
 @interface PVMasterViewController () <PVListening> {
   PVNotesDatabase *_notesDatabase;
-  PVMutableListenableArray *_notes;
+  PVMutableChangeDescribingArray *_notes;
   PVSectionedDataSource *_cellConfigurations;
 }
 @end
@@ -57,10 +57,11 @@
     @throw [NSException exceptionWithName:NSDestinationInvalidException reason:@"Unable to open documents directory" userInfo:@{@"error": error}];
   }
   _notesDatabase = [[PVNotesDatabase alloc] initWithDirectory:documents];
-  _notes = [_notesDatabase notes];
-  _cellConfigurations = [[[[_notes defaultQueueArray] mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
-    return [[PVMasterViewCellConfiguration alloc] initWithNote:note];
-  }] mainQueueArray] sectionedDataSource];
+  // FIXME: Fix this shit
+//  _notes = [_notesDatabase notes];
+//  _cellConfigurations = [[[[_notes defaultQueueArray] mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
+//    return [[PVMasterViewCellConfiguration alloc] initWithNote:note];
+//  }] mainQueueArray] sectionedDataSource];
   [_cellConfigurations addListener:self];
 }
 

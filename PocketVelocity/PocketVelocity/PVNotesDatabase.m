@@ -7,18 +7,20 @@
 //
 
 #import "PVArrayChangeDescription.h"
-#import "PVMutableListenableArray.h"
+#import "PVListenersCollection.h"
+#import "PVMutableChangeDescribingArray.h"
 #import "PVNote.h"
 #import "PVNotesDatabase.h"
 
-@interface PVNotesDatabase () <PVListening>
+@interface PVNotesDatabase ()
 
 @end
 
 @implementation PVNotesDatabase
 {
-  PVMutableListenableArray *_notes;
+  VOChangeDescribingArray *_notes;
   dispatch_queue_t _queue;
+  PVListenersCollection *_listeners;
 }
 
 - (instancetype)initWithDirectory:(NSURL *)directory
@@ -28,27 +30,47 @@
     _directory = [directory copy];
     _queue = dispatch_queue_create("com.brians-brain.pocketvelocity.notes-database", DISPATCH_QUEUE_SERIAL);
     dispatch_set_target_queue(_queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
+    _listeners = [[PVListenersCollection alloc] init];
   }
   return self;
 }
 
-- (PVMutableListenableArray *)notes
+- (void)updateNotesWithBlock:(PVNotesDatabaseUpdatingBlock)block
+{
+  dispatch_async(_queue, ^{
+    VOChangeDescribingArray *results = block(_notes);
+    _notes = [results copy];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      [_listeners listenableObject:self didChangeWithDescription:_notes];
+    });
+  });
+}
+
+- (VOChangeDescribingArray *)notes
 {
   if (_notes != nil) {
     return _notes;
   }
-  _notes = [[PVMutableListenableArray alloc] init];
-  dispatch_async(_queue, ^{
+  NSMutableArray *notesFromDisk = [[NSMutableArray alloc] init];
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     NSError *error;
     NSArray *directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:_directory
                                                                includingPropertiesForKeys:nil
                                                                                   options:0
                                                                                     error:&error];
     for (NSURL *fileURL in directoryContents) {
-      [_notes addObject:[self _noteFromFileURL:fileURL]];
+      [notesFromDisk addObject:[self _noteFromFileURL:fileURL]];
+    }
+    if (notesFromDisk.count > 0) {
+      [self updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
+        PVMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
+        for (PVNote *note in notesFromDisk) {
+          [mutableNotes addObject:note];
+        }
+        return mutableNotes;
+      }];
     }
   });
-  [_notes addListener:self];
   return _notes;
 }
 
@@ -78,22 +100,16 @@
   return url;
 }
 
-#pragma mark - PVListening
+#pragma mark - PVListenable
 
-- (void)listenableObject:(id)object didChangeWithDescription:(PVArrayChangeDescription *)changeDescription
+- (void)addListener:(id<PVListening>)listener
 {
-  dispatch_async(_queue, ^{
-    [changeDescription.indexesToAddFromUpdatedValues enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-      PVNote *note = (PVNote *)changeDescription.updatedValues[idx];
-      if (note.dirty) {
-        NSURL *url = [self _fileURLFromNote:note];
-        [note.note writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-        PVMutableNote *updatedNote = [note mutableCopy];
-        updatedNote.dirty = NO;
-        _notes[idx] = updatedNote;
-      }
-    }];
-  });
+  [_listeners addListener:listener];
+}
+
+- (void)removeListener:(id<PVListening>)listener
+{
+  [_listeners removeListener:listener];
 }
 
 @end

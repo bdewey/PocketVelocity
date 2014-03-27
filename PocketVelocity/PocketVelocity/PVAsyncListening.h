@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "PVListenable.h"
-#import "PVListenableArray.h"
+#import "VOChangeDescribingArray.h"
 
 @interface PVAsyncListening : NSObject <PVListenable, PVListening>
 
@@ -20,9 +20,3 @@
 
 @end
 
-@interface PVListenableArray (PVAsyncListening)
-
-- (PVListenableArray *)defaultQueueArray;
-- (PVListenableArray *)mainQueueArray;
-
-@end

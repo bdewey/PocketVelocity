@@ -7,7 +7,6 @@
 //
 
 #import "PVAsyncListening.h"
-#import "PVClonedArray.h"
 #import "PVListenersCollection.h"
 
 @implementation PVAsyncListening
@@ -63,20 +62,3 @@
 
 @end
 
-@implementation PVListenableArray (PVAsyncListening)
-
-- (PVListenableArray *)defaultQueueArray
-{
-  PVAsyncListening *async = [[PVAsyncListening alloc] initWithListenableObject:self
-                                                                         queue:dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)];
-  return [[PVClonedArray alloc] initWithSource:async];
-}
-
-- (PVListenableArray *)mainQueueArray
-{
-  PVAsyncListening *async = [[PVAsyncListening alloc] initWithListenableObject:self
-                                                      queue:dispatch_get_main_queue()];
-  return [[PVClonedArray alloc] initWithSource:async];
-}
-
-@end

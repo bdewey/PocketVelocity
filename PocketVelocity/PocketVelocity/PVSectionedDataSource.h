@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "PVListenable.h"
-#import "PVListenableArray.h"
+#import "VOChangeDescribingArray.h"
 
 /**
  When you listen for changes to this data source, the change description is class `PVSectionedDataSourceChangeDescription`
@@ -34,7 +34,7 @@
 
 @end
 
-@interface PVListenableArray (PVSectionedDataSource)
+@interface VOChangeDescribingArray (PVSectionedDataSource)
 
 - (PVSectionedDataSource *)sectionedDataSource;
 

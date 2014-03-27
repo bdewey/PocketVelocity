@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PVListenableArray.h"
+#import "VOChangeDescribingArray.h"
 
-@interface PVMutableListenableArray : PVListenableArray
+@interface PVMutableChangeDescribingArray : VOChangeDescribingArray
 
 - (void)setObject:(id<NSCopying>)object atIndexedSubscript:(NSUInteger)index;
 - (void)insertObject:(id<NSCopying>)object atIndex:(NSUInteger)index;

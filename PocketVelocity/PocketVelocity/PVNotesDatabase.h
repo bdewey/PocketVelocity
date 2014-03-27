@@ -8,13 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class PVMutableListenableArray;
+@class PVMutableChangeDescribingArray;
 
-@interface PVNotesDatabase : NSObject
+typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescribingArray *currentNotes);
+
+@interface PVNotesDatabase : NSObject <PVListenable>
 
 @property (nonatomic, readonly, copy) NSURL *directory;
-@property (nonatomic, readonly, strong) PVMutableListenableArray *notes;
+@property (nonatomic, readonly, copy) VOChangeDescribingArray *notes;
 
 - (instancetype)initWithDirectory:(NSURL *)directory;
+- (void)updateNotesWithBlock:(PVNotesDatabaseUpdatingBlock)block;
 
 @end

@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "PVListenableArray.h"
+#import "VOChangeDescribingArray.h"
 
-@interface PVListenableArray ()
+@interface VOChangeDescribingArray ()
 
 @property (nonatomic, readonly, strong) NSArray *values;
 
-- (instancetype)initWithValues:(NSArray *)values;
+- (instancetype)initWithValues:(NSArray *)values changeDescription:(PVArrayChangeDescription *)changeDescription;
 - (void)_updateValues:(NSArray *)updatedValues changeDescription:(PVArrayChangeDescription *)changeDescription;
 
 @end

@@ -7,46 +7,34 @@
 //
 
 #import "PVArrayChangeDescription.h"
-#import "PVListenableArray.h"
-#import "PVListenableArray_Internal.h"
+#import "VOChangeDescribingArray.h"
+#import "VOChangeDescribingArray_Internal.h"
 #import "PVListenersCollection.h"
-#import "PVMutableListenableArray.h"
+#import "PVMutableChangeDescribingArray.h"
 
-@implementation PVListenableArray
+@implementation VOChangeDescribingArray
 {
-  PVListenersCollection *_listeners;
+  PVArrayChangeDescription *_changeDescription;
 }
 
-- (instancetype)initWithValues:(NSArray *)values
+- (instancetype)initWithValues:(NSArray *)values changeDescription:(PVArrayChangeDescription *)changeDescription
 {
   self = [super init];
   if (self != nil) {
     _values = [values copy];
-    _listeners = [[PVListenersCollection alloc] init];
+    _changeDescription = changeDescription;
   }
   return self;
 }
 
 - (instancetype)init
 {
-  return [self initWithValues:[[NSArray alloc] init]];
+  return [self initWithValues:[[NSArray alloc] init] changeDescription:nil];
 }
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ _values = %@; _listeners = %@", [super description], _values, _listeners];
-}
-
-#pragma mark - PVListenable
-
-- (void)addListener:(id<PVListening>)observer
-{
-  [_listeners addListener:observer];
-}
-
-- (void)removeListener:(id<PVListening>)observer
-{
-  [_listeners removeListener:observer];
+  return [NSString stringWithFormat:@"%@ _values = %@", [super description], _values];
 }
 
 #pragma mark - NSArray
@@ -69,7 +57,7 @@
 - (void)_updateValues:(NSArray *)updatedValues changeDescription:(PVArrayChangeDescription *)changeDescription
 {
   _values = [updatedValues copy];
-  [_listeners listenableObject:self didChangeWithDescription:changeDescription];
+  _changeDescription = changeDescription;
 }
 
 #pragma mark - NSCopying
@@ -83,7 +71,7 @@
 
 - (id)mutableCopyWithZone:(NSZone *)zone
 {
-  return [[PVMutableListenableArray alloc] initWithValues:_values];
+  return [[PVMutableChangeDescribingArray alloc] initWithValues:_values changeDescription:_changeDescription];
 }
 
 @end

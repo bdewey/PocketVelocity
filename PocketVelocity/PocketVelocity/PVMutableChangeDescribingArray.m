@@ -7,10 +7,13 @@
 //
 
 #import "PVArrayChangeDescription.h"
-#import "PVListenableArray_Internal.h"
-#import "PVMutableListenableArray.h"
+#import "VOChangeDescribingArray_Internal.h"
+#import "PVMutableChangeDescribingArray.h"
 
-@implementation PVMutableListenableArray
+@implementation PVMutableChangeDescribingArray
+{
+  
+}
 
 #pragma mark - NSMutableArray
 
@@ -63,6 +66,13 @@
 - (void)setObject:(id)object atIndexedSubscript:(NSUInteger)index
 {
   [self replaceObjectAtIndex:index withObject:object];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone
+{
+  return [[VOChangeDescribingArray alloc] initWithValues:self.values changeDescription:self.changeDescription];
 }
 
 @end

@@ -9,17 +9,17 @@
 #import <XCTest/XCTest.h>
 
 #import "PVArrayChangeDescription.h"
-#import "PVMappedArray.h"
-#import "PVMutableListenableArray.h"
+#import "VOArrayMapTransformer.h"
+#import "PVMutableChangeDescribingArray.h"
 #import "PVUtilities.h"
 
 static NSUInteger kArraySize = 10;
 static NSString * const kOddString = @"Odd";
 static NSString * const kEvenString = @"Even";
 
-static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
+static VOArrayMapTransformer *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 {
-  return [[PVMappedArray alloc] initWithSourceArray:arrayOfNumbers mappingBlock:^id(NSNumber *object) {
+  return [[VOArrayMapTransformer alloc] initWithSourceArray:arrayOfNumbers mappingBlock:^id(NSNumber *object) {
     NSInteger value = [object integerValue];
     if (value % 2) {
       return kOddString;
@@ -31,7 +31,7 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 
 @interface PVMappedArrayTests : XCTestCase <PVListening>
 
-@property (nonatomic, readonly, strong) PVMutableListenableArray *numbers;
+@property (nonatomic, readonly, strong) PVMutableChangeDescribingArray *numbers;
 @property (nonatomic, readonly, strong) PVArrayChangeDescription *lastChangeDescription;
 
 @end
@@ -41,7 +41,7 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 - (void)setUp
 {
   [super setUp];
-  _numbers = [[PVMutableListenableArray alloc] init];
+  _numbers = [[PVMutableChangeDescribingArray alloc] init];
   for (int i = 0; i < kArraySize; i++) {
     [_numbers addObject:@(i)];
   }
@@ -56,7 +56,7 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 
 - (void)testBasicMapping
 {
-  PVMappedArray *mapping = CreateOddEvenMapping(self.numbers);
+  VOArrayMapTransformer *mapping = CreateOddEvenMapping(self.numbers);
   
   XCTAssertEqual(mapping.count, kArraySize, @"Unexpected size %u (expedted %u)", mapping.count, kArraySize);
   for (NSUInteger i = 0; i < mapping.count; i++) {
@@ -70,7 +70,7 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 
 - (void)testUpdate
 {
-  PVMappedArray *mapping = CreateOddEvenMapping(self.numbers);
+  VOArrayMapTransformer *mapping = CreateOddEvenMapping(self.numbers);
   
   XCTAssertEqualObjects(mapping[0], kEvenString, @"");
   // Switch the number at index 0 from an even to an odd.
@@ -80,7 +80,7 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 
 - (void)testUpdateGeneratesNotification
 {
-  PVMappedArray *mapping = CreateOddEvenMapping(self.numbers);
+  VOArrayMapTransformer *mapping = CreateOddEvenMapping(self.numbers);
   [mapping addListener:self];
   self.numbers[0] = @(101);
   XCTAssertEqualObjects(mapping[0], kOddString, @"");
@@ -95,7 +95,7 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 
 - (void)testUpdateOfEquivalenceClassSuppressedNotification
 {
-  PVMappedArray *mapping = CreateOddEvenMapping(self.numbers);
+  VOArrayMapTransformer *mapping = CreateOddEvenMapping(self.numbers);
   [mapping addListener:self];
   
   // The old value at 0 was even, the new value is even... so the mapped array doesn't change
@@ -109,7 +109,7 @@ static PVMappedArray *CreateOddEvenMapping(PVListenableArray *arrayOfNumbers)
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(PVMappedArray *)object didChangeWithDescription:(PVArrayChangeDescription *)changeDescription
+- (void)listenableObject:(VOArrayMapTransformer *)object didChangeWithDescription:(PVArrayChangeDescription *)changeDescription
 {
   _lastChangeDescription = changeDescription;
 }
