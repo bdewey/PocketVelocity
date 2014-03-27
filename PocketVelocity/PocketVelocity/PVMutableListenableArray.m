@@ -18,7 +18,7 @@
 {
   NSArray *oldValues = self.values;
   NSMutableArray *updatedValues = [oldValues mutableCopy];
-  [updatedValues insertObject:object atIndex:index];
+  [updatedValues insertObject:[object copy] atIndex:index];
   PVArrayChangeDescription *delta = [[PVArrayChangeDescription alloc] initWithOldValues:oldValues
                                                                           updatedValues:updatedValues
                                                            indexesToRemoveFromOldValues:[NSIndexSet indexSet]
@@ -52,7 +52,7 @@
 {
   NSArray *oldValues = self.values;
   NSMutableArray *updatedValues = [oldValues mutableCopy];
-  [updatedValues replaceObjectAtIndex:index withObject:object];
+  [updatedValues replaceObjectAtIndex:index withObject:[object copy]];
   PVArrayChangeDescription *delta = [[PVArrayChangeDescription alloc] initWithOldValues:oldValues
                                                                           updatedValues:updatedValues
                                                            indexesToRemoveFromOldValues:[NSIndexSet indexSetWithIndex:index]

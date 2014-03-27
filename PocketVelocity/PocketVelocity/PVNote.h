@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PVNote : NSObject <NSCopying>
+#import "VOValueObject.h"
+
+@interface PVNote : VOValueObject <NSMutableCopying>
 
 @property (nonatomic, readonly, copy) NSString *title;
 @property (nonatomic, readonly, copy) NSString *note;
@@ -21,7 +23,7 @@
 
 @end
 
-@interface PVNoteBuilder : NSObject
+@interface PVMutableNote : PVNote
 
 @property (nonatomic, readwrite, copy) NSString *title;
 @property (nonatomic, readwrite, copy) NSString *note;
@@ -29,10 +31,5 @@
 @property (nonatomic, readwrite, strong) NSDate *dateAdded;
 @property (nonatomic, readwrite, strong) NSDate *dateModified;
 @property (nonatomic, readwrite, assign) BOOL dirty;
-
-- (instancetype)init;
-- (instancetype)initWithNote:(PVNote *)note;
-
-- (PVNote *)newNote;
 
 @end

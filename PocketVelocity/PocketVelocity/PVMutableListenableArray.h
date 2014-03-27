@@ -11,11 +11,11 @@
 
 @interface PVMutableListenableArray : PVListenableArray
 
-- (void)setObject:(id)object atIndexedSubscript:(NSUInteger)index;
-- (void)insertObject:(id)object atIndex:(NSUInteger)index;
+- (void)setObject:(id<NSCopying>)object atIndexedSubscript:(NSUInteger)index;
+- (void)insertObject:(id<NSCopying>)object atIndex:(NSUInteger)index;
 - (void)removeObjectAtIndex:(NSUInteger)index;
-- (void)addObject:(id)object;
+- (void)addObject:(id<NSCopying>)object;
 - (void)removeLastObject;
-- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object;
+- (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id<NSCopying>)object;
 
 @end

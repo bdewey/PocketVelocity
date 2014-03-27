@@ -10,6 +10,15 @@
 #import "PVUtilities.h"
 
 @implementation PVNote
+{
+  @protected
+  NSString *_title;
+  NSString *_note;
+  NSArray *_tags;
+  NSDate *_dateAdded;
+  NSDate *_dateModified;
+  BOOL _dirty;
+}
 
 - (instancetype)init
 {
@@ -64,40 +73,60 @@
   return result;
 }
 
-#pragma mark - NSCopying
+#pragma mark - NSMutableCopying
 
-// These objects are immutable so retain instead of copy.
-- (instancetype)copyWithZone:(NSZone *)zone
+- (id)mutableCopyWithZone:(NSZone *)zone
 {
-  return self;
+  return [[PVMutableNote alloc] initWithTitle:_title
+                                         note:_note
+                                         tags:_tags
+                                    dateAdded:_dateAdded
+                                 dateModified:_dateModified
+                                        dirty:_dirty];
 }
 
 @end
 
-@implementation PVNoteBuilder
+@implementation PVMutableNote
 
-- (instancetype)init
+- (void)setTitle:(NSString *)title
 {
-  return [super init];
+  _title = [title copy];
 }
 
-- (instancetype)initWithNote:(PVNote *)note
+- (void)setNote:(NSString *)note
 {
-  self = [self init];
-  if (self != nil) {
-    _title = [note.title copy];
-    _note = [note.note copy];
-    _tags = [note.tags copy];
-    _dateAdded = note.dateAdded;
-    _dateModified = note.dateModified;
-    _dirty = note.dirty;
-  }
-  return self;
+  _note = [note copy];
 }
 
-- (PVNote *)newNote
+- (void)setTags:(NSArray *)tags
 {
-  return [[PVNote alloc] initWithTitle:_title note:_note tags:_tags dateAdded:_dateAdded dateModified:_dateModified dirty:_dirty];
+  _tags = [tags copy];
+}
+
+- (void)setDateAdded:(NSDate *)dateAdded
+{
+  _dateAdded = dateAdded;
+}
+
+- (void)setDateModified:(NSDate *)dateModified
+{
+  _dateModified = dateModified;
+}
+
+- (void)setDirty:(BOOL)dirty
+{
+  _dirty = dirty;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+  return [[PVNote alloc] initWithTitle:self.title
+                                  note:self.note
+                                  tags:self.tags
+                             dateAdded:self.dateAdded
+                          dateModified:self.dateModified
+                                 dirty:self.dirty];
 }
 
 @end

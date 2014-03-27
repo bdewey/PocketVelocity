@@ -80,18 +80,17 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-  PVNoteBuilder *builder = [[PVNoteBuilder alloc] initWithNote:_detailItem];
-  builder.note = textView.text;
-  builder.dirty = YES;
-  PVNote *newNote = [builder newNote];
+  PVMutableNote *updatedNote = [_detailItem mutableCopy];
+  updatedNote.note = textView.text;
+  updatedNote.dirty = YES;
   for (int i = 0; i < _notesDatabase.count; i++) {
     PVNote *oldNote = _notesDatabase[i];
     if (PVStringsAreEqual(_detailItem.title, oldNote.title)) {
-      _notesDatabase[i] = newNote;
+      _notesDatabase[i] = updatedNote;
       break;
     }
   }
-  _detailItem = newNote;
+  _detailItem = [updatedNote copy];
 }
 
 @end
