@@ -21,19 +21,21 @@
 }
 
 - (instancetype)initWithValueTransformer:(id<VOValueTransforming>)transformer
+                expectsPipelineSemantics:(BOOL)expectsPipelineSemantics
 {
   self = [super init];
   if (self != nil) {
     _transformer = transformer;
+    _expectsPipelineSemantics = expectsPipelineSemantics;
   }
   return self;
 }
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ pipelineEnabled = %@ oldArray = %@ transformer = %@",
+  return [NSString stringWithFormat:@"%@ pipelining = %@ oldArray = %@ transformer = %@",
           [super description],
-          (_pipeliningEnabled) ? @"YES" : @"NO",
+          (_expectsPipelineSemantics) ? @"YES" : @"NO",
           _oldArray,
           _transformer];
 }
@@ -53,7 +55,7 @@
   } else {
     immutableResults = [self _transformValue:value asDeltaFromOldValue:_oldArray];
   }
-  if (_pipeliningEnabled) {
+  if (_expectsPipelineSemantics) {
     _oldArray = immutableResults;
   }
   return immutableResults;
@@ -72,14 +74,6 @@
   }];
   VOChangeDescribingArray *immutableCopy = [updatedMappedValues copy];
   return immutableCopy;
-}
-
-- (void)setPipeliningEnabled:(BOOL)pipeliningEnabled
-{
-  _pipeliningEnabled = pipeliningEnabled;
-  if (!_pipeliningEnabled) {
-    _oldArray = nil;
-  }
 }
 
 @end

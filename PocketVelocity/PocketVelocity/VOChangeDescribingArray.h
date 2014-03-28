@@ -11,6 +11,7 @@
  */
 @interface VOChangeDescribingArray : NSObject <
   NSCopying,
+  NSFastEnumeration,
   NSMutableCopying,
   VOChangeDescribing
 >

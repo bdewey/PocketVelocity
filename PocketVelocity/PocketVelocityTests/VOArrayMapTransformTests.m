@@ -43,7 +43,7 @@ static VOChangeDescribingArray *CreateTestArray() {
 
 - (void)testBasicMapping
 {
-  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self];
+  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self expectsPipelineSemantics:NO];
   VOChangeDescribingArray *output = [transformer transformValue:CreateTestArray()];
   // spot check because I'm lazy
   XCTAssertEqualObjects(kEvenString, output[0], @"");
@@ -52,8 +52,7 @@ static VOChangeDescribingArray *CreateTestArray() {
 
 - (void)testPipelinedMapping
 {
-  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self];
-  transformer.pipeliningEnabled = YES;
+  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self expectsPipelineSemantics:YES];
   VOChangeDescribingArray *output = [transformer transformValue:CreateTestArray()];
   // spot check because I'm lazy
   XCTAssertEqualObjects(kEvenString, output[0], @"");
@@ -62,8 +61,7 @@ static VOChangeDescribingArray *CreateTestArray() {
 
 - (void)testSuppressedPipelineUpdate
 {
-  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self];
-  transformer.pipeliningEnabled = YES;
+  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self expectsPipelineSemantics:YES];
   VOChangeDescribingArray *startingState = CreateTestArray();
   VOChangeDescribingArray *originalOutput = [transformer transformValue:startingState];
   VOMutableChangeDescribingArray *mutableState = [startingState mutableCopy];

@@ -85,4 +85,11 @@
   return [[VOMutableChangeDescribingArray alloc] initWithOriginalValues:self];
 }
 
+#pragma mark - NSFastEnumeration
+
+- (NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id __unsafe_unretained [])buffer count:(NSUInteger)len
+{
+  return [_values countByEnumeratingWithState:state objects:buffer count:len];
+}
+
 @end

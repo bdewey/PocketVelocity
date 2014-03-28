@@ -12,8 +12,4 @@
 
 - (id)transformValue:(id)value;
 
-@optional
-
-@property (nonatomic, readwrite, assign) BOOL pipeliningEnabled;
-
 @end
