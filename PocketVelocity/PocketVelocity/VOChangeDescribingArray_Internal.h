@@ -15,6 +15,5 @@
 }
 
 - (instancetype)initWithValues:(NSArray *)values changeDescription:(VOArrayChangeDescription *)changeDescription;
-- (void)_updateValues:(NSArray *)updatedValues changeDescription:(VOArrayChangeDescription *)changeDescription;
 
 @end

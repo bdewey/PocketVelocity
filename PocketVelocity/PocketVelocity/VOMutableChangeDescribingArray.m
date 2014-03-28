@@ -12,19 +12,37 @@
 
 @implementation VOMutableChangeDescribingArray
 {
+  VOChangeDescribingArray *_immutableOriginalValues;
   NSMutableIndexSet *_insertedIndexes;
   NSMutableIndexSet *_removedIndexes;
 }
 
-- (instancetype)initWithValues:(NSArray *)values changeDescription:(VOArrayChangeDescription *)changeDescription
+- (instancetype)initWithOriginalValues:(VOChangeDescribingArray *)originalValues
 {
-  self = [super initWithValues:values changeDescription:changeDescription];
+  NSArray *originalArray;
+  if (originalValues != nil) {
+    originalArray = originalValues->_values;
+  } else {
+    originalArray = [[NSArray alloc] init];
+  }
+  self = [super initWithValues:originalArray changeDescription:nil];
   if (self != nil) {
-    _values = [values mutableCopy];
+    _immutableOriginalValues = [originalValues copy];
+    _values = [originalArray mutableCopy];
     _insertedIndexes = [[NSMutableIndexSet alloc] init];
     _removedIndexes = [[NSMutableIndexSet alloc] init];
   }
   return self;
+}
+
+- (instancetype)init
+{
+  return [self initWithOriginalValues:nil];
+}
+
+- (id)initWithValues:(NSArray *)values changeDescription:(VOArrayChangeDescription *)changeDescription
+{
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Not designated initializer" userInfo:nil];
 }
 
 - (VOArrayChangeDescription *)changeDescription
@@ -37,6 +55,19 @@
 - (void)insertObject:(id)object atIndex:(NSUInteger)index
 {
   [(NSMutableArray *)_values insertObject:[object copy] atIndex:index];
+  
+  // Why the -1? The index space mapping doesn't work yet because we haven't yet recorded the insert we just did.
+  NSUInteger indexFromOriginalValues = [self _indexInOriginalValuesFromNewIndex:index] - 1;
+  
+  // Optimization -- check if the item we just inserted is equal to one we earlier removed from this location
+  // If it is, record this by pretending the removal didn't happen
+  if ([_removedIndexes containsIndex:indexFromOriginalValues]) {
+    id originalValue = _immutableOriginalValues[indexFromOriginalValues];
+    if ([originalValue isEqual:object]) {
+      [_removedIndexes removeIndex:index];
+      return;
+    }
+  }
   [_insertedIndexes shiftIndexesStartingAtIndex:index by:1];
   [_insertedIndexes addIndex:index];
 }
@@ -48,13 +79,7 @@
     [_insertedIndexes removeIndex:index];
   } else {
     // _removedIndexes uses the **old** index space.
-    // We need to convert `index` (in the current space) to the old space by logically undoing
-    // all of the insertions and removals we have seen so far.
-    // Our index sets describe doing all removals before insertions, so undo them in the reverse order.
-    NSUInteger indexesInsertedBeforeIndex = [_insertedIndexes countOfIndexesInRange:NSMakeRange(0, index)];
-    index -= indexesInsertedBeforeIndex;
-    NSUInteger indexesRemovedBeforeIndex = [_removedIndexes countOfIndexesInRange:NSMakeRange(0, index+1)];
-    index += indexesRemovedBeforeIndex;
+    index = [self _indexInOriginalValuesFromNewIndex:index];
     [_removedIndexes addIndex:index];
   }
 }
@@ -90,6 +115,17 @@
 - (id)copyWithZone:(NSZone *)zone
 {
   return [[VOChangeDescribingArray alloc] initWithValues:_values changeDescription:self.changeDescription];
+}
+
+#pragma mark - Private
+
+- (NSUInteger)_indexInOriginalValuesFromNewIndex:(NSUInteger)index
+{
+  NSUInteger indexesInsertedBeforeIndex = [_insertedIndexes countOfIndexesInRange:NSMakeRange(0, index)];
+  index -= indexesInsertedBeforeIndex;
+  NSUInteger indexesRemovedBeforeIndex = [_removedIndexes countOfIndexesInRange:NSMakeRange(0, index+1)];
+  index += indexesRemovedBeforeIndex;
+  return index;
 }
 
 @end

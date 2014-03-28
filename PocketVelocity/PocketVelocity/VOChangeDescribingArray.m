@@ -71,12 +71,6 @@
   return _values[index];
 }
 
-- (void)_updateValues:(NSArray *)updatedValues changeDescription:(VOArrayChangeDescription *)changeDescription
-{
-  _values = [updatedValues copy];
-  _changeDescription = changeDescription;
-}
-
 #pragma mark - NSCopying
 
 - (instancetype)copyWithZone:(NSZone *)zone
@@ -88,7 +82,7 @@
 
 - (id)mutableCopyWithZone:(NSZone *)zone
 {
-  return [[VOMutableChangeDescribingArray alloc] initWithValues:_values changeDescription:_changeDescription];
+  return [[VOMutableChangeDescribingArray alloc] initWithOriginalValues:self];
 }
 
 @end

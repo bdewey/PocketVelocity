@@ -58,6 +58,20 @@ typedef struct {
   XCTAssertEqualObjects(immutableCopyOfMutableArray, mutableArray, @"");
 }
 
+- (void)testNewMutableCopyHasEmptyChangeDescription
+{
+  VOMutableChangeDescribingArray *mutableArray = [[VOMutableChangeDescribingArray alloc] init];
+  for (int i = 0; i < 3; i++) {
+    [mutableArray addObject:@(i)];
+  }
+  XCTAssertEqual(3U, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  VOChangeDescribingArray *immutableCopy = [mutableArray copy];
+  XCTAssertEqual(3U, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual(3U, immutableCopy.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  mutableArray = [immutableCopy mutableCopy];
+  XCTAssertEqual(0U, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+}
+
 - (void)testInsertChangeDescriptions
 {
   VOMutableChangeDescribingArray *mutableArray = [[VOMutableChangeDescribingArray alloc] init];
@@ -99,6 +113,21 @@ typedef struct {
   // Assign the same value to the same slot. This shouldn't look like a change.
   mutableArray[0] = @(0);
   
+  XCTAssertEqualObjects(mutableArray, immutableCopy, @"");
+  XCTAssertEqualObjects(mutableArray.changeDescription.indexesToAddFromUpdatedValues, [NSIndexSet indexSet], @"");
+}
+
+- (void)testRemoveInsertEqualItemOptimization
+{
+  VOMutableChangeDescribingArray *mutableArray = [[VOMutableChangeDescribingArray alloc] init];
+  [mutableArray addObject:@(0)];
+  [mutableArray addObject:@(1)];
+  VOChangeDescribingArray *immutableCopy = [mutableArray copy];
+  mutableArray = [immutableCopy mutableCopy];
+  
+  [mutableArray removeObjectAtIndex:0];
+  [mutableArray insertObject:@(0) atIndex:0];
+
   XCTAssertEqualObjects(mutableArray, immutableCopy, @"");
   XCTAssertEqualObjects(mutableArray.changeDescription.indexesToAddFromUpdatedValues, [NSIndexSet indexSet], @"");
 }

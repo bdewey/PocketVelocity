@@ -11,6 +11,7 @@
 
 @interface VOArrayMapTransformer : NSObject <VOValueTransforming>
 
+@property (nonatomic, readwrite, assign) BOOL pipeliningEnabled;
 @property (nonatomic, readonly, strong) id<VOValueTransforming> transformer;
 
 - (instancetype)initWithValueTransformer:(id<VOValueTransforming>)transformer;

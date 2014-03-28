@@ -18,4 +18,6 @@
 - (void)removeLastObject;
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id<NSCopying>)object;
 
+- (instancetype)initWithOriginalValues:(VOChangeDescribingArray *)originalValues;
+
 @end
