@@ -7,7 +7,7 @@
 //
 
 #import "VOArrayChangeDescription.h"
-#import "PVListenersCollection.h"
+#import "VOListenersCollection.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "PVNote.h"
 #import "PVNotesDatabase.h"
@@ -20,7 +20,7 @@
 {
   VOChangeDescribingArray *_notes;
   dispatch_queue_t _queue;
-  PVListenersCollection *_listeners;
+  VOListenersCollection *_listeners;
 }
 
 - (instancetype)initWithDirectory:(NSURL *)directory
@@ -30,7 +30,7 @@
     _directory = [directory copy];
     _queue = dispatch_queue_create("com.brians-brain.pocketvelocity.notes-database", DISPATCH_QUEUE_SERIAL);
     dispatch_set_target_queue(_queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
-    _listeners = [[PVListenersCollection alloc] init];
+    _listeners = [[VOListenersCollection alloc] init];
   }
   return self;
 }
@@ -102,12 +102,12 @@
 
 #pragma mark - PVListenable
 
-- (void)addListener:(id<PVListening>)listener
+- (void)addListener:(id<VOListening>)listener
 {
   [_listeners addListener:listener];
 }
 
-- (void)removeListener:(id<PVListening>)listener
+- (void)removeListener:(id<VOListening>)listener
 {
   [_listeners removeListener:listener];
 }

@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PVListening;
+@protocol VOListening;
 
-@protocol PVListenable <NSObject>
+@protocol VOListenable <NSObject>
 
-- (void)addListener:(id<PVListening>)listener;
-- (void)removeListener:(id<PVListening>)listener;
+- (void)addListener:(id<VOListening>)listener;
+- (void)removeListener:(id<VOListening>)listener;
 
 @end
 
-@protocol PVListening <NSObject>
+@protocol VOListening <NSObject>
 
 - (void)listenableObject:(id)object didChangeWithDescription:(id)changeDescription;
 

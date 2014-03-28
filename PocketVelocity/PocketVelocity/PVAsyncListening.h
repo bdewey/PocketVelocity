@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PVListenable.h"
+#import "VOListenable.h"
 #import "VOChangeDescribingArray.h"
 
-@interface PVAsyncListening : NSObject <PVListenable, PVListening>
+@interface PVAsyncListening : NSObject <VOListenable, VOListening>
 
-@property (nonatomic, readonly, strong) id<PVListenable> source;
+@property (nonatomic, readonly, strong) id<VOListenable> source;
 @property (nonatomic, readonly, strong) dispatch_queue_t queue;
 
-- (instancetype)initWithListenableObject:(id<PVListenable>)object queue:(dispatch_queue_t)queue;
+- (instancetype)initWithListenableObject:(id<VOListenable>)object queue:(dispatch_queue_t)queue;
 
 @end
 

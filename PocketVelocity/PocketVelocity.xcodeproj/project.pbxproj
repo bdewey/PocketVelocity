@@ -41,8 +41,8 @@
 		0AB4581518D8058100C47B8C /* VOArrayChangeDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581318D8058100C47B8C /* VOArrayChangeDescription.m */; };
 		0AB4581818D80D9100C47B8C /* VOChangeDescribingArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* VOChangeDescribingArray.m */; };
 		0AB4581918D80D9100C47B8C /* VOChangeDescribingArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4581718D80D9100C47B8C /* VOChangeDescribingArray.m */; };
-		0AB4582118DCFBEB00C47B8C /* PVListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */; };
-		0AB4582218DCFBEB00C47B8C /* PVListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */; };
+		0AB4582118DCFBEB00C47B8C /* VOListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* VOListenersCollection.m */; };
+		0AB4582218DCFBEB00C47B8C /* VOListenersCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582018DCFBEB00C47B8C /* VOListenersCollection.m */; };
 		0AB4582518DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
 		0AB4582618DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
 		D5066DA118E3E3A600DD0F0B /* VOValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D5066DA018E3E3A600DD0F0B /* VOValueObject.m */; };
@@ -115,9 +115,9 @@
 		0AB4581318D8058100C47B8C /* VOArrayChangeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOArrayChangeDescription.m; sourceTree = "<group>"; };
 		0AB4581618D80D9100C47B8C /* VOChangeDescribingArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOChangeDescribingArray.h; sourceTree = "<group>"; };
 		0AB4581718D80D9100C47B8C /* VOChangeDescribingArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOChangeDescribingArray.m; sourceTree = "<group>"; };
-		0AB4581A18DCF89B00C47B8C /* PVListenable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PVListenable.h; sourceTree = "<group>"; };
-		0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVListenersCollection.h; sourceTree = "<group>"; };
-		0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVListenersCollection.m; sourceTree = "<group>"; };
+		0AB4581A18DCF89B00C47B8C /* VOListenable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VOListenable.h; sourceTree = "<group>"; };
+		0AB4581F18DCFBEB00C47B8C /* VOListenersCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOListenersCollection.h; sourceTree = "<group>"; };
+		0AB4582018DCFBEB00C47B8C /* VOListenersCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOListenersCollection.m; sourceTree = "<group>"; };
 		0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVSectionedDataSource.h; sourceTree = "<group>"; };
 		0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVSectionedDataSource.m; sourceTree = "<group>"; };
 		D5066D9F18E3E3A600DD0F0B /* VOValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOValueObject.h; sourceTree = "<group>"; };
@@ -209,9 +209,6 @@
 				D5A8820418E0A1C0007E32A9 /* PVAsyncListening.m */,
 				0AB457C818D4CCCC00C47B8C /* PVDetailViewController.h */,
 				0AB457C918D4CCCC00C47B8C /* PVDetailViewController.m */,
-				0AB4581A18DCF89B00C47B8C /* PVListenable.h */,
-				0AB4581F18DCFBEB00C47B8C /* PVListenersCollection.h */,
-				0AB4582018DCFBEB00C47B8C /* PVListenersCollection.m */,
 				0AB4580518D7FB6B00C47B8C /* PVMasterViewCellConfiguration.h */,
 				0AB4580618D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m */,
 				0AB457C518D4CCCC00C47B8C /* PVMasterViewController.h */,
@@ -236,6 +233,9 @@
 				0AB4581618D80D9100C47B8C /* VOChangeDescribingArray.h */,
 				0AB4581718D80D9100C47B8C /* VOChangeDescribingArray.m */,
 				0A206C5818DF2545002ABA88 /* VOChangeDescribingArray_Internal.h */,
+				0AB4581A18DCF89B00C47B8C /* VOListenable.h */,
+				0AB4581F18DCFBEB00C47B8C /* VOListenersCollection.h */,
+				0AB4582018DCFBEB00C47B8C /* VOListenersCollection.m */,
 				0A206C5518DE40E3002ABA88 /* VOMutableChangeDescribingArray.h */,
 				0A206C5618DE40E3002ABA88 /* VOMutableChangeDescribingArray.m */,
 				D5066D9F18E3E3A600DD0F0B /* VOValueObject.h */,
@@ -388,7 +388,7 @@
 				0A206C5B18DF2B20002ABA88 /* VOArrayMapTransformer.m in Sources */,
 				0AB4580718D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
 				0AB457BE18D4CCCC00C47B8C /* PVAppDelegate.m in Sources */,
-				0AB4582118DCFBEB00C47B8C /* PVListenersCollection.m in Sources */,
+				0AB4582118DCFBEB00C47B8C /* VOListenersCollection.m in Sources */,
 				0AB457BA18D4CCCC00C47B8C /* main.m in Sources */,
 				0AB457FA18D4D34000C47B8C /* PVAnnouncer.m in Sources */,
 				0AB457FE18D64DBA00C47B8C /* BDLongestCommonSubsequence.m in Sources */,
@@ -415,7 +415,7 @@
 				D560D2D318E5462500B7915E /* VOArrayMapTransformTests.m in Sources */,
 				0A206C5C18DF2B20002ABA88 /* VOArrayMapTransformer.m in Sources */,
 				0AB4580418D6C23D00C47B8C /* NSArray+PVUtilities.m in Sources */,
-				0AB4582218DCFBEB00C47B8C /* PVListenersCollection.m in Sources */,
+				0AB4582218DCFBEB00C47B8C /* VOListenersCollection.m in Sources */,
 				0AB4581518D8058100C47B8C /* VOArrayChangeDescription.m in Sources */,
 				0AB457FF18D64DBA00C47B8C /* BDLongestCommonSubsequence.m in Sources */,
 				D5A8820818E0A734007E32A9 /* PVAsyncListeningTests.m in Sources */,

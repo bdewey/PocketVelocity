@@ -18,7 +18,7 @@
 #import "PVNotesDatabase.h"
 #import "PVSectionedDataSource.h"
 
-@interface PVMasterViewController () <PVListening> {
+@interface PVMasterViewController () <VOListening> {
   PVNotesDatabase *_notesDatabase;
   VOMutableChangeDescribingArray *_notes;
   PVSectionedDataSource *_cellConfigurations;

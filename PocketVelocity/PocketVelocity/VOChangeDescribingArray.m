@@ -9,7 +9,7 @@
 #import "VOArrayChangeDescription.h"
 #import "VOChangeDescribingArray.h"
 #import "VOChangeDescribingArray_Internal.h"
-#import "PVListenersCollection.h"
+#import "VOListenersCollection.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "PVUtilities.h"
 

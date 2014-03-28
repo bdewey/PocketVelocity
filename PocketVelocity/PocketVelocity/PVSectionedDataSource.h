@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PVListenable.h"
+#import "VOListenable.h"
 #import "VOChangeDescribingArray.h"
 
 /**
  When you listen for changes to this data source, the change description is class `PVSectionedDataSourceChangeDescription`
  */
-@interface PVSectionedDataSource : NSObject <PVListenable>
+@interface PVSectionedDataSource : NSObject <VOListenable>
 
 /**
  @param sectionDataSources An array of PVListenableArrayDataSource objects.

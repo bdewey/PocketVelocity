@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PVListenable.h"
+#import "VOListenable.h"
 
 @class PVListenerQueuePair;
 
-@interface PVListenersCollection : NSObject <PVListenable, PVListening>
+@interface VOListenersCollection : NSObject <VOListenable, VOListening>
 
 @end
 

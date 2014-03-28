@@ -12,7 +12,7 @@
 
 typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescribingArray *currentNotes);
 
-@interface PVNotesDatabase : NSObject <PVListenable>
+@interface PVNotesDatabase : NSObject <VOListenable>
 
 @property (nonatomic, readonly, copy) NSURL *directory;
 @property (nonatomic, readonly, copy) VOChangeDescribingArray *notes;

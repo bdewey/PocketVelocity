@@ -9,9 +9,9 @@
 #import "VOArrayChangeDescription.h"
 #import "PVSectionedDataSource.h"
 #import "VOChangeDescribingArray.h"
-#import "PVListenersCollection.h"
+#import "VOListenersCollection.h"
 
-@interface PVSectionedDataSource () <PVListening>
+@interface PVSectionedDataSource () <VOListening>
 @end
 
 @interface PVSectionedDataSourceChangeDescription ()
@@ -21,14 +21,14 @@
 @implementation PVSectionedDataSource
 {
   NSArray *_sectionDataSources;
-  PVListenersCollection *_listeners;
+  VOListenersCollection *_listeners;
 }
 
 - (instancetype)initWithSections:(NSArray *)sectionDataSources
 {
   self = [super init];
   if (self != nil) {
-    _listeners = [[PVListenersCollection alloc] init];
+    _listeners = [[VOListenersCollection alloc] init];
     _sectionDataSources = [sectionDataSources copy];
   }
   return self;
@@ -61,12 +61,12 @@
 
 #pragma mark - PVListenable
 
-- (void)addListener:(id<PVListening>)observer
+- (void)addListener:(id<VOListening>)observer
 {
   [_listeners addListener:observer];
 }
 
-- (void)removeListener:(id<PVListening>)observer
+- (void)removeListener:(id<VOListening>)observer
 {
   [_listeners removeListener:observer];
 }

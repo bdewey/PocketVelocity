@@ -7,22 +7,22 @@
 //
 
 #import "PVAsyncListening.h"
-#import "PVListenersCollection.h"
+#import "VOListenersCollection.h"
 
 @implementation PVAsyncListening
 {
-  PVListenersCollection *_listeners;
+  VOListenersCollection *_listeners;
   BOOL _shouldInvokeSynchronouslyOnMainThread;
 }
 
-- (instancetype)initWithListenableObject:(id<PVListenable>)object queue:(dispatch_queue_t)queue
+- (instancetype)initWithListenableObject:(id<VOListenable>)object queue:(dispatch_queue_t)queue
 {
   self = [super init];
   if (self != nil) {
     _source = object;
     _queue = queue;
     _shouldInvokeSynchronouslyOnMainThread = (_queue == dispatch_get_main_queue());
-    _listeners = [[PVListenersCollection alloc] init];
+    _listeners = [[VOListenersCollection alloc] init];
     [_source addListener:self];
   }
   return self;
@@ -35,12 +35,12 @@
 
 #pragma mark - PVListenable
 
-- (void)addListener:(id<PVListening>)listener
+- (void)addListener:(id<VOListening>)listener
 {
   [_listeners addListener:listener];
 }
 
-- (void)removeListener:(id<PVListening>)listener
+- (void)removeListener:(id<VOListening>)listener
 {
   [_listeners removeListener:listener];
 }

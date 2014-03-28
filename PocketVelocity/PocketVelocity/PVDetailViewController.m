@@ -7,7 +7,7 @@
 //
 
 #import "PVDetailViewController.h"
-#import "PVListenersCollection.h"
+#import "VOListenersCollection.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "PVNote.h"
 #import "PVUtilities.h"

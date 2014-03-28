@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "PVListenersCollection.h"
+#import "VOListenersCollection.h"
 
-@implementation PVListenersCollection
+@implementation VOListenersCollection
 {
   NSHashTable *_listeners;
 }
@@ -27,14 +27,14 @@
   return [NSString stringWithFormat:@"%@ _listeners = %@", [super description], _listeners];
 }
 
-- (void)addListener:(id<PVListening>)observer
+- (void)addListener:(id<VOListening>)observer
 {
   @synchronized(_listeners) {
     [_listeners addObject:observer];
   }
 }
 
-- (void)removeListener:(id<PVListening>)observer
+- (void)removeListener:(id<VOListening>)observer
 {
   @synchronized(_listeners) {
     [_listeners removeObject:observer];
@@ -49,7 +49,7 @@
   @synchronized(_listeners) {
     listenersCopy = [_listeners copy];
   }
-  for (id<PVListening> listener in listenersCopy) {
+  for (id<VOListening> listener in listenersCopy) {
     [listener listenableObject:object didChangeWithDescription:changeDescription];
   }
 }
