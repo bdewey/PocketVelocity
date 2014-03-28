@@ -37,13 +37,26 @@
 - (void)insertObject:(id)object atIndex:(NSUInteger)index
 {
   [(NSMutableArray *)_values insertObject:[object copy] atIndex:index];
+  [_insertedIndexes shiftIndexesStartingAtIndex:index by:1];
   [_insertedIndexes addIndex:index];
 }
 
 - (void)removeObjectAtIndex:(NSUInteger)index
 {
   [(NSMutableArray *)_values removeObjectAtIndex:index];
-  [_removedIndexes addIndex:index];
+  if ([_insertedIndexes containsIndex:index]) {
+    [_insertedIndexes removeIndex:index];
+  } else {
+    // _removedIndexes uses the **old** index space.
+    // We need to convert `index` (in the current space) to the old space by logically undoing
+    // all of the insertions and removals we have seen so far.
+    // Our index sets describe doing all removals before insertions, so undo them in the reverse order.
+    NSUInteger indexesInsertedBeforeIndex = [_insertedIndexes countOfIndexesInRange:NSMakeRange(0, index)];
+    index -= indexesInsertedBeforeIndex;
+    NSUInteger indexesRemovedBeforeIndex = [_removedIndexes countOfIndexesInRange:NSMakeRange(0, index+1)];
+    index += indexesRemovedBeforeIndex;
+    [_removedIndexes addIndex:index];
+  }
 }
 
 - (void)addObject:(id)object

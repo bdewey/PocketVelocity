@@ -10,23 +10,24 @@
 #import "VOArrayChangeDescription.h"
 #import "VOMutableChangeDescribingArray.h"
 
+// Many tests below describe a sequence of operations of inserts & removes.
+typedef NS_ENUM(NSUInteger, _VOArrayOperationType) {
+  _VOArrayOperationInsert,
+  _VOArrayOperationRemove
+};
+
+// Encapsulates a single mutation.
+typedef struct {
+  _VOArrayOperationType type;
+  NSUInteger index;
+} VOArrayOperation;
+
+
 @interface VOMutableChangeDescribingArrayTests : XCTestCase
 
 @end
 
 @implementation VOMutableChangeDescribingArrayTests
-
-- (void)setUp
-{
-  [super setUp];
-  // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown
-{
-  // Put teardown code here. This method is called after the invocation of each test method in the class.
-  [super tearDown];
-}
 
 - (void)testBasicMutatingAndCopying
 {
@@ -85,6 +86,114 @@
   XCTAssertEqual(2U, mutableArray.changeDescription.indexesToRemoveFromOldValues.count, @"");
   XCTAssertTrue([mutableArray.changeDescription.indexesToRemoveFromOldValues containsIndex:0], @"");
   XCTAssertTrue([mutableArray.changeDescription.indexesToRemoveFromOldValues containsIndex:1], @"");
+}
+
+- (void)testSingleInsert
+{
+  VOArrayOperation operations[] = {
+                                   { _VOArrayOperationInsert, 3 }
+  };
+  [self _executeTestNamed:@"testSingleInsert"
+           operationCount:sizeof(operations) / sizeof(VOArrayOperation)
+               operations:operations
+  expectedIndexesToRemove:[NSIndexSet indexSet]
+     expectedIndexesToAdd:[NSIndexSet indexSetWithIndex:3]];
+
+}
+
+- (void)testSingleRemove
+{
+  VOArrayOperation operations[] = {
+    { _VOArrayOperationRemove, 3 }
+  };
+  [self _executeTestNamed:@"testSingleRemove"
+           operationCount:1
+               operations:operations
+  expectedIndexesToRemove:[NSIndexSet indexSetWithIndex:3]
+     expectedIndexesToAdd:[NSIndexSet indexSet]];
+}
+
+- (void)testDoubleInserts
+{
+  VOArrayOperation operations[] = {
+    { _VOArrayOperationInsert, 2 },
+    { _VOArrayOperationInsert, 2 }
+  };
+  [self _executeTestNamed:@"testDoubleInserts"
+           operationCount:2
+               operations:operations
+  expectedIndexesToRemove:[NSIndexSet indexSet]
+     expectedIndexesToAdd:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 2)]];
+}
+
+- (void)testInsertAndRemove
+{
+  VOArrayOperation operations[] = {
+    { _VOArrayOperationInsert, 2 },
+    { _VOArrayOperationRemove, 2 }
+  };
+  [self _executeTestNamed:@"testInsertAndRemove"
+           operationCount:2
+               operations:operations
+  expectedIndexesToRemove:[NSIndexSet indexSet]
+     expectedIndexesToAdd:[NSIndexSet indexSet]];
+}
+
+- (void)testDoubleRemovals
+{
+  VOArrayOperation operations[] = {
+    { _VOArrayOperationRemove, 2 },
+    { _VOArrayOperationRemove, 2 }
+  };
+  [self _executeTestNamed:@"testDoubleRemoves"
+           operationCount:2
+               operations:operations
+  expectedIndexesToRemove:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(2, 2)]
+     expectedIndexesToAdd:[NSIndexSet indexSet]];
+}
+
+#pragma mark - Helpers
+
+- (void)_executeTestNamed:(NSString *)testName
+           operationCount:(NSUInteger)operationCount
+               operations:(VOArrayOperation *)operations
+  expectedIndexesToRemove:(NSIndexSet *)expectedIndexesToRemove
+     expectedIndexesToAdd:(NSIndexSet *)expectedIndexesToAdd
+{
+  NSUInteger counter = 0;
+  // This validates that changes to a VOMutableChangeDescribingArray yield the same operations done to an NSMutableArray
+  NSMutableArray *mirrorArray = [[NSMutableArray alloc] init];
+  
+  VOMutableChangeDescribingArray *mutableArray = [[VOMutableChangeDescribingArray alloc] init];
+  for (int i = 0; i < 10; i++) {
+    [mutableArray addObject:@(counter)];
+    [mirrorArray addObject:@(counter)];
+    counter++;
+  }
+  mutableArray = [[mutableArray copy] mutableCopy];
+  for (int i = 0; i < operationCount; i++) {
+    switch (operations[i].type) {
+      case _VOArrayOperationInsert:
+        [mutableArray insertObject:@(counter) atIndex:operations[i].index];
+        [mirrorArray insertObject:@(counter) atIndex:operations[i].index];
+        counter++;
+        break;
+        
+      case _VOArrayOperationRemove:
+        [mutableArray removeObjectAtIndex:operations[i].index];
+        [mirrorArray removeObjectAtIndex:operations[i].index];
+        break;
+    }
+  }
+  VOChangeDescribingArray *immutableCopy = [mutableArray copy];
+  VOArrayChangeDescription *changeDescription = immutableCopy.changeDescription;
+  XCTAssertEqualObjects(expectedIndexesToRemove,
+                        changeDescription.indexesToRemoveFromOldValues,
+                        @"Test case %@", testName);
+  XCTAssertEqualObjects(expectedIndexesToAdd,
+                        changeDescription.indexesToAddFromUpdatedValues,
+                        @"Test case %@", testName);
+  XCTAssertEqualObjects(immutableCopy, mirrorArray, @"Test case %@", testName);
 }
 
 @end

@@ -40,11 +40,13 @@
 
 - (BOOL)isEqual:(id)object
 {
-  if (![object isKindOfClass:[VOChangeDescribingArray class]]) {
-    return NO;
+  if ([object isKindOfClass:[NSArray class]]) {
+    return PVObjectsAreEqual(_values, object);
+  } else if ([object isKindOfClass:[VOChangeDescribingArray class]]) {
+    VOChangeDescribingArray *otherArray = (VOChangeDescribingArray *)object;
+    return PVObjectsAreEqual(_values, otherArray->_values);
   }
-  VOChangeDescribingArray *otherArray = (VOChangeDescribingArray *)object;
-  return PVObjectsAreEqual(_values, otherArray->_values);
+  return NO;
 }
 
 - (NSUInteger)hash
