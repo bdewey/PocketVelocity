@@ -71,6 +71,10 @@
 
 - (void)replaceObjectAtIndex:(NSUInteger)index withObject:(id)object
 {
+  id oldValue = _values[index];
+  if ([oldValue isEqual:object]) {
+    return;
+  }
   [(NSMutableArray *)_values replaceObjectAtIndex:index withObject:object];
   [_insertedIndexes addIndex:index];
   [_removedIndexes addIndex:index];

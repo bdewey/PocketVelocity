@@ -88,6 +88,21 @@ typedef struct {
   XCTAssertTrue([mutableArray.changeDescription.indexesToRemoveFromOldValues containsIndex:1], @"");
 }
 
+- (void)testEqualItemOptimization
+{
+  VOMutableChangeDescribingArray *mutableArray = [[VOMutableChangeDescribingArray alloc] init];
+  [mutableArray addObject:@(0)];
+  [mutableArray addObject:@(1)];
+  VOChangeDescribingArray *immutableCopy = [mutableArray copy];
+  mutableArray = [immutableCopy mutableCopy];
+  
+  // Assign the same value to the same slot. This shouldn't look like a change.
+  mutableArray[0] = @(0);
+  
+  XCTAssertEqualObjects(mutableArray, immutableCopy, @"");
+  XCTAssertEqualObjects(mutableArray.changeDescription.indexesToAddFromUpdatedValues, [NSIndexSet indexSet], @"");
+}
+
 - (void)testSingleInsert
 {
   VOArrayOperation operations[] = {
