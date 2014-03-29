@@ -40,9 +40,7 @@
   dispatch_async(_queue, ^{
     VOChangeDescribingArray *results = block(_notes);
     _notes = [results copy];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      [_listeners listenableObject:self didChangeWithDescription:_notes];
-    });
+    [_listeners listenableObject:self didUpdateToValue:_notes];
   });
 }
 

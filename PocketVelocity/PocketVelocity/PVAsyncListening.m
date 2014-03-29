@@ -47,15 +47,15 @@
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(id)object didChangeWithDescription:(id)changeDescription
+- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
 {
   // Main queue optimization: If we're supposed to run on the main queue and we're currently on the main thread,
   // invoke synchronously.
   if (_shouldInvokeSynchronouslyOnMainThread && [NSThread isMainThread]) {
-    [_listeners listenableObject:object didChangeWithDescription:changeDescription];
+    [_listeners listenableObject:listenableObject didUpdateToValue:value];
   } else {
     dispatch_async(_queue, ^{
-      [_listeners listenableObject:object didChangeWithDescription:changeDescription];
+      [_listeners listenableObject:listenableObject didUpdateToValue:value];
     });
   }
 }

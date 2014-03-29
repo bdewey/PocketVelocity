@@ -19,6 +19,6 @@
 
 @protocol VOListening <NSObject>
 
-- (void)listenableObject:(id)object didChangeWithDescription:(id)changeDescription;
+- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value;
 
 @end

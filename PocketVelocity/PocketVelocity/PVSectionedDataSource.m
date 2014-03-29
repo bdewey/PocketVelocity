@@ -88,7 +88,7 @@
   }];
   PVSectionedDataSourceChangeDescription *changeDescription = [[PVSectionedDataSourceChangeDescription alloc] initWithInsertedIndexPaths:insertedIndexPaths
                                                                                                                        removedIndexPaths:removedIndexPaths];
-  [_listeners listenableObject:self didChangeWithDescription:changeDescription];
+  [_listeners listenableObject:self didUpdateToValue:changeDescription];
 }
 
 @end

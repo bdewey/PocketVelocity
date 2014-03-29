@@ -27,6 +27,8 @@
   return [NSString stringWithFormat:@"%@ _listeners = %@", [super description], _listeners];
 }
 
+#pragma mark - VOListenable
+
 - (void)addListener:(id<VOListening>)observer
 {
   @synchronized(_listeners) {
@@ -41,16 +43,16 @@
   }
 }
 
-#pragma mark - PVListening
+#pragma mark - VOListening
 
-- (void)listenableObject:(id)object didChangeWithDescription:(id)changeDescription
+- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
 {
   NSArray *listenersCopy;
   @synchronized(_listeners) {
     listenersCopy = [_listeners copy];
   }
   for (id<VOListening> listener in listenersCopy) {
-    [listener listenableObject:object didChangeWithDescription:changeDescription];
+    [listener listenableObject:listenableObject didUpdateToValue:value];
   }
 }
 
