@@ -8,15 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import "VOInvalidating.h"
 #import "VOListenable.h"
 
 typedef void (^VOBlockListenerBlock)(id value);
 
-@interface VOBlockListener : NSObject <VOListening>
+@interface VOBlockListener : NSObject <VOListening, VOInvalidating>
 
 @property (nonatomic, readonly, strong) id<VOListenable> source;
 @property (nonatomic, readonly, strong) dispatch_queue_t queue;
-@property (nonatomic, readonly, assign) BOOL valid;
 
 - (instancetype)initWithSource:(id<VOListenable>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block;
 - (instancetype)initWithSource:(id<VOListenable>)source block:(VOBlockListenerBlock)block;

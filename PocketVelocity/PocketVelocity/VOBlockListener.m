@@ -12,7 +12,10 @@
 {
   VOBlockListenerBlock _block;
   BOOL _mainQueueOptimize;
+  BOOL _valid;
 }
+
+@synthesize valid;
 
 - (instancetype)initWithSource:(id<VOListenable>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block
 {

@@ -134,6 +134,7 @@
 		D513F25C18E69D1000306EB0 /* PVSectionedDataSourceTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVSectionedDataSourceTransformer.m; sourceTree = "<group>"; };
 		D513F25F18E6A09800306EB0 /* VOBlockListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOBlockListener.h; sourceTree = "<group>"; };
 		D513F26018E6A09800306EB0 /* VOBlockListener.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOBlockListener.m; sourceTree = "<group>"; };
+		D513F26E18E735D700306EB0 /* VOInvalidating.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VOInvalidating.h; sourceTree = "<group>"; };
 		D552ECEE18E46ABE002E5F23 /* VOMutableChangeDescribingArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOMutableChangeDescribingArrayTests.m; sourceTree = "<group>"; };
 		D560D2D218E5462500B7915E /* VOArrayMapTransformTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOArrayMapTransformTests.m; sourceTree = "<group>"; };
 		D560D2D418E625A500B7915E /* VOArrayFilterer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOArrayFilterer.h; sourceTree = "<group>"; };
@@ -252,6 +253,7 @@
 				0AB4581618D80D9100C47B8C /* VOChangeDescribingArray.h */,
 				0AB4581718D80D9100C47B8C /* VOChangeDescribingArray.m */,
 				0A206C5818DF2545002ABA88 /* VOChangeDescribingArray_Internal.h */,
+				D513F26E18E735D700306EB0 /* VOInvalidating.h */,
 				0AB4581A18DCF89B00C47B8C /* VOListenable.h */,
 				0AB4581F18DCFBEB00C47B8C /* VOListenersCollection.h */,
 				0AB4582018DCFBEB00C47B8C /* VOListenersCollection.m */,
