@@ -65,3 +65,17 @@
 }
 
 @end
+
+@implementation VOPipeline (VOBlockListener)
+
+- (VOBlockListener *)mainQueueBlock:(VOBlockListenerBlock)block
+{
+  return [[VOBlockListener alloc] initWithSource:self block:block];
+}
+
+- (VOBlockListener *)blockListenerOnQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block
+{
+  return [[VOBlockListener alloc] initWithSource:self callbackQueue:queue block:block];
+}
+
+@end

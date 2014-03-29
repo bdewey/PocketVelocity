@@ -10,6 +10,7 @@
 
 #import "VOListenable.h"
 
+@class VOBlockListener;
 @class VOChangeDescribingArray;
 @class VOMutableChangeDescribingArray;
 
@@ -24,5 +25,6 @@ typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescri
 - (void)updateNotesWithBlock:(PVNotesDatabaseUpdatingBlock)block;
 - (void)loadNotesFromDisk;
 - (void)removeNoteWithTitle:(NSString *)noteTitle;
+- (VOBlockListener *)autoSaveListener;
 
 @end

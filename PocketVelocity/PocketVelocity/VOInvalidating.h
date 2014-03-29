@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+#define VO_RETURN_IF_INVALID() if (!self.valid) { return; }
+
 @protocol VOInvalidating <NSObject>
 
 @property (nonatomic, readonly, assign, getter = isValid) BOOL valid;
 - (void)invalidate;
 
 @end
+

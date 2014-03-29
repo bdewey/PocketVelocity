@@ -10,6 +10,7 @@
 
 #import "VOInvalidating.h"
 #import "VOListenable.h"
+#import "VOPipeline.h"
 
 typedef void (^VOBlockListenerBlock)(id value);
 
@@ -22,5 +23,12 @@ typedef void (^VOBlockListenerBlock)(id value);
 - (instancetype)initWithSource:(id<VOListenable>)source block:(VOBlockListenerBlock)block;
 
 - (void)invalidate;
+
+@end
+
+@interface VOPipeline (VOBlockListener)
+
+- (VOBlockListener *)mainQueueBlock:(VOBlockListenerBlock)block;
+- (VOBlockListener *)blockListenerOnQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block;
 
 @end

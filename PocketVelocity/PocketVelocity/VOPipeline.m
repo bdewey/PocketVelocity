@@ -18,7 +18,10 @@
   dispatch_queue_t _queue;
   VOListenersCollection *_listeners;
   id _curentValue;
+  BOOL _valid;
 }
+
+@synthesize valid = _valid;
 
 - (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source stages:(NSArray *)stages queue:(dispatch_queue_t)queue
 {
@@ -29,6 +32,7 @@
     _stages = [stages copy];
     _queue = queue;
     _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
+    _valid = YES;
     
     _mainQueuePipeline = (_queue == dispatch_get_main_queue());
     
@@ -44,8 +48,28 @@
   return [self initWithName:name source:source stages:stages queue:serialQueue];
 }
 
+- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source
+{
+  return [self initWithName:name source:source stages:nil];
+}
+
+- (instancetype)initWithPipeline:(VOPipeline *)pipeline stages:(NSArray *)stages
+{
+  self = [self initWithName:pipeline->_name source:pipeline stages:stages queue:pipeline->_queue];
+  if (self != nil) {
+    _chainedPipeline = YES;
+  }
+  return self;
+}
+
 - (void)dealloc
 {
+  [_source removeListener:self];
+}
+
+- (void)invalidate
+{
+  _valid = NO;
   [_source removeListener:self];
 }
 
@@ -53,6 +77,7 @@
 
 - (void)listenableObject:(id<VOListening>)listenableObject didUpdateToValue:(id)value
 {
+  VO_RETURN_IF_INVALID();
   dispatch_block_t block = ^{
     _curentValue = value;
     for (id<VOValueTransforming> stage in _stages) {
@@ -60,7 +85,7 @@
     }
     [_listeners listenableObject:self didUpdateToValue:_curentValue];
   };
-  if (_mainQueuePipeline && [NSThread isMainThread]) {
+  if (_chainedPipeline || (_mainQueuePipeline && [NSThread isMainThread])) {
     block();
   } else {
     dispatch_async(_queue, block);

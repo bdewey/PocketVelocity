@@ -23,10 +23,11 @@
 #import "VOBlockTransformer.h"
 #import "VOPipeline.h"
 
-@interface PVMasterViewController () <VOListening> {
+@interface PVMasterViewController () {
   PVNotesDatabase *_notesDatabase;
   VOPipeline *_cellConfigurationsPipeline;
   VOBlockListener *_cellConfigurationsUpdater;
+  VOBlockListener *_autoSaveListener;
 }
 
 @property (nonatomic, readwrite, strong) PVSectionedDataSource *cellConfigurations;
@@ -71,6 +72,7 @@
     [self setCellConfigurations:value animated:YES];
   }];
   [_notesDatabase loadNotesFromDisk];
+  _autoSaveListener = [_notesDatabase autoSaveListener];
 
   // FIXME: Fix this shit
 //  _notes = [_notesDatabase notes];

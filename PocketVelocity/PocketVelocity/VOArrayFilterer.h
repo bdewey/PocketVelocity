@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import "VOPipeline.h"
+#import "VOBlockTransformer.h"
 #import "VOValueTransforming.h"
 
 @class VOChangeDescribingArray;
@@ -26,5 +28,12 @@ typedef BOOL (^VOArrayFilterValidationBlock)(VOChangeDescribingArray *currentVal
 - (instancetype)initWithTransformer:(id<VOValueTransforming>)transformer
            expectsPipelineSemantics:(BOOL)expectsPipelineSemantics;
 - (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)value;
+
+@end
+
+@interface VOPipeline (VOArrayFilterer)
+
+- (VOPipeline *)pipelineWithArrayFilteringBlock:(VOValueTransformingBlock)block;
+- (VOPipeline *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer;
 
 @end

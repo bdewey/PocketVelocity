@@ -7,6 +7,8 @@
 //
 
 #import "VOArrayChangeDescription.h"
+#import "VOArrayFilterer.h"
+#import "VOBlockListener.h"
 #import "VOListenersCollection.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "PVNote.h"
@@ -40,7 +42,11 @@
   dispatch_async(_queue, ^{
     VOChangeDescribingArray *results = block(_notes);
     _notes = [results copy];
-    [_listeners listenableObject:self didUpdateToValue:_notes];
+    VOArrayChangeDescription *changeDescription = _notes.changeDescription;
+    NSUInteger totalChangesCount = changeDescription.indexesToAddFromUpdatedValues.count + changeDescription.indexesToRemoveFromOldValues.count;
+    if (totalChangesCount > 0) {
+      [_listeners listenableObject:self didUpdateToValue:_notes];
+    }
   });
 }
 
@@ -115,6 +121,41 @@
   NSString *filename = [note.title stringByAppendingPathExtension:@"txt"];
   NSURL *url = [[NSURL alloc] initFileURLWithFileSystemRepresentation:[filename UTF8String] isDirectory:NO relativeToURL:_directory];
   return url;
+}
+
+- (VOBlockListener *)autoSaveListener
+{
+  dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+  return [[[[VOPipeline alloc] initWithName:@"com.brians-brain.pocket-velocity.autosave" source:self] pipelineWithArrayFilteringBlock:^id(PVNote *note) {
+    if (note.dirty) {
+      return note;
+    }
+    return nil;
+  }] blockListenerOnQueue:queue block:^(VOChangeDescribingArray *notes) {
+    if (!notes.count) {
+      return;
+    }
+    for (PVNote *note in notes) {
+      NSURL *url = [self _fileURLFromNote:note];
+      [note.note writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+    }
+    [self updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
+      VOMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
+      for (PVNote *savedNote in notes) {
+        for (NSUInteger idx = 0; idx < mutableNotes.count; idx++) {
+          PVNote *existingNote = mutableNotes[idx];
+          if ([savedNote.title isEqualToString:existingNote.title]) {
+            if ([savedNote.note isEqualToString:existingNote.note]) {
+              PVMutableNote *mutableNote = [existingNote mutableCopy];
+              mutableNote.dirty = NO;
+              mutableNotes[idx] = mutableNote;
+            }
+          }
+        }
+      }
+      return mutableNotes;
+    }];
+  }];
 }
 
 #pragma mark - PVListenable
