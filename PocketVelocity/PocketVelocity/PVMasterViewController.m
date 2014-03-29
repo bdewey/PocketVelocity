@@ -27,11 +27,6 @@
 
 @implementation PVMasterViewController
 
-- (void)dealloc
-{
-  [_cellConfigurations removeListener:self];
-}
-
 - (void)awakeFromNib
 {
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -62,7 +57,6 @@
 //  _cellConfigurations = [[[[_notes defaultQueueArray] mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
 //    return [[PVMasterViewCellConfiguration alloc] initWithNote:note];
 //  }] mainQueueArray] sectionedDataSource];
-  [_cellConfigurations addListener:self];
 }
 
 - (void)didReceiveMemoryWarning

@@ -6,12 +6,16 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "VOArrayChangeDescription.h"
+#import "NSIndexSet+PVUtilities.h"
 #import "PVSectionedDataSource.h"
+#import "VOArrayChangeDescription.h"
 #import "VOChangeDescribingArray.h"
 #import "VOListenersCollection.h"
 
-@interface PVSectionedDataSource () <VOListening>
+@interface PVSectionedDataSource ()
+
+- (instancetype)initWithSections:(NSArray *)sectionDataSources
+               changeDescription:(PVSectionedDataSourceChangeDescription *)changeDescription;
 @end
 
 @interface PVSectionedDataSourceChangeDescription ()
@@ -20,18 +24,29 @@
 
 @implementation PVSectionedDataSource
 {
+  @protected
   NSArray *_sectionDataSources;
-  VOListenersCollection *_listeners;
+}
+
+- (instancetype)initWithSections:(NSArray *)sectionDataSources
+               changeDescription:(PVSectionedDataSourceChangeDescription *)changeDescription
+{
+  self = [super init];
+  if (self != nil) {
+    _sectionDataSources = [[NSArray alloc] initWithArray:sectionDataSources copyItems:YES];
+    _changeDescription = changeDescription;
+  }
+  return self;
 }
 
 - (instancetype)initWithSections:(NSArray *)sectionDataSources
 {
-  self = [super init];
-  if (self != nil) {
-    _listeners = [[VOListenersCollection alloc] init];
-    _sectionDataSources = [sectionDataSources copy];
-  }
-  return self;
+  return [self initWithSections:sectionDataSources changeDescription:nil];
+}
+
+- (instancetype)init
+{
+  return [self initWithSections:nil changeDescription:nil];
 }
 
 #pragma mark - Public API
@@ -58,37 +73,66 @@
   return results;
 }
 
-
-#pragma mark - PVListenable
-
-- (void)addListener:(id<VOListening>)observer
+- (VOChangeDescribingArray *)objectAtIndexedSubscript:(NSUInteger)index
 {
-  [_listeners addListener:observer];
+  return _sectionDataSources[index];
 }
 
-- (void)removeListener:(id<VOListening>)observer
+#pragma mark - NSCopying
+
+- (instancetype)copyWithZone:(NSZone *)zone
 {
-  [_listeners removeListener:observer];
+  return self;
 }
 
-#pragma mark - PVListening
+#pragma mark - NSMutableCopying
 
-- (void)listenableObject:(VOChangeDescribingArray *)array didChangeWithDescription:(VOArrayChangeDescription *)delta
+- (id)mutableCopyWithZone:(NSZone *)zone
 {
-  NSUInteger section = [_sectionDataSources indexOfObject:array];
-  NSMutableArray *insertedIndexPaths = [[NSMutableArray alloc] initWithCapacity:delta.indexesToAddFromUpdatedValues.count];
-  [delta.indexesToAddFromUpdatedValues enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:section];
-    [insertedIndexPaths addObject:indexPath];
+  return [[PVMutableSectionedDataSource alloc] initWithSections:_sectionDataSources changeDescription:nil];
+}
+
+@end
+
+@implementation PVMutableSectionedDataSource
+{
+  NSMutableIndexSet *_changedSections;
+}
+
+- (instancetype)initWithSections:(NSArray *)sectionDataSources changeDescription:(PVSectionedDataSourceChangeDescription *)changeDescription
+{
+  self = [super initWithSections:sectionDataSources changeDescription:changeDescription];
+  if (self != nil) {
+    _sectionDataSources = [sectionDataSources mutableCopy];
+    _changedSections = [[NSMutableIndexSet alloc] init];
+  }
+  return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+  return [[PVSectionedDataSource alloc] initWithSections:_sectionDataSources
+                                       changeDescription:self.changeDescription];
+}
+
+- (void)setObject:(VOChangeDescribingArray *)sectionDataSource atIndexedSubscript:(NSUInteger)idx
+{
+  [_changedSections addIndex:idx];
+  [(NSMutableArray *)_sectionDataSources replaceObjectAtIndex:idx withObject:sectionDataSource];
+}
+
+- (PVSectionedDataSourceChangeDescription *)changeDescription
+{
+  NSMutableArray *insertedIndexPaths = [[NSMutableArray alloc] init];
+  NSMutableArray *removedIndexPaths = [[NSMutableArray alloc] init];
+  
+  [_changedSections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+    VOChangeDescribingArray *section = _sectionDataSources[idx];
+    VOArrayChangeDescription *sectionChangeDescription = section.changeDescription;
+    [insertedIndexPaths addObjectsFromArray:[sectionChangeDescription.indexesToAddFromUpdatedValues pv_arrayOfIndexPathsFromSection:idx]];
+    [removedIndexPaths addObjectsFromArray:[sectionChangeDescription.indexesToRemoveFromOldValues pv_arrayOfIndexPathsFromSection:idx]];
   }];
-  NSMutableArray *removedIndexPaths = [[NSMutableArray alloc] initWithCapacity:delta.indexesToRemoveFromOldValues.count];
-  [delta.indexesToRemoveFromOldValues enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:idx inSection:section];
-    [removedIndexPaths addObject:indexPath];
-  }];
-  PVSectionedDataSourceChangeDescription *changeDescription = [[PVSectionedDataSourceChangeDescription alloc] initWithInsertedIndexPaths:insertedIndexPaths
-                                                                                                                       removedIndexPaths:removedIndexPaths];
-  [_listeners listenableObject:self didUpdateToValue:changeDescription];
+  return [[PVSectionedDataSourceChangeDescription alloc] initWithInsertedIndexPaths:insertedIndexPaths removedIndexPaths:removedIndexPaths];
 }
 
 @end
@@ -107,11 +151,3 @@
 
 @end
 
-@implementation VOChangeDescribingArray (PVSectionedDataSource)
-
-- (PVSectionedDataSource *)sectionedDataSource
-{
-  return [[PVSectionedDataSource alloc] initWithSections:@[self]];
-}
-
-@end

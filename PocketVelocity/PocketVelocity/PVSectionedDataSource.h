@@ -8,15 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "VOListenable.h"
+#import "VOChangeDescribing.h"
 #import "VOChangeDescribingArray.h"
 
-/**
- When you listen for changes to this data source, the change description is class `PVSectionedDataSourceChangeDescription`
- */
-@interface PVSectionedDataSource : NSObject <VOListenable>
+@class PVSectionedDataSourceChangeDescription;
+
+@interface PVSectionedDataSource : NSObject <NSCopying, NSMutableCopying, VOChangeDescribing>
+
+@property (nonatomic, readonly, strong) PVSectionedDataSourceChangeDescription *changeDescription;
 
 /**
- @param sectionDataSources An array of PVListenableArrayDataSource objects.
+ @param sectionDataSources An array of VOChangeDescribingArray objects.
  */
 - (instancetype)initWithSections:(NSArray *)sectionDataSources;
 
@@ -24,6 +26,13 @@
 - (NSUInteger)countOfItemsInSection:(NSUInteger)section;
 - (id)objectAtIndexPath:(NSIndexPath *)indexPath;
 - (NSArray *)objectsAtIndexPaths:(NSArray *)indexPaths;
+- (VOChangeDescribingArray *)objectAtIndexedSubscript:(NSUInteger)index;
+
+@end
+
+@interface PVMutableSectionedDataSource : PVSectionedDataSource
+
+- (void)setObject:(VOChangeDescribingArray *)sectionDataSource atIndexedSubscript:(NSUInteger)idx;
 
 @end
 
@@ -34,8 +43,3 @@
 
 @end
 
-@interface VOChangeDescribingArray (PVSectionedDataSource)
-
-- (PVSectionedDataSource *)sectionedDataSource;
-
-@end

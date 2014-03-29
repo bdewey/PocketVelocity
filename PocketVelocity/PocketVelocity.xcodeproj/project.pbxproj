@@ -47,6 +47,8 @@
 		0AB4582618DD06E000C47B8C /* PVSectionedDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */; };
 		D5066DA118E3E3A600DD0F0B /* VOValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D5066DA018E3E3A600DD0F0B /* VOValueObject.m */; };
 		D5066DA218E3E3A600DD0F0B /* VOValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D5066DA018E3E3A600DD0F0B /* VOValueObject.m */; };
+		D513F25818E68AFE00306EB0 /* NSIndexSet+PVUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D513F25718E68AFE00306EB0 /* NSIndexSet+PVUtilities.m */; };
+		D513F25A18E68C9400306EB0 /* PVSectionedDataSourceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D513F25918E68C9400306EB0 /* PVSectionedDataSourceTests.m */; };
 		D552ECEF18E46ABE002E5F23 /* VOMutableChangeDescribingArrayTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D552ECEE18E46ABE002E5F23 /* VOMutableChangeDescribingArrayTests.m */; };
 		D560D2D318E5462500B7915E /* VOArrayMapTransformTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D560D2D218E5462500B7915E /* VOArrayMapTransformTests.m */; };
 		D560D2D618E625A500B7915E /* VOArrayFilterer.m in Sources */ = {isa = PBXBuildFile; fileRef = D560D2D518E625A500B7915E /* VOArrayFilterer.m */; };
@@ -125,6 +127,9 @@
 		0AB4582418DD06E000C47B8C /* PVSectionedDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVSectionedDataSource.m; sourceTree = "<group>"; };
 		D5066D9F18E3E3A600DD0F0B /* VOValueObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOValueObject.h; sourceTree = "<group>"; };
 		D5066DA018E3E3A600DD0F0B /* VOValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOValueObject.m; sourceTree = "<group>"; };
+		D513F25618E68AFE00306EB0 /* NSIndexSet+PVUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexSet+PVUtilities.h"; sourceTree = "<group>"; };
+		D513F25718E68AFE00306EB0 /* NSIndexSet+PVUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+PVUtilities.m"; sourceTree = "<group>"; };
+		D513F25918E68C9400306EB0 /* PVSectionedDataSourceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVSectionedDataSourceTests.m; sourceTree = "<group>"; };
 		D552ECEE18E46ABE002E5F23 /* VOMutableChangeDescribingArrayTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOMutableChangeDescribingArrayTests.m; sourceTree = "<group>"; };
 		D560D2D218E5462500B7915E /* VOArrayMapTransformTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOArrayMapTransformTests.m; sourceTree = "<group>"; };
 		D560D2D418E625A500B7915E /* VOArrayFilterer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOArrayFilterer.h; sourceTree = "<group>"; };
@@ -206,6 +211,8 @@
 				0AB457BF18D4CCCC00C47B8C /* Main_iPhone.storyboard */,
 				0AB4580118D6C23D00C47B8C /* NSArray+PVUtilities.h */,
 				0AB4580218D6C23D00C47B8C /* NSArray+PVUtilities.m */,
+				D513F25618E68AFE00306EB0 /* NSIndexSet+PVUtilities.h */,
+				D513F25718E68AFE00306EB0 /* NSIndexSet+PVUtilities.m */,
 				0AB457F818D4D34000C47B8C /* PVAnnouncer.h */,
 				0AB457F918D4D34000C47B8C /* PVAnnouncer.m */,
 				0AB457F718D4D2B900C47B8C /* PVAnnouncing.h */,
@@ -274,6 +281,7 @@
 				D560D2D218E5462500B7915E /* VOArrayMapTransformTests.m */,
 				D560D2E018E62BCB00B7915E /* VOArrayFiltererTests.m */,
 				D560D2EA18E644C500B7915E /* VOPipelineTests.m */,
+				D513F25918E68C9400306EB0 /* PVSectionedDataSourceTests.m */,
 			);
 			path = PocketVelocityTests;
 			sourceTree = "<group>";
@@ -395,6 +403,7 @@
 				0AB4581818D80D9100C47B8C /* VOChangeDescribingArray.m in Sources */,
 				D5066DA118E3E3A600DD0F0B /* VOValueObject.m in Sources */,
 				0A206C5B18DF2B20002ABA88 /* VOArrayMapTransformer.m in Sources */,
+				D513F25818E68AFE00306EB0 /* NSIndexSet+PVUtilities.m in Sources */,
 				0AB4580718D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
 				0AB457BE18D4CCCC00C47B8C /* PVAppDelegate.m in Sources */,
 				0AB4582118DCFBEB00C47B8C /* VOListenersCollection.m in Sources */,
@@ -419,6 +428,7 @@
 				D552ECEF18E46ABE002E5F23 /* VOMutableChangeDescribingArrayTests.m in Sources */,
 				0AB4580818D7FB6B00C47B8C /* PVMasterViewCellConfiguration.m in Sources */,
 				D560D2EB18E644C500B7915E /* VOPipelineTests.m in Sources */,
+				D513F25A18E68C9400306EB0 /* PVSectionedDataSourceTests.m in Sources */,
 				D560D2D718E625A500B7915E /* VOArrayFilterer.m in Sources */,
 				D5066DA218E3E3A600DD0F0B /* VOValueObject.m in Sources */,
 				D560D2E118E62BCB00B7915E /* VOArrayFiltererTests.m in Sources */,
