@@ -14,9 +14,13 @@ typedef void (^VOBlockListenerBlock)(id value);
 
 @interface VOBlockListener : NSObject <VOListening>
 
+@property (nonatomic, readonly, strong) id<VOListenable> source;
 @property (nonatomic, readonly, strong) dispatch_queue_t queue;
+@property (nonatomic, readonly, assign) BOOL valid;
 
-- (instancetype)initWithBlock:(VOBlockListenerBlock)block callbackQueue:(dispatch_queue_t)queue;
-- (instancetype)initWithBlock:(VOBlockListenerBlock)block;
+- (instancetype)initWithSource:(id<VOListenable>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block;
+- (instancetype)initWithSource:(id<VOListenable>)source block:(VOBlockListenerBlock)block;
+
+- (void)invalidate;
 
 @end

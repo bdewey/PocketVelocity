@@ -36,9 +36,7 @@
 {
   if (_detailItem != newDetailItem) {
     _detailItem = newDetailItem;
-    
-    // Update the view.
-    [self configureView];
+    [self _configureCurrentNotePipeline];
   }
   
   if (self.masterPopoverController != nil) {
@@ -46,21 +44,33 @@
   }
 }
 
+- (void)setNotesDatabase:(PVNotesDatabase *)notesDatabase
+{
+  if (_notesDatabase != notesDatabase) {
+    _notesDatabase = notesDatabase;
+    [self _configureCurrentNotePipeline];
+  }
+}
+
+- (void)_configureCurrentNotePipeline
+{
+  VOPipeline *pipeline = [[self class] _pipelineForFilteringWithTitle:_detailItem fromSource:_notesDatabase];
+  [_currentNoteListener invalidate];
+  __weak PVDetailViewController *weakSelf = self;
+  _currentNoteListener = [[VOBlockListener alloc] initWithSource:pipeline block:^(VOChangeDescribingArray *value) {
+    PVDetailViewController *strongSelf = weakSelf;
+    if (value.count > 0) {
+      strongSelf->_currentNote = value[0];
+      [strongSelf configureView];
+    }
+  }];
+}
+
 - (void)configureView
 {
-  // Update the user interface for the detail item.
-  
-  if (self.detailItem) {
-    
-    VOPipeline *pipeline = [[self class] _pipelineForFilteringWithTitle:_detailItem fromSource:_notesDatabase];
-    _currentNoteListener = [[VOBlockListener alloc] initWithBlock:^(VOChangeDescribingArray *value) {
-      if (value.count > 0) {
-        _currentNote = value[0];
-        self.noteTextView.text = _currentNote.note;
-      }
-    }];
-    [pipeline addListener:_currentNoteListener];
-    self.title = _detailItem;
+  if (_currentNote) {
+    self.title = _currentNote.title;
+    self.noteTextView.text = _currentNote.note;
   }
 }
 
@@ -72,7 +82,11 @@
     }
     return nil;
   }];
-  VOArrayFilterer *filterArray = [[VOArrayFilterer alloc] initWithTransformer:filterItem expectsPipelineSemantics:YES];
+  VOArrayFilterer *filterArray = [[VOArrayFilterer alloc] initWithTransformer:filterItem
+                                                     expectsPipelineSemantics:YES
+                                  validationBlock:^BOOL(VOChangeDescribingArray *currentValue) {
+                                    return currentValue.count < 2;
+                                  }];
   VOPipeline *pipeline = [[VOPipeline alloc] initWithName:@"com.brians-brian.pocket-velocity.detail-view" source:source stages:@[filterArray]];
   return pipeline;
 }

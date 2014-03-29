@@ -10,16 +10,26 @@
 #import "VOMutableChangeDescribingArray.h"
 
 @implementation VOArrayFilterer
+{
+  VOArrayFilterValidationBlock _validationBlock;
+}
 
 - (instancetype)initWithTransformer:(id<VOValueTransforming>)transformer
            expectsPipelineSemantics:(BOOL)expectsPipelineSemantics
+                    validationBlock:(VOArrayFilterValidationBlock)validationBlock
 {
   self = [super init];
   if (self != nil) {
     _transformer = transformer;
     _expectsPipelineSemantics = expectsPipelineSemantics;
+    _validationBlock = validationBlock;
   }
   return self;
+}
+
+- (instancetype)initWithTransformer:(id<VOValueTransforming>)transformer expectsPipelineSemantics:(BOOL)expectsPipelineSemantics
+{
+  return [self initWithTransformer:transformer expectsPipelineSemantics:expectsPipelineSemantics validationBlock:nil];
 }
 
 - (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)values
@@ -32,7 +42,11 @@
       [mutableResults addObject:value];
     }
   }
-  return [mutableResults copy];
+  VOChangeDescribingArray *immutableResults = [mutableResults copy];
+  if (_validationBlock) {
+    NSAssert(_validationBlock(immutableResults), @"Validation test");
+  }
+  return immutableResults;
 }
 
 @end

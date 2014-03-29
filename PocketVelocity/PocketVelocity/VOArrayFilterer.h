@@ -12,10 +12,16 @@
 
 @class VOChangeDescribingArray;
 
+typedef BOOL (^VOArrayFilterValidationBlock)(VOChangeDescribingArray *currentValue);
+
 @interface VOArrayFilterer : NSObject <VOValueTransforming>
 
 @property (nonatomic, readonly, strong) id<VOValueTransforming> transformer;
 @property (nonatomic, readonly, assign) BOOL expectsPipelineSemantics;
+
+- (instancetype)initWithTransformer:(id<VOValueTransforming>)transformer
+           expectsPipelineSemantics:(BOOL)expectsPipelineSemantics
+                    validationBlock:(VOArrayFilterValidationBlock)validationBlock;
 
 - (instancetype)initWithTransformer:(id<VOValueTransforming>)transformer
            expectsPipelineSemantics:(BOOL)expectsPipelineSemantics;

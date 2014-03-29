@@ -14,26 +14,44 @@
   BOOL _mainQueueOptimize;
 }
 
-- (instancetype)initWithBlock:(VOBlockListenerBlock)block callbackQueue:(dispatch_queue_t)queue
+- (instancetype)initWithSource:(id<VOListenable>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block
 {
   self = [super init];
   if (self != nil) {
+    _source = source;
     _block = block;
     _queue = queue;
     _mainQueueOptimize = (_queue == dispatch_get_main_queue());
+    _valid = YES;
+    
+    [self listenableObject:_source didUpdateToValue:[_source addListener:self]];
   }
   return self;
 }
 
-- (instancetype)initWithBlock:(VOBlockListenerBlock)block
+- (instancetype)initWithSource:(id<VOListenable>)source block:(VOBlockListenerBlock)block
 {
-  return [self initWithBlock:block callbackQueue:dispatch_get_main_queue()];
+  return [self initWithSource:source callbackQueue:dispatch_get_main_queue() block:block];
+}
+
+- (void)dealloc
+{
+  [_source removeListener:self];
+}
+
+- (void)invalidate
+{
+  _valid = NO;
+  [_source removeListener:self];
 }
 
 #pragma mark - VOListening
 
 - (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
 {
+  if (!_valid) {
+    return;
+  }
   if (_mainQueueOptimize && [NSThread isMainThread]) {
     _block(value);
   } else {

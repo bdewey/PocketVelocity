@@ -19,7 +19,8 @@
   self = [super init];
   if (self != nil) {
     _currentValue = currentValue;
-    _listeners = [[NSHashTable alloc] initWithOptions:NSPointerFunctionsObjectPointerPersonality capacity:4];
+    _listeners = [[NSHashTable alloc] initWithOptions:(NSPointerFunctionsObjectPointerPersonality | NSHashTableWeakMemory)
+                                             capacity:4];
   }
   return self;
 }

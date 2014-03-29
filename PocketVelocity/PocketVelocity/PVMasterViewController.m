@@ -67,10 +67,9 @@
   }
   _notesDatabase = [[PVNotesDatabase alloc] initWithDirectory:documents];
   _cellConfigurationsPipeline = [[self class] _cellConfigurationPipelineForSource:_notesDatabase];
-  _cellConfigurationsUpdater = [[VOBlockListener alloc] initWithBlock:^(PVSectionedDataSource *value) {
+  _cellConfigurationsUpdater = [[VOBlockListener alloc] initWithSource:_cellConfigurationsPipeline block:^(PVSectionedDataSource *value) {
     [self setCellConfigurations:value animated:YES];
   }];
-  [_cellConfigurationsPipeline addListener:_cellConfigurationsUpdater];
   [_notesDatabase loadNotesFromDisk];
 
   // FIXME: Fix this shit
