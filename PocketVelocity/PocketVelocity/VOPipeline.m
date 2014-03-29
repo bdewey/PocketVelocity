@@ -17,6 +17,7 @@
   NSArray *_stages;
   dispatch_queue_t _queue;
   VOListenersCollection *_listeners;
+  id _curentValue;
 }
 
 - (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source stages:(NSArray *)stages queue:(dispatch_queue_t)queue
@@ -27,11 +28,11 @@
     _source = source;
     _stages = [stages copy];
     _queue = queue;
-    _listeners = [[VOListenersCollection alloc] init];
+    _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
     
     _mainQueuePipeline = (_queue == dispatch_get_main_queue());
     
-    [_source addListener:self];
+    [self listenableObject:source didUpdateToValue:[source addListener:self]];
   }
   return self;
 }
@@ -53,11 +54,11 @@
 - (void)listenableObject:(id<VOListening>)listenableObject didUpdateToValue:(id)value
 {
   dispatch_block_t block = ^{
-    id transformedValue = value;
+    _curentValue = value;
     for (id<VOValueTransforming> stage in _stages) {
-      transformedValue = [stage transformValue:transformedValue];
+      _curentValue = [stage transformValue:_curentValue];
     }
-    [_listeners listenableObject:self didUpdateToValue:transformedValue];
+    [_listeners listenableObject:self didUpdateToValue:_curentValue];
   };
   if (_mainQueuePipeline && [NSThread isMainThread]) {
     block();
@@ -68,9 +69,9 @@
 
 #pragma mark - VOListenable
 
-- (void)addListener:(id<VOListening>)listener
+- (id)addListener:(id<VOListening>)listener
 {
-  [_listeners addListener:listener];
+  return [_listeners addListener:listener];
 }
 
 - (void)removeListener:(id<VOListening>)listener

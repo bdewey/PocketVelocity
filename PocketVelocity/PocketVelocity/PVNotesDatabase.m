@@ -18,7 +18,6 @@
 
 @implementation PVNotesDatabase
 {
-  VOChangeDescribingArray *_notes;
   dispatch_queue_t _queue;
   VOListenersCollection *_listeners;
 }
@@ -30,7 +29,8 @@
     _directory = [directory copy];
     _queue = dispatch_queue_create("com.brians-brain.pocketvelocity.notes-database", DISPATCH_QUEUE_SERIAL);
     dispatch_set_target_queue(_queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
-    _listeners = [[VOListenersCollection alloc] init];
+    _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
+    _notes = [[VOChangeDescribingArray alloc] init];
   }
   return self;
 }
@@ -44,32 +44,51 @@
   });
 }
 
-- (VOChangeDescribingArray *)notes
+- (void)loadNotesFromDisk
 {
-  if (_notes != nil) {
-    return _notes;
-  }
-  NSMutableArray *notesFromDisk = [[NSMutableArray alloc] init];
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    NSError *error;
-    NSArray *directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:_directory
-                                                               includingPropertiesForKeys:nil
-                                                                                  options:0
-                                                                                    error:&error];
-    for (NSURL *fileURL in directoryContents) {
-      [notesFromDisk addObject:[self _noteFromFileURL:fileURL]];
-    }
-    if (notesFromDisk.count > 0) {
-      [self updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
-        VOMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
-        for (PVNote *note in notesFromDisk) {
-          [mutableNotes addObject:note];
-        }
-        return mutableNotes;
-      }];
-    }
+    NSArray *notesFromDisk = [self _notesFromDisk];
+    [self updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
+      VOMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
+      for (PVNote *note in notesFromDisk) {
+        [mutableNotes addObject:note];
+      }
+      return mutableNotes;
+    }];
   });
-  return _notes;
+}
+
+- (void)removeNoteWithTitle:(NSString *)noteTitle
+{
+  [self updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
+    NSUInteger idx;
+    for (idx = 0; idx < currentNotes.count; idx++) {
+      PVNote *note = currentNotes[idx];
+      if ([note.title isEqualToString:noteTitle]) {
+        break;
+      }
+    }
+    if (idx < currentNotes.count) {
+      VOMutableChangeDescribingArray *mutableCopy = [currentNotes mutableCopy];
+      [mutableCopy removeObjectAtIndex:idx];
+      return mutableCopy;
+    }
+    return currentNotes;
+  }];
+}
+
+- (NSArray *)_notesFromDisk
+{
+  NSMutableArray *notesFromDisk = [[NSMutableArray alloc] init];
+  NSError *error;
+  NSArray *directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:_directory
+                                                             includingPropertiesForKeys:nil
+                                                                                options:0
+                                                                                  error:&error];
+  for (NSURL *fileURL in directoryContents) {
+    [notesFromDisk addObject:[self _noteFromFileURL:fileURL]];
+  }
+  return notesFromDisk;
 }
 
 - (PVNote *)_noteFromFileURL:(NSURL *)fileURL
@@ -100,9 +119,10 @@
 
 #pragma mark - PVListenable
 
-- (void)addListener:(id<VOListening>)listener
+- (id)addListener:(id<VOListening>)listener
 {
   [_listeners addListener:listener];
+  return _notes;
 }
 
 - (void)removeListener:(id<VOListening>)listener

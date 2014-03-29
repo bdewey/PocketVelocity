@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "VOListenable.h"
+
+@class VOChangeDescribingArray;
 @class VOMutableChangeDescribingArray;
 
 typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescribingArray *currentNotes);
@@ -19,5 +22,7 @@ typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescri
 
 - (instancetype)initWithDirectory:(NSURL *)directory;
 - (void)updateNotesWithBlock:(PVNotesDatabaseUpdatingBlock)block;
+- (void)loadNotesFromDisk;
+- (void)removeNoteWithTitle:(NSString *)noteTitle;
 
 @end

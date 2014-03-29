@@ -10,9 +10,10 @@
 
 @class PVNote;
 
-@interface PVMasterViewCellConfiguration : NSObject
+@interface PVMasterViewCellConfiguration : NSObject <NSCopying>
 
 @property (nonatomic, readonly, copy) NSString *reuseIdentifier;
+@property (nonatomic, readonly, copy) NSString *noteIdentifier;
 
 - (instancetype)initWithNote:(PVNote *)note;
 - (void)configureCell:(UITableViewCell *)cell;

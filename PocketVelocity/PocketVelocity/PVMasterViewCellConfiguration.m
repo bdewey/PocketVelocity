@@ -21,7 +21,13 @@
   if (self != nil) {
     _titleText = [note.title copy];
     _reuseIdentifier = NSStringFromClass([self class]);
+    _noteIdentifier = [note.title copy];
   }
+  return self;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone
+{
   return self;
 }
 

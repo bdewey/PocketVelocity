@@ -14,5 +14,7 @@
 
 @interface VOListenersCollection : NSObject <VOListenable, VOListening>
 
+- (instancetype)initWithCurrentValue:(id)currentValue;
+
 @end
 

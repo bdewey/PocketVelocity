@@ -49,6 +49,11 @@
   return [self initWithSections:nil changeDescription:nil];
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ sections = %@", [super description], _sectionDataSources];
+}
+
 #pragma mark - Public API
 
 - (NSUInteger)countOfSections

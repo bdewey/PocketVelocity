@@ -34,7 +34,7 @@ static NSString *const kOddString  = @"Odd";
   [super setUp];
 
   _pipelineResult = nil;
-  _listeners = [[VOListenersCollection alloc] init];
+  _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
   _oddNumberFilter = [[VOArrayFilterer alloc] initWithTransformer:[VOBlockTransformer blockTransformerWithBlock:^id(id value) {
     NSInteger number = [value integerValue];
     if (number % 2) {

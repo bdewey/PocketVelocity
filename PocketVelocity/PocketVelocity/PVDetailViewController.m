@@ -7,10 +7,16 @@
 //
 
 #import "PVDetailViewController.h"
+#import "PVNote.h"
+#import "PVNotesDatabase.h"
+#import "PVUtilities.h"
+#import "VOArrayFilterer.h"
+#import "VOBlockListener.h"
+#import "VOBlockTransformer.h"
 #import "VOListenersCollection.h"
 #import "VOMutableChangeDescribingArray.h"
-#import "PVNote.h"
-#import "PVUtilities.h"
+#import "VOPipeline.h"
+#import "VOValueTransforming.h"
 
 @interface PVDetailViewController () <UITextViewDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -19,10 +25,14 @@
 @end
 
 @implementation PVDetailViewController
+{
+  PVNote *_currentNote;
+  VOBlockListener *_currentNoteListener;
+}
 
 #pragma mark - Managing the detail item
 
-- (void)setDetailItem:(PVNote *)newDetailItem
+- (void)setDetailItem:(NSString *)newDetailItem
 {
   if (_detailItem != newDetailItem) {
     _detailItem = newDetailItem;
@@ -41,9 +51,30 @@
   // Update the user interface for the detail item.
   
   if (self.detailItem) {
-    self.title = _detailItem.title;
-    self.noteTextView.text = _detailItem.note;
+    
+    VOPipeline *pipeline = [[self class] _pipelineForFilteringWithTitle:_detailItem fromSource:_notesDatabase];
+    _currentNoteListener = [[VOBlockListener alloc] initWithBlock:^(VOChangeDescribingArray *value) {
+      if (value.count > 0) {
+        _currentNote = value[0];
+        self.noteTextView.text = _currentNote.note;
+      }
+    }];
+    [pipeline addListener:_currentNoteListener];
+    self.title = _detailItem;
   }
+}
+
++ (VOPipeline *)_pipelineForFilteringWithTitle:(NSString *)title fromSource:(id<VOListenable>)source
+{
+  VOBlockTransformer *filterItem = [[VOBlockTransformer alloc] initWithBlock:^id(PVNote *value) {
+    if ([title isEqualToString:value.title]) {
+      return value;
+    }
+    return nil;
+  }];
+  VOArrayFilterer *filterArray = [[VOArrayFilterer alloc] initWithTransformer:filterItem expectsPipelineSemantics:YES];
+  VOPipeline *pipeline = [[VOPipeline alloc] initWithName:@"com.brians-brian.pocket-velocity.detail-view" source:source stages:@[filterArray]];
+  return pipeline;
 }
 
 - (void)viewDidLoad
@@ -80,17 +111,26 @@
 
 - (void)textViewDidChange:(UITextView *)textView
 {
-  PVMutableNote *updatedNote = [_detailItem mutableCopy];
+  PVMutableNote *updatedNote = [_currentNote mutableCopy];
   updatedNote.note = textView.text;
   updatedNote.dirty = YES;
-  for (int i = 0; i < _notesDatabase.count; i++) {
-    PVNote *oldNote = _notesDatabase[i];
-    if (PVStringsAreEqual(_detailItem.title, oldNote.title)) {
-      _notesDatabase[i] = updatedNote;
-      break;
+  PVNote *immutableCopy = [updatedNote copy];
+  _currentNote = immutableCopy;
+  [_notesDatabase updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
+    VOMutableChangeDescribingArray *mutableCopy = [currentNotes mutableCopy];
+    NSUInteger idx;
+    for (idx = 0; idx < mutableCopy.count; idx++) {
+      PVNote *note = mutableCopy[idx];
+      if ([note.title isEqualToString:immutableCopy.title]) {
+        mutableCopy[idx] = immutableCopy;
+        break;
+      }
     }
-  }
-  _detailItem = [updatedNote copy];
+    if (idx == mutableCopy.count) {
+      [mutableCopy addObject:immutableCopy];
+    }
+    return mutableCopy;
+  }];
 }
 
 @end

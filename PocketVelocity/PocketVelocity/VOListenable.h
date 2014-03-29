@@ -12,7 +12,7 @@
 
 @protocol VOListenable <NSObject>
 
-- (void)addListener:(id<VOListening>)listener;
+- (id)addListener:(id<VOListening>)listener;
 - (void)removeListener:(id<VOListening>)listener;
 
 @end

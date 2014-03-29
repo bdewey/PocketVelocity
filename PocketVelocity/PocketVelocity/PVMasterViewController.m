@@ -7,25 +7,39 @@
 //
 
 #import "BDLongestCommonSubsequence.h"
-#import "VOArrayChangeDescription.h"
 #import "PVAsyncListening.h"
 #import "PVDetailViewController.h"
 #import "VOMutableChangeDescribingArray.h"
-#import "VOArrayMapTransformer.h"
 #import "PVMasterViewCellConfiguration.h"
 #import "PVMasterViewController.h"
 #import "PVNote.h"
 #import "PVNotesDatabase.h"
 #import "PVSectionedDataSource.h"
+#import "PVSectionedDataSourceTransformer.h"
+
+#import "VOArrayChangeDescription.h"
+#import "VOArrayMapTransformer.h"
+#import "VOBlockListener.h"
+#import "VOBlockTransformer.h"
+#import "VOPipeline.h"
 
 @interface PVMasterViewController () <VOListening> {
   PVNotesDatabase *_notesDatabase;
-  VOMutableChangeDescribingArray *_notes;
-  PVSectionedDataSource *_cellConfigurations;
+  VOPipeline *_cellConfigurationsPipeline;
+  VOBlockListener *_cellConfigurationsUpdater;
 }
+
+@property (nonatomic, readwrite, strong) PVSectionedDataSource *cellConfigurations;
+- (void)setCellConfigurations:(PVSectionedDataSource *)cellConfigurations animated:(BOOL)animated;
+
 @end
 
 @implementation PVMasterViewController
+
+- (void)dealloc
+{
+  [_cellConfigurationsPipeline removeListener:_cellConfigurationsUpdater];
+}
 
 - (void)awakeFromNib
 {
@@ -52,11 +66,30 @@
     @throw [NSException exceptionWithName:NSDestinationInvalidException reason:@"Unable to open documents directory" userInfo:@{@"error": error}];
   }
   _notesDatabase = [[PVNotesDatabase alloc] initWithDirectory:documents];
+  _cellConfigurationsPipeline = [[self class] _cellConfigurationPipelineForSource:_notesDatabase];
+  _cellConfigurationsUpdater = [[VOBlockListener alloc] initWithBlock:^(PVSectionedDataSource *value) {
+    [self setCellConfigurations:value animated:YES];
+  }];
+  [_cellConfigurationsPipeline addListener:_cellConfigurationsUpdater];
+  [_notesDatabase loadNotesFromDisk];
+
   // FIXME: Fix this shit
 //  _notes = [_notesDatabase notes];
 //  _cellConfigurations = [[[[_notes defaultQueueArray] mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
 //    return [[PVMasterViewCellConfiguration alloc] initWithNote:note];
 //  }] mainQueueArray] sectionedDataSource];
+}
+
++ (VOPipeline *)_cellConfigurationPipelineForSource:(id<VOListenable>)source
+{
+  VOBlockTransformer *mapNoteToCellConfiguration = [[VOBlockTransformer alloc] initWithBlock:^PVMasterViewCellConfiguration *(PVNote *value) {
+    return [[PVMasterViewCellConfiguration alloc] initWithNote:value];
+  }];
+  VOArrayMapTransformer *arrayMap = [[VOArrayMapTransformer alloc] initWithValueTransformer:mapNoteToCellConfiguration expectsPipelineSemantics:YES];
+  PVSectionedDataSourceTransformer *sectionedDataSourceTransformer = [[PVSectionedDataSourceTransformer alloc] initWithPipelineSemantics:YES];
+  VOPipeline *pipeline = [[VOPipeline alloc] initWithName:@"com.brians-brain.pocket-velocity.master-list" source:source stages:@[arrayMap, sectionedDataSourceTransformer]];
+  
+  return pipeline;
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,22 +100,35 @@
 
 - (void)insertNewObject:(id)sender
 {
-  NSString *noteTitle = [NSString stringWithFormat:@"Note %u", _notes.count + 1];
-  NSDate *now = [NSDate date];
-  PVNote *note = [[PVNote alloc] initWithTitle:noteTitle note:@"Note body" tags:@[@"tag1", @"tag2"] dateAdded:now dateModified:now dirty:YES];
-  [_notes addObject:note];
+  [_notesDatabase updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
+    NSString *noteTitle = [NSString stringWithFormat:@"Note %u", currentNotes.count + 1];
+    NSDate *now = [NSDate date];
+    PVNote *note = [[PVNote alloc] initWithTitle:noteTitle note:@"Note body" tags:@[@"tag1", @"tag2"] dateAdded:now dateModified:now dirty:YES];
+    VOMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
+    [mutableNotes addObject:note];
+    return mutableNotes;
+  }];
 }
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(id)object didChangeWithDescription:(PVSectionedDataSourceChangeDescription *)changeDescription
+- (void)setCellConfigurations:(PVSectionedDataSource *)cellConfigurations animated:(BOOL)animated
 {
-  [self.tableView beginUpdates];
-  [self.tableView deleteRowsAtIndexPaths:changeDescription.removedIndexPaths
-                        withRowAnimation:UITableViewRowAnimationAutomatic];
-  [self.tableView insertRowsAtIndexPaths:changeDescription.insertedIndexPaths
-                        withRowAnimation:UITableViewRowAnimationAutomatic];
-  [self.tableView endUpdates];
+  if (_cellConfigurations == cellConfigurations) {
+    return;
+  }
+  _cellConfigurations = cellConfigurations;
+  PVSectionedDataSourceChangeDescription *changeDescription = _cellConfigurations.changeDescription;
+  if (animated && changeDescription) {
+    [self.tableView beginUpdates];
+    [self.tableView deleteRowsAtIndexPaths:changeDescription.removedIndexPaths
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView insertRowsAtIndexPaths:changeDescription.insertedIndexPaths
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self.tableView endUpdates];
+  } else {
+    [self.tableView reloadData];
+  }
 }
 
 #pragma mark - Table View
@@ -115,8 +161,9 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+  PVMasterViewCellConfiguration *configuration = [_cellConfigurations objectAtIndexPath:indexPath];
   if (editingStyle == UITableViewCellEditingStyleDelete) {
-    [_notes removeObjectAtIndex:indexPath.row];
+    [_notesDatabase removeNoteWithTitle:configuration.noteIdentifier];
   } else if (editingStyle == UITableViewCellEditingStyleInsert) {
     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
   }
@@ -141,8 +188,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    self.detailViewController.detailItem = _notes[indexPath.row];
-    self.detailViewController.notesDatabase = _notes;
+    PVMasterViewCellConfiguration *configuration = [_cellConfigurations objectAtIndexPath:indexPath];
+    self.detailViewController.detailItem = configuration.noteIdentifier;
+    self.detailViewController.notesDatabase = _notesDatabase;
   }
 }
 
@@ -151,8 +199,9 @@
   if ([[segue identifier] isEqualToString:@"showDetail"]) {
     PVDetailViewController *detailViewController = segue.destinationViewController;
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-    [detailViewController setDetailItem:_notes[indexPath.row]];
-    detailViewController.notesDatabase = _notes;
+    PVMasterViewCellConfiguration *configuration = [_cellConfigurations objectAtIndexPath:indexPath];
+    [detailViewController setDetailItem:configuration.noteIdentifier];
+    detailViewController.notesDatabase = _notesDatabase;
   }
 }
 

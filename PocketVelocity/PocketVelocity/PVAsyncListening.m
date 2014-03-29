@@ -11,6 +11,7 @@
 
 @implementation PVAsyncListening
 {
+  id _currentValue;
   VOListenersCollection *_listeners;
   BOOL _shouldInvokeSynchronouslyOnMainThread;
 }
@@ -22,8 +23,8 @@
     _source = object;
     _queue = queue;
     _shouldInvokeSynchronouslyOnMainThread = (_queue == dispatch_get_main_queue());
-    _listeners = [[VOListenersCollection alloc] init];
-    [_source addListener:self];
+    _currentValue = [_source addListener:self];
+    _listeners = [[VOListenersCollection alloc] initWithCurrentValue:_currentValue];
   }
   return self;
 }
@@ -35,9 +36,10 @@
 
 #pragma mark - PVListenable
 
-- (void)addListener:(id<VOListening>)listener
+- (id)addListener:(id<VOListening>)listener
 {
   [_listeners addListener:listener];
+  return _currentValue;
 }
 
 - (void)removeListener:(id<VOListening>)listener
@@ -51,6 +53,7 @@
 {
   // Main queue optimization: If we're supposed to run on the main queue and we're currently on the main thread,
   // invoke synchronously.
+  _currentValue = value;
   if (_shouldInvokeSynchronouslyOnMainThread && [NSThread isMainThread]) {
     [_listeners listenableObject:listenableObject didUpdateToValue:value];
   } else {

@@ -8,15 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-#import "PVAnnouncing.h"
-
-@class PVNote;
-@class VOMutableChangeDescribingArray;
+@class PVNotesDatabase;
 
 @interface PVDetailViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) PVNote *detailItem;
-@property (strong, nonatomic) VOMutableChangeDescribingArray *notesDatabase;
+@property (strong, nonatomic) NSString *detailItem;
+@property (strong, nonatomic) PVNotesDatabase *notesDatabase;
 
 @end
 

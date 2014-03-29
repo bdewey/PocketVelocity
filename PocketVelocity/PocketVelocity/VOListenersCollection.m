@@ -10,16 +10,23 @@
 
 @implementation VOListenersCollection
 {
+  id _currentValue;
   NSHashTable *_listeners;
+}
+
+- (instancetype)initWithCurrentValue:(id)currentValue
+{
+  self = [super init];
+  if (self != nil) {
+    _currentValue = currentValue;
+    _listeners = [[NSHashTable alloc] initWithOptions:NSPointerFunctionsObjectPointerPersonality capacity:4];
+  }
+  return self;
 }
 
 - (instancetype)init
 {
-  self = [super init];
-  if (self != nil) {
-    _listeners = [[NSHashTable alloc] initWithOptions:NSPointerFunctionsObjectPointerPersonality capacity:4];
-  }
-  return self;
+  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Not designated initializer" userInfo:nil];
 }
 
 - (NSString *)description
@@ -29,29 +36,23 @@
 
 #pragma mark - VOListenable
 
-- (void)addListener:(id<VOListening>)observer
+- (id)addListener:(id<VOListening>)observer
 {
-  @synchronized(_listeners) {
-    [_listeners addObject:observer];
-  }
+  [_listeners addObject:observer];
+  return _currentValue;
 }
 
 - (void)removeListener:(id<VOListening>)observer
 {
-  @synchronized(_listeners) {
-    [_listeners removeObject:observer];
-  }
+  [_listeners removeObject:observer];
 }
 
 #pragma mark - VOListening
 
 - (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
 {
-  NSArray *listenersCopy;
-  @synchronized(_listeners) {
-    listenersCopy = [_listeners copy];
-  }
-  for (id<VOListening> listener in listenersCopy) {
+  _currentValue = value;
+  for (id<VOListening> listener in _listeners) {
     [listener listenableObject:listenableObject didUpdateToValue:value];
   }
 }
