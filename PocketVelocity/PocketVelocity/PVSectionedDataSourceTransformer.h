@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "VOPipeline.h"
 #import "VOValueTransforming.h"
 
 @class PVSectionedDataSource;
@@ -18,5 +19,11 @@
 
 - (instancetype)initWithPipelineSemantics:(BOOL)expectsPipelineSemantics;
 - (PVSectionedDataSource *)transformValue:(VOChangeDescribingArray *)value;
+
+@end
+
+@interface VOPipeline (PVSectionedDataSourceTransformer)
+
+- (VOPipeline *)pipelineTransformingToSectionedDataSource;
 
 @end

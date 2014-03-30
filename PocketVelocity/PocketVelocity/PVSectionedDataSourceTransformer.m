@@ -28,7 +28,9 @@
 - (PVSectionedDataSource *)transformValue:(VOChangeDescribingArray *)value
 {
   PVSectionedDataSource *updatedValue;
-  if (_oldValue == nil) {
+  if (value == nil) {
+    updatedValue = nil;
+  } else if (_oldValue == nil) {
     updatedValue = [[PVSectionedDataSource alloc] initWithSections:@[value]];
   } else {
     PVMutableSectionedDataSource *mutableCopy = [_oldValue mutableCopy];
@@ -39,6 +41,16 @@
     _oldValue = updatedValue;
   }
   return updatedValue;
+}
+
+@end
+
+@implementation VOPipeline (PVSectionedDataSourceTransformer)
+
+- (VOPipeline *)pipelineTransformingToSectionedDataSource
+{
+  PVSectionedDataSourceTransformer *transformer = [[PVSectionedDataSourceTransformer alloc] initWithPipelineSemantics:YES];
+  return [[VOPipeline alloc] initWithPipeline:self stages:@[transformer]];
 }
 
 @end

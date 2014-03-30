@@ -26,7 +26,7 @@
 @interface PVMasterViewController () {
   PVNotesDatabase *_notesDatabase;
   VOPipeline *_cellConfigurationsPipeline;
-  VOBlockListener *_cellConfigurationsUpdater;
+  VOBlockListener *_cellConfigurationsListener;
   VOBlockListener *_autoSaveListener;
 }
 
@@ -36,11 +36,6 @@
 @end
 
 @implementation PVMasterViewController
-
-- (void)dealloc
-{
-  [_cellConfigurationsPipeline removeListener:_cellConfigurationsUpdater];
-}
 
 - (void)awakeFromNib
 {
@@ -67,30 +62,20 @@
     @throw [NSException exceptionWithName:NSDestinationInvalidException reason:@"Unable to open documents directory" userInfo:@{@"error": error}];
   }
   _notesDatabase = [[PVNotesDatabase alloc] initWithDirectory:documents];
-  _cellConfigurationsPipeline = [[self class] _cellConfigurationPipelineForSource:_notesDatabase];
-  _cellConfigurationsUpdater = [[VOBlockListener alloc] initWithSource:_cellConfigurationsPipeline block:^(PVSectionedDataSource *value) {
-    [self setCellConfigurations:value animated:YES];
-  }];
-  [_notesDatabase loadNotesFromDisk];
+  [_cellConfigurationsListener invalidate];
+  _cellConfigurationsListener = [self _cellConfigurationListenerForSource:_notesDatabase];
   _autoSaveListener = [_notesDatabase autoSaveListener];
-
-  // FIXME: Fix this shit
-//  _notes = [_notesDatabase notes];
-//  _cellConfigurations = [[[[_notes defaultQueueArray] mappedArrayWithMappingBlock:^PVMasterViewCellConfiguration *(PVNote *note) {
-//    return [[PVMasterViewCellConfiguration alloc] initWithNote:note];
-//  }] mainQueueArray] sectionedDataSource];
+  [_notesDatabase loadNotesFromDisk];
 }
 
-+ (VOPipeline *)_cellConfigurationPipelineForSource:(id<VOListenable>)source
+- (VOBlockListener *)_cellConfigurationListenerForSource:(id<VOListenable>)source
 {
-  VOBlockTransformer *mapNoteToCellConfiguration = [[VOBlockTransformer alloc] initWithBlock:^PVMasterViewCellConfiguration *(PVNote *value) {
+  __weak PVMasterViewController *weakSelf = self;
+  return [[[[[VOPipeline alloc] initWithName:@"com.brians-brain.pocket-velocity.master-list" source:source] pipelineWithArrayMappingBlock:^PVMasterViewCellConfiguration *(PVNote *value) {
     return [[PVMasterViewCellConfiguration alloc] initWithNote:value];
+  }] pipelineTransformingToSectionedDataSource] mainQueueBlock:^(PVSectionedDataSource *value) {
+    [weakSelf setCellConfigurations:value animated:YES];
   }];
-  VOArrayMapTransformer *arrayMap = [[VOArrayMapTransformer alloc] initWithValueTransformer:mapNoteToCellConfiguration expectsPipelineSemantics:YES];
-  PVSectionedDataSourceTransformer *sectionedDataSourceTransformer = [[PVSectionedDataSourceTransformer alloc] initWithPipelineSemantics:YES];
-  VOPipeline *pipeline = [[VOPipeline alloc] initWithName:@"com.brians-brain.pocket-velocity.master-list" source:source stages:@[arrayMap, sectionedDataSourceTransformer]];
-  
-  return pipeline;
 }
 
 - (void)didReceiveMemoryWarning

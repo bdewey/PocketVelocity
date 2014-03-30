@@ -8,8 +8,12 @@
 
 #import "VOPipeline.h"
 
+#import "VODebugDescribable.h"
 #import "VOListenersCollection.h"
 #import "VOValueTransforming.h"
+
+@interface VOPipeline () <VODebugDescribable>
+@end
 
 @implementation VOPipeline
 {
@@ -17,7 +21,7 @@
   NSArray *_stages;
   dispatch_queue_t _queue;
   VOListenersCollection *_listeners;
-  id _curentValue;
+  id _currentValue;
   BOOL _valid;
 }
 
@@ -73,17 +77,49 @@
   [_source removeListener:self];
 }
 
+#pragma mark - VODebugDescribable
+
+- (void)vo_describeInMutableString:(NSMutableString *)mutableString
+{
+  BOOL sourceConformsToDescribable = [_source conformsToProtocol:@protocol(VODebugDescribable)];
+  if (sourceConformsToDescribable) {
+    [(id<VODebugDescribable>)_source vo_describeInMutableString:mutableString];
+  }
+  [mutableString appendFormat:@"<%@ %p: ", NSStringFromClass([self class]), self];
+  if (!_chainedPipeline) {
+    [mutableString appendFormat:@"%@ ", _name];
+  }
+  if (!sourceConformsToDescribable) {
+    [mutableString appendFormat:@"%@ ", _source];
+  }
+  if (_stages) {
+    if (_stages.count == 1) {
+      [mutableString appendFormat:@"%@ ", _stages[0]];
+    } else {
+      [mutableString appendFormat:@"%@ ", _stages];
+    }
+  }
+  [mutableString appendFormat:@"\n\tcurrentValue = %@\n>\n", _currentValue];
+}
+
+- (NSString *)description
+{
+  NSMutableString *mutableString = [[NSMutableString alloc] init];
+  [self vo_describeInMutableString:mutableString];
+  return mutableString;
+}
+
 #pragma mark - VOListening
 
 - (void)listenableObject:(id<VOListening>)listenableObject didUpdateToValue:(id)value
 {
   VO_RETURN_IF_INVALID();
   dispatch_block_t block = ^{
-    _curentValue = value;
+    _currentValue = value;
     for (id<VOValueTransforming> stage in _stages) {
-      _curentValue = [stage transformValue:_curentValue];
+      _currentValue = [stage transformValue:_currentValue];
     }
-    [_listeners listenableObject:self didUpdateToValue:_curentValue];
+    [_listeners listenableObject:self didUpdateToValue:_currentValue];
   };
   if (_chainedPipeline || (_mainQueuePipeline && [NSThread isMainThread])) {
     block();
