@@ -158,6 +158,25 @@
   }];
 }
 
+- (void)updateNote:(PVNote *)noteToUpdate
+{
+  [self updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
+    VOMutableChangeDescribingArray *mutableCopy = [currentNotes mutableCopy];
+    NSUInteger idx;
+    for (idx = 0; idx < mutableCopy.count; idx++) {
+      PVNote *note = mutableCopy[idx];
+      if ([note.title isEqualToString:noteToUpdate.title]) {
+        mutableCopy[idx] = noteToUpdate;
+        break;
+      }
+    }
+    if (idx == mutableCopy.count) {
+      [mutableCopy addObject:noteToUpdate];
+    }
+    return mutableCopy;
+  }];
+}
+
 #pragma mark - PVListenable
 
 - (id)addListener:(id<VOListening>)listener

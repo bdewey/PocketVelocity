@@ -25,6 +25,7 @@ typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescri
 - (void)updateNotesWithBlock:(PVNotesDatabaseUpdatingBlock)block;
 - (void)loadNotesFromDisk;
 - (void)removeNoteWithTitle:(NSString *)noteTitle;
+- (void)updateNote:(PVNote *)note;
 - (VOBlockListener *)autoSaveListener;
 
 @end

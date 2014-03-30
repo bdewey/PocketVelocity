@@ -130,21 +130,7 @@
   updatedNote.dirty = YES;
   PVNote *immutableCopy = [updatedNote copy];
   _currentNote = immutableCopy;
-  [_notesDatabase updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
-    VOMutableChangeDescribingArray *mutableCopy = [currentNotes mutableCopy];
-    NSUInteger idx;
-    for (idx = 0; idx < mutableCopy.count; idx++) {
-      PVNote *note = mutableCopy[idx];
-      if ([note.title isEqualToString:immutableCopy.title]) {
-        mutableCopy[idx] = immutableCopy;
-        break;
-      }
-    }
-    if (idx == mutableCopy.count) {
-      [mutableCopy addObject:immutableCopy];
-    }
-    return mutableCopy;
-  }];
+  [_notesDatabase updateNote:immutableCopy];
 }
 
 @end
