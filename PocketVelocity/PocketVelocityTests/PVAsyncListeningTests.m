@@ -10,22 +10,10 @@
 
 #import "PVAsyncListening.h"
 #import "VOListenersCollection.h"
+#import "VOTestUtilities.h"
 
 static const char *kQueueIdentifierKey = "PVAsyncListeningTests";
 static char *kQueueIdentifierValue = "com.brians-brain.pocketvelocity";
-
-static BOOL PVAsyncListeningRunLoop(BOOL *condition)
-{
-  CFTimeInterval tick = 0.01;
-  CFTimeInterval timeoutDate = CACurrentMediaTime() + 5;
-  while (!*condition) {
-    if (CACurrentMediaTime() > timeoutDate) {
-      break;
-    }
-    CFRunLoopRunInMode(kCFRunLoopDefaultMode, tick, true);
-  }
-  return *condition;
-}
 
 typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   kCallbackQueueInvalid,
@@ -68,7 +56,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   [async addListener:self];
   [_listeners listenableObject:nil didUpdateToValue:nil];
   XCTAssertFalse(_callbackInvoked, @"");
-  XCTAssertTrue(PVAsyncListeningRunLoop(&_callbackInvoked), @"");
+  XCTAssertTrue([VOTestUtilities runRunLoopUntilCondition:&_callbackInvoked], @"");
   XCTAssertEqual(_callbackQueueIdentifier, kCallbackQueueBackgroundQueue, @"");
 }
 
