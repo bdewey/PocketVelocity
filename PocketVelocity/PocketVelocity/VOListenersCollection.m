@@ -32,28 +32,43 @@
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ _listeners = %@", [super description], _listeners];
+  return [NSString stringWithFormat:@"%@ currentValue = %@, listeners = %@", [super description], _currentValue, _listeners];
+}
+
+- (id)currentValue
+{
+  @synchronized(self) {
+    return _currentValue;
+  }
 }
 
 #pragma mark - VOListenable
 
 - (id)addListener:(id<VOListening>)observer
 {
-  [_listeners addObject:observer];
-  return _currentValue;
+  @synchronized(self) {
+    [_listeners addObject:observer];
+    return _currentValue;
+  }
 }
 
 - (void)removeListener:(id<VOListening>)observer
 {
-  [_listeners removeObject:observer];
+  @synchronized(self) {
+    [_listeners removeObject:observer];
+  }
 }
 
 #pragma mark - VOListening
 
 - (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
 {
-  _currentValue = value;
-  for (id<VOListening> listener in _listeners) {
+  NSHashTable *listenersCopy;
+  @synchronized(self) {
+    _currentValue = value;
+    listenersCopy = [_listeners copy];
+  }
+  for (id<VOListening> listener in listenersCopy) {
     [listener listenableObject:listenableObject didUpdateToValue:value];
   }
 }
