@@ -12,6 +12,7 @@
 
 @protocol VOPipelineSource <NSObject>
 
+@property (atomic, readonly, strong) id currentValue;
 - (id)addPipelineSink:(id<VOPipelineSink>)listener;
 - (void)removePipelineSink:(id<VOPipelineSink>)listener;
 

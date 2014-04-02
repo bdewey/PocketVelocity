@@ -10,7 +10,7 @@
 
 #import "VOPipelining.h"
 
-@interface VOListenersCollection : NSObject <VOPipelineSource, VOPipelineSink>
+@interface VOPipelineStage : NSObject <VOPipelineSource, VOPipelineSink>
 
 @property (atomic, readonly, strong) id currentValue;
 - (instancetype)initWithCurrentValue:(id)currentValue;

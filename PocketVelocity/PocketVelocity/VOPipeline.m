@@ -9,7 +9,7 @@
 #import "VOPipeline.h"
 
 #import "VODebugDescribable.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 #import "VOValueTransforming.h"
 
 @interface VOPipeline () <VODebugDescribable>
@@ -19,11 +19,12 @@
 {
   id<VOPipelineSource> _source;
   dispatch_queue_t _queue;
-  VOListenersCollection *_listeners;
+  VOPipelineStage *_listeners;
   id _currentValue;
   BOOL _valid;
 }
 
+@synthesize currentValue = _currentValue;
 @synthesize valid = _valid;
 
 - (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer queue:(dispatch_queue_t)queue
@@ -34,7 +35,7 @@
     _source = source;
     _transformer = transformer;
     _queue = queue;
-    _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
+    _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
     _valid = YES;
     
     _mainQueuePipeline = (_queue == dispatch_get_main_queue());

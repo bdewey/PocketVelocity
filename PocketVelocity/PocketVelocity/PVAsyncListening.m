@@ -7,14 +7,16 @@
 //
 
 #import "PVAsyncListening.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 
 @implementation PVAsyncListening
 {
   id _currentValue;
-  VOListenersCollection *_listeners;
+  VOPipelineStage *_listeners;
   BOOL _shouldInvokeSynchronouslyOnMainThread;
 }
+
+@synthesize currentValue = _currentValue;
 
 - (instancetype)initWithListenableObject:(id<VOPipelineSource>)object queue:(dispatch_queue_t)queue
 {
@@ -24,7 +26,7 @@
     _queue = queue;
     _shouldInvokeSynchronouslyOnMainThread = (_queue == dispatch_get_main_queue());
     _currentValue = [_source addPipelineSink:self];
-    _listeners = [[VOListenersCollection alloc] initWithCurrentValue:_currentValue];
+    _listeners = [[VOPipelineStage alloc] initWithCurrentValue:_currentValue];
   }
   return self;
 }

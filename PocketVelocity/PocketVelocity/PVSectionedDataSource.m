@@ -10,7 +10,7 @@
 #import "PVSectionedDataSource.h"
 #import "VOArrayChangeDescription.h"
 #import "VOChangeDescribingArray.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 
 @interface PVSectionedDataSource ()
 

@@ -9,7 +9,7 @@
 #import "VOArrayChangeDescription.h"
 #import "VOArrayFilterer.h"
 #import "VOBlockListener.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "PVNote.h"
 #import "PVNotesDatabase.h"
@@ -21,7 +21,7 @@
 @implementation PVNotesDatabase
 {
   dispatch_queue_t _queue;
-  VOListenersCollection *_listeners;
+  VOPipelineStage *_listeners;
 }
 
 - (instancetype)initWithDirectory:(NSURL *)directory
@@ -31,7 +31,7 @@
     _directory = [directory copy];
     _queue = dispatch_queue_create("com.brians-brain.pocketvelocity.notes-database", DISPATCH_QUEUE_SERIAL);
     dispatch_set_target_queue(_queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
-    _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
+    _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
     _notes = [[VOChangeDescribingArray alloc] init];
   }
   return self;
@@ -81,6 +81,11 @@
     }
     return currentNotes;
   }];
+}
+
+- (id)currentValue
+{
+  return _notes;
 }
 
 - (NSArray *)_notesFromDisk

@@ -9,7 +9,7 @@
 #import "VOArrayChangeDescription.h"
 #import "VOChangeDescribingArray.h"
 #import "VOChangeDescribingArray_Internal.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "PVUtilities.h"
 

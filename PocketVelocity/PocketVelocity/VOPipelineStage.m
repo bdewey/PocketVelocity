@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 
-@implementation VOListenersCollection
+@implementation VOPipelineStage
 {
   id _currentValue;
   NSHashTable *_listeners;

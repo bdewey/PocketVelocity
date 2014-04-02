@@ -11,7 +11,7 @@
 #import "VOArrayFilterer.h"
 #import "VOArrayMapTransformer.h"
 #import "VOBlockTransformer.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 #import "VOPipeline.h"
 
 static NSString *const kEvenString = @"Even";
@@ -23,7 +23,7 @@ static NSString *const kOddString  = @"Odd";
 
 @implementation VOPipelineTests {
   VOPipeline *_pipeline;
-  VOListenersCollection *_listeners;
+  VOPipelineStage *_listeners;
   id _pipelineResult;
 }
 
@@ -32,7 +32,7 @@ static NSString *const kOddString  = @"Odd";
   [super setUp];
 
   _pipelineResult = nil;
-  _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
+  _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
   _pipeline = [[[[VOPipeline alloc] initWithName:@"VOPipelineTests" source:_listeners transformer:nil queue:dispatch_get_main_queue()] pipelineWithArrayFilteringBlock:^id(NSNumber *value) {
     NSInteger number = [value integerValue];
     if (number % 2) {

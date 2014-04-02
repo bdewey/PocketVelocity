@@ -13,7 +13,7 @@
 #import "VOArrayFilterer.h"
 #import "VOBlockListener.h"
 #import "VOBlockTransformer.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "VOPipeline.h"
 #import "VOValueTransforming.h"

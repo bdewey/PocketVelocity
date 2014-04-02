@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 
 #import "PVAsyncListening.h"
-#import "VOListenersCollection.h"
+#import "VOPipelineStage.h"
 #import "VOTestUtilities.h"
 
 static const char *kQueueIdentifierKey = "PVAsyncListeningTests";
@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
 @interface PVAsyncListeningTests : XCTestCase <VOPipelineSink>
 {
   dispatch_queue_t _queue;
-  VOListenersCollection *_listeners;
+  VOPipelineStage *_listeners;
   PVAsyncListeningTestCallbackQueue _callbackQueueIdentifier;
   BOOL _callbackInvoked;
 }
@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   [super setUp];
   _queue = dispatch_queue_create(kQueueIdentifierValue, DISPATCH_QUEUE_SERIAL);
   dispatch_queue_set_specific(_queue, kQueueIdentifierKey, kQueueIdentifierValue, NULL);
-  _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
+  _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
   _callbackQueueIdentifier = kCallbackQueueInvalid;
   _callbackInvoked = NO;
 }
