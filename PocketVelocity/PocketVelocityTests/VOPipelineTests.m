@@ -32,7 +32,7 @@ static NSString *const kOddString  = @"Odd";
   [super setUp];
 
   _pipelineResult = nil;
-  _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
+  _listeners = [[VOPipelineStage alloc] init];
   _pipeline = [[_listeners pipelineWithArrayFilteringBlock:^id(NSNumber *value) {
     NSInteger number = [value integerValue];
     if (number % 2) {

@@ -17,7 +17,6 @@
 
 @implementation VOTransformingPipelineStage
 {
-  id<VOPipelineSource> _source;
   dispatch_queue_t _queue;
   id _currentValue;
 }
@@ -26,31 +25,26 @@
 
 - (instancetype)initWithSource:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer
 {
-  self = [super initWithCurrentValue:nil];
+  self = [super initWithSource:source];
   if (self != nil) {
-    _source = source;
     _transformer = transformer;
     [self pipelineSource:source didUpdateToValue:[source addPipelineSink:self]];
   }
   return self;
 }
 
-- (void)dealloc
-{
-  [_source removePipelineSink:self];
-}
-
 #pragma mark - VODebugDescribable
 
 - (void)vo_describeInMutableString:(NSMutableString *)mutableString
 {
-  BOOL sourceConformsToDescribable = [_source conformsToProtocol:@protocol(VODebugDescribable)];
+  id source = self.source;
+  BOOL sourceConformsToDescribable = [source conformsToProtocol:@protocol(VODebugDescribable)];
   if (sourceConformsToDescribable) {
-    [(id<VODebugDescribable>)_source vo_describeInMutableString:mutableString];
+    [(id<VODebugDescribable>)source vo_describeInMutableString:mutableString];
   }
   [mutableString appendFormat:@"<%@ %p: ", NSStringFromClass([self class]), self];
   if (!sourceConformsToDescribable) {
-    [mutableString appendFormat:@"%@ ", _source];
+    [mutableString appendFormat:@"%@ ", source];
   }
   [mutableString appendFormat:@"%@ ", _transformer];
   [mutableString appendFormat:@"\n\tcurrentValue = %@\n>\n", _currentValue];

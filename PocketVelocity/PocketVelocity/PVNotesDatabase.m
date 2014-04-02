@@ -32,7 +32,7 @@
     _directory = [directory copy];
     _queue = dispatch_queue_create("com.brians-brain.pocketvelocity.notes-database", DISPATCH_QUEUE_SERIAL);
     dispatch_set_target_queue(_queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
-    _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
+    _listeners = [[VOPipelineStage alloc] init];
     _notes = [[VOChangeDescribingArray alloc] init];
   }
   return self;

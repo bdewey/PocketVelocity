@@ -64,7 +64,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
   for (NSUInteger i = 0; i < kPerformanceIterations; i++) {
     [listeners addObject:[[_SampleListener alloc] init]];
   }
-  VOPipelineStage *collection = [[VOPipelineStage alloc] initWithCurrentValue:nil];
+  VOPipelineStage *collection = [[VOPipelineStage alloc] init];
   CFTimeInterval elapsedTime = _TimeBlock(^{
     for (NSUInteger i = 0; i < kPerformanceIterations; i++) {
       [collection addPipelineSink:listeners[i]];
@@ -75,7 +75,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
 
 - (void)testPerformanceUpdate
 {
-  VOPipelineStage *collection = [[VOPipelineStage alloc] initWithCurrentValue:nil];
+  VOPipelineStage *collection = [[VOPipelineStage alloc] init];
   const NSUInteger kNumListeners = 10;
   NSMutableArray *listeners = [[NSMutableArray alloc] initWithCapacity:kNumListeners];
   for (NSUInteger i = 0; i < kNumListeners; i++) {
@@ -99,7 +99,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
   for (NSUInteger i = 0; i < kNumberOfListeners; i++) {
     [listeners addObject:[[_SampleListener alloc] init]];
   }
-  VOPipelineStage *collection = [[VOPipelineStage alloc] initWithCurrentValue:nil];
+  VOPipelineStage *collection = [[VOPipelineStage alloc] init];
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     for (NSUInteger i = 0; i < kPerformanceIterations; i++) {
       [collection pipelineSource:collection didUpdateToValue:@(i)];

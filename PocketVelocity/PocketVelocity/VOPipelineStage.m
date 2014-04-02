@@ -18,11 +18,12 @@
 
 @synthesize valid = _valid;
 
-- (instancetype)initWithCurrentValue:(id)currentValue
+- (instancetype)initWithSource:(id<VOPipelineSource>)source
 {
   self = [super init];
   if (self != nil) {
-    _currentValue = currentValue;
+    _source = source;
+    _currentValue = [_source addPipelineSink:self];
     _listeners = [[NSHashTable alloc] initWithOptions:(NSPointerFunctionsObjectPointerPersonality | NSHashTableWeakMemory)
                                              capacity:4];
     _valid = YES;
@@ -32,7 +33,12 @@
 
 - (instancetype)init
 {
-  @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"Not designated initializer" userInfo:nil];
+  return [self initWithSource:nil];
+}
+
+- (void)dealloc
+{
+  [_source removePipelineSink:self];
 }
 
 - (NSString *)description
@@ -50,6 +56,7 @@
 - (void)invalidate
 {
   _valid = NO;
+  [_source removePipelineSink:self];
 }
 
 #pragma mark - Override point for subclasses

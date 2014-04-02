@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   [super setUp];
   _queue = dispatch_queue_create(kQueueIdentifierValue, DISPATCH_QUEUE_SERIAL);
   dispatch_queue_set_specific(_queue, kQueueIdentifierKey, kQueueIdentifierValue, NULL);
-  _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
+  _listeners = [[VOPipelineStage alloc] init];
   _callbackQueueIdentifier = kCallbackQueueInvalid;
   _callbackInvoked = NO;
 }

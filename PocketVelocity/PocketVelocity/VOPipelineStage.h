@@ -13,8 +13,11 @@
 
 @interface VOPipelineStage : NSObject <VOInvalidating, VOPipelineSource, VOPipelineSink>
 
+@property (nonatomic, readonly, strong) id<VOPipelineSource> source;
 @property (atomic, readonly, strong) id currentValue;
-- (instancetype)initWithCurrentValue:(id)currentValue;
+
+- (instancetype)initWithSource:(id<VOPipelineSource>)source;
+- (instancetype)init;
 
 @end
 

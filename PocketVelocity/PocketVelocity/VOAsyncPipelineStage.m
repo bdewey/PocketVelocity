@@ -15,12 +15,10 @@
 
 - (instancetype)initWithSource:(id<VOPipelineSource>)source queue:(dispatch_queue_t)queue
 {
-  self = [super initWithCurrentValue:nil];
+  self = [super initWithSource:source];
   if (self != nil) {
-    _source = source;
     _queue = queue;
     _shouldInvokeSynchronouslyOnMainThread = (_queue == dispatch_get_main_queue());
-    [self pipelineSource:_source didUpdateToValue:[_source addPipelineSink:self]];
   }
   return self;
 }
@@ -31,11 +29,6 @@
   dispatch_queue_t queue = dispatch_queue_create(cstring, DISPATCH_QUEUE_SERIAL);
   dispatch_set_target_queue(queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
   return [self initWithSource:source queue:queue];
-}
-
-- (void)dealloc
-{
-  [_source removePipelineSink:self];
 }
 
 #pragma mark - VOPipelineSink
