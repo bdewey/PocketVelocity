@@ -39,7 +39,7 @@
     
     _mainQueuePipeline = (_queue == dispatch_get_main_queue());
     
-    [self listenableObject:source didUpdateToValue:[source addListener:self]];
+    [self pipelineSource:source didUpdateToValue:[source addPipelineSink:self]];
   }
   return self;
 }
@@ -67,13 +67,13 @@
 
 - (void)dealloc
 {
-  [_source removeListener:self];
+  [_source removePipelineSink:self];
 }
 
 - (void)invalidate
 {
   _valid = NO;
-  [_source removeListener:self];
+  [_source removePipelineSink:self];
 }
 
 #pragma mark - VODebugDescribable
@@ -104,7 +104,7 @@
 
 #pragma mark - VOListening
 
-- (void)listenableObject:(id<VOPipelineSink>)listenableObject didUpdateToValue:(id)value
+- (void)pipelineSource:(id<VOPipelineSink>)listenableObject didUpdateToValue:(id)value
 {
   VO_RETURN_IF_INVALID();
   dispatch_block_t block = ^{
@@ -113,7 +113,7 @@
     } else {
       _currentValue = value;
     }
-    [_listeners listenableObject:self didUpdateToValue:_currentValue];
+    [_listeners pipelineSource:self didUpdateToValue:_currentValue];
   };
   if (_chainedPipeline || (_mainQueuePipeline && [NSThread isMainThread])) {
     block();
@@ -124,14 +124,14 @@
 
 #pragma mark - VOListenable
 
-- (id)addListener:(id<VOPipelineSink>)listener
+- (id)addPipelineSink:(id<VOPipelineSink>)listener
 {
-  return [_listeners addListener:listener];
+  return [_listeners addPipelineSink:listener];
 }
 
-- (void)removeListener:(id<VOPipelineSink>)listener
+- (void)removePipelineSink:(id<VOPipelineSink>)listener
 {
-  [_listeners removeListener:listener];
+  [_listeners removePipelineSink:listener];
 }
 
 @end

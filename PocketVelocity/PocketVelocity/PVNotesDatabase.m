@@ -45,7 +45,7 @@
     VOArrayChangeDescription *changeDescription = _notes.changeDescription;
     NSUInteger totalChangesCount = changeDescription.indexesToAddFromUpdatedValues.count + changeDescription.indexesToRemoveFromOldValues.count;
     if (totalChangesCount > 0) {
-      [_listeners listenableObject:self didUpdateToValue:_notes];
+      [_listeners pipelineSource:self didUpdateToValue:_notes];
     }
   });
 }
@@ -179,15 +179,15 @@
 
 #pragma mark - PVListenable
 
-- (id)addListener:(id<VOPipelineSink>)listener
+- (id)addPipelineSink:(id<VOPipelineSink>)listener
 {
-  [_listeners addListener:listener];
+  [_listeners addPipelineSink:listener];
   return _notes;
 }
 
-- (void)removeListener:(id<VOPipelineSink>)listener
+- (void)removePipelineSink:(id<VOPipelineSink>)listener
 {
-  [_listeners removeListener:listener];
+  [_listeners removePipelineSink:listener];
 }
 
 @end

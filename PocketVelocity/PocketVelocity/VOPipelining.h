@@ -12,13 +12,13 @@
 
 @protocol VOPipelineSource <NSObject>
 
-- (id)addListener:(id<VOPipelineSink>)listener;
-- (void)removeListener:(id<VOPipelineSink>)listener;
+- (id)addPipelineSink:(id<VOPipelineSink>)listener;
+- (void)removePipelineSink:(id<VOPipelineSink>)listener;
 
 @end
 
 @protocol VOPipelineSink <NSObject>
 
-- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value;
+- (void)pipelineSource:(id<VOPipelineSource>)pipelineSource didUpdateToValue:(id)value;
 
 @end

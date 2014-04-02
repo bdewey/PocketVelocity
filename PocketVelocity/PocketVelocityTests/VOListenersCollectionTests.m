@@ -27,7 +27,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
 
 @implementation _SampleListener
 
-- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(NSNumber *)value
+- (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(NSNumber *)value
 {
   // We validate that we get no gaps. Every value that we get is one more than the previous value we saw.
   if (_currentValue != nil) {
@@ -67,7 +67,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
   VOListenersCollection *collection = [[VOListenersCollection alloc] initWithCurrentValue:nil];
   CFTimeInterval elapsedTime = _TimeBlock(^{
     for (NSUInteger i = 0; i < kPerformanceIterations; i++) {
-      [collection addListener:listeners[i]];
+      [collection addPipelineSink:listeners[i]];
     }
   });
   NSLog(@"%s elapsedTime = %0.3f seconds", __PRETTY_FUNCTION__, elapsedTime);
@@ -81,11 +81,11 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
   for (NSUInteger i = 0; i < kNumListeners; i++) {
     _SampleListener *listener = [[_SampleListener alloc] init];
     [listeners addObject:listener];
-    [collection addListener:listener];
+    [collection addPipelineSink:listener];
   }
   CFTimeInterval elapsedTime = _TimeBlock(^{
     for (NSUInteger i = 0; i < kPerformanceIterations; i++) {
-      [collection listenableObject:nil didUpdateToValue:nil];
+      [collection pipelineSource:nil didUpdateToValue:nil];
     }
   });
   NSLog(@"%s elapsedTime = %0.3f seconds", __PRETTY_FUNCTION__, elapsedTime);
@@ -102,14 +102,14 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
   VOListenersCollection *collection = [[VOListenersCollection alloc] initWithCurrentValue:nil];
   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     for (NSUInteger i = 0; i < kPerformanceIterations; i++) {
-      [collection listenableObject:collection didUpdateToValue:@(i)];
+      [collection pipelineSource:collection didUpdateToValue:@(i)];
     }
     didFinishGeneratingValues = YES;
   });
   for (NSUInteger i = 0; i < kNumberOfListeners; i++) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       _SampleListener *listener = listeners[i];
-      [collection addListener:listener];
+      [collection addPipelineSink:listener];
     });
   }
   BOOL result = [VOTestUtilities runRunLoopUntilCondition:&didFinishGeneratingValues];

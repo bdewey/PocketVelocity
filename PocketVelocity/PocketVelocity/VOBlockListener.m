@@ -27,7 +27,7 @@
     _mainQueueOptimize = (_queue == dispatch_get_main_queue());
     _valid = YES;
     
-    [self listenableObject:_source didUpdateToValue:[_source addListener:self]];
+    [self pipelineSource:_source didUpdateToValue:[_source addPipelineSink:self]];
   }
   return self;
 }
@@ -39,18 +39,18 @@
 
 - (void)dealloc
 {
-  [_source removeListener:self];
+  [_source removePipelineSink:self];
 }
 
 - (void)invalidate
 {
   _valid = NO;
-  [_source removeListener:self];
+  [_source removePipelineSink:self];
 }
 
 #pragma mark - VOListening
 
-- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
+- (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   if (!_valid) {
     return;

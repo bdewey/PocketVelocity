@@ -23,7 +23,7 @@
     _source = object;
     _queue = queue;
     _shouldInvokeSynchronouslyOnMainThread = (_queue == dispatch_get_main_queue());
-    _currentValue = [_source addListener:self];
+    _currentValue = [_source addPipelineSink:self];
     _listeners = [[VOListenersCollection alloc] initWithCurrentValue:_currentValue];
   }
   return self;
@@ -31,34 +31,34 @@
 
 - (void)dealloc
 {
-  [_source removeListener:self];
+  [_source removePipelineSink:self];
 }
 
 #pragma mark - PVListenable
 
-- (id)addListener:(id<VOPipelineSink>)listener
+- (id)addPipelineSink:(id<VOPipelineSink>)listener
 {
-  [_listeners addListener:listener];
+  [_listeners addPipelineSink:listener];
   return _currentValue;
 }
 
-- (void)removeListener:(id<VOPipelineSink>)listener
+- (void)removePipelineSink:(id<VOPipelineSink>)listener
 {
-  [_listeners removeListener:listener];
+  [_listeners removePipelineSink:listener];
 }
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
+- (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   // Main queue optimization: If we're supposed to run on the main queue and we're currently on the main thread,
   // invoke synchronously.
   _currentValue = value;
   if (_shouldInvokeSynchronouslyOnMainThread && [NSThread isMainThread]) {
-    [_listeners listenableObject:listenableObject didUpdateToValue:value];
+    [_listeners pipelineSource:listenableObject didUpdateToValue:value];
   } else {
     dispatch_async(_queue, ^{
-      [_listeners listenableObject:listenableObject didUpdateToValue:value];
+      [_listeners pipelineSource:listenableObject didUpdateToValue:value];
     });
   }
 }

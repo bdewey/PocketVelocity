@@ -53,8 +53,8 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
 - (void)testBackgroundQueue
 {
   PVAsyncListening *async = [[PVAsyncListening alloc] initWithListenableObject:_listeners queue:_queue];
-  [async addListener:self];
-  [_listeners listenableObject:nil didUpdateToValue:nil];
+  [async addPipelineSink:self];
+  [_listeners pipelineSource:nil didUpdateToValue:nil];
   XCTAssertFalse(_callbackInvoked, @"");
   XCTAssertTrue([VOTestUtilities runRunLoopUntilCondition:&_callbackInvoked], @"");
   XCTAssertEqual(_callbackQueueIdentifier, kCallbackQueueBackgroundQueue, @"");
@@ -64,15 +64,15 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
 {
   PVAsyncListening *async = [[PVAsyncListening alloc] initWithListenableObject:_listeners
                                                                          queue:dispatch_get_main_queue()];
-  [async addListener:self];
-  [_listeners listenableObject:nil didUpdateToValue:nil];
+  [async addPipelineSink:self];
+  [_listeners pipelineSource:nil didUpdateToValue:nil];
   XCTAssertTrue(_callbackInvoked, @"");
   XCTAssertEqual(_callbackQueueIdentifier, kCallbackQueueMainQueue, @"");
 }
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
+- (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   _callbackQueueIdentifier = (dispatch_get_specific(kQueueIdentifierKey) == kQueueIdentifierValue) ? kCallbackQueueBackgroundQueue : kCallbackQueueMainQueue;
   _callbackInvoked = YES;

@@ -46,12 +46,12 @@ static NSString *const kOddString  = @"Odd";
     }
     return kEvenString;
   }];
-  [_pipeline addListener:self];
+  [_pipeline addPipelineSink:self];
 }
 
 - (void)tearDown
 {
-  [_pipeline removeListener:self];
+  [_pipeline removePipelineSink:self];
   _pipeline = nil;
   _listeners = nil;
   _pipelineResult = nil;
@@ -65,7 +65,7 @@ static NSString *const kOddString  = @"Odd";
   for (NSUInteger i = 0; i < kTestArraySize; i++) {
     [mutableValue addObject:@(i)];
   }
-  [_listeners listenableObject:_listeners didUpdateToValue:mutableValue];
+  [_listeners pipelineSource:_listeners didUpdateToValue:mutableValue];
   
   NSMutableArray *expectedResults = [[NSMutableArray alloc] init];
   for (NSUInteger i = 0; i < (kTestArraySize / 2); i++) {
@@ -78,7 +78,7 @@ static NSString *const kOddString  = @"Odd";
 
 #pragma mark - VOListening
 
-- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
+- (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   _pipelineResult = value;
 }
