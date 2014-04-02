@@ -13,7 +13,10 @@
 {
   id _currentValue;
   NSHashTable *_listeners;
+  BOOL _valid;
 }
+
+@synthesize valid = _valid;
 
 - (instancetype)initWithCurrentValue:(id)currentValue
 {
@@ -22,6 +25,7 @@
     _currentValue = currentValue;
     _listeners = [[NSHashTable alloc] initWithOptions:(NSPointerFunctionsObjectPointerPersonality | NSHashTableWeakMemory)
                                              capacity:4];
+    _valid = YES;
   }
   return self;
 }
@@ -41,6 +45,11 @@
   @synchronized(self) {
     return _currentValue;
   }
+}
+
+- (void)invalidate
+{
+  _valid = NO;
 }
 
 #pragma mark - Override point for subclasses
@@ -72,6 +81,7 @@
 
 - (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
+  VO_RETURN_IF_INVALID();
   NSHashTable *listenersCopy;
   BOOL shouldContinueToSinks = NO;
   value = [self transformValue:value shouldContinueToSinks:&shouldContinueToSinks];

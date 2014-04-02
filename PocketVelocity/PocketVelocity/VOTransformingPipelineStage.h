@@ -13,7 +13,7 @@
 
 @protocol VOValueTransforming;
 
-@interface VOTransformingPipelineStage : VOPipelineStage <VOInvalidating, VOPipelineSource, VOPipelineSink>
+@interface VOTransformingPipelineStage : VOPipelineStage <VOPipelineSource, VOPipelineSink>
 
 @property (nonatomic, readonly, strong) id<VOPipelineSource> source;
 @property (nonatomic, readonly, strong) id<VOValueTransforming> transformer;

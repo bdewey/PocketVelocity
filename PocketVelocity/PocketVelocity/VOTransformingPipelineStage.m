@@ -20,11 +20,9 @@
   id<VOPipelineSource> _source;
   dispatch_queue_t _queue;
   id _currentValue;
-  BOOL _valid;
 }
 
 @synthesize currentValue = _currentValue;
-@synthesize valid = _valid;
 
 - (instancetype)initWithSource:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer
 {
@@ -39,12 +37,6 @@
 
 - (void)dealloc
 {
-  [_source removePipelineSink:self];
-}
-
-- (void)invalidate
-{
-  _valid = NO;
   [_source removePipelineSink:self];
 }
 

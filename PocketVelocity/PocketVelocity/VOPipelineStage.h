@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#import "VOInvalidating.h"
 #import "VOPipelining.h"
 
-@interface VOPipelineStage : NSObject <VOPipelineSource, VOPipelineSink>
+@interface VOPipelineStage : NSObject <VOInvalidating, VOPipelineSource, VOPipelineSink>
 
 @property (atomic, readonly, strong) id currentValue;
 - (instancetype)initWithCurrentValue:(id)currentValue;
