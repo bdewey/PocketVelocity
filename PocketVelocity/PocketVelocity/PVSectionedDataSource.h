@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VOListenable.h"
+#import "VOPipelining.h"
 #import "VOChangeDescribing.h"
 #import "VOChangeDescribingArray.h"
 

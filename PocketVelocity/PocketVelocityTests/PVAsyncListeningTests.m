@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   kCallbackQueueBackgroundQueue
 };
 
-@interface PVAsyncListeningTests : XCTestCase <VOListening>
+@interface PVAsyncListeningTests : XCTestCase <VOPipelineSink>
 {
   dispatch_queue_t _queue;
   VOListenersCollection *_listeners;
@@ -72,7 +72,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
+- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   _callbackQueueIdentifier = (dispatch_get_specific(kQueueIdentifierKey) == kQueueIdentifierValue) ? kCallbackQueueBackgroundQueue : kCallbackQueueMainQueue;
   _callbackInvoked = YES;

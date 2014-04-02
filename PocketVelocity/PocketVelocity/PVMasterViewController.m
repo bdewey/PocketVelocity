@@ -68,7 +68,7 @@
   [_notesDatabase loadNotesFromDisk];
 }
 
-- (VOBlockListener *)_cellConfigurationListenerForSource:(id<VOListenable>)source
+- (VOBlockListener *)_cellConfigurationListenerForSource:(id<VOPipelineSource>)source
 {
   __weak PVMasterViewController *weakSelf = self;
   return [[[[[VOPipeline alloc] initWithName:@"com.brians-brain.pocket-velocity.master-list" source:source] pipelineWithArrayMappingBlock:^PVMasterViewCellConfiguration *(PVNote *value) {

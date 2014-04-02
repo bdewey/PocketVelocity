@@ -16,7 +16,7 @@
   BOOL _shouldInvokeSynchronouslyOnMainThread;
 }
 
-- (instancetype)initWithListenableObject:(id<VOListenable>)object queue:(dispatch_queue_t)queue
+- (instancetype)initWithListenableObject:(id<VOPipelineSource>)object queue:(dispatch_queue_t)queue
 {
   self = [super init];
   if (self != nil) {
@@ -36,20 +36,20 @@
 
 #pragma mark - PVListenable
 
-- (id)addListener:(id<VOListening>)listener
+- (id)addListener:(id<VOPipelineSink>)listener
 {
   [_listeners addListener:listener];
   return _currentValue;
 }
 
-- (void)removeListener:(id<VOListening>)listener
+- (void)removeListener:(id<VOPipelineSink>)listener
 {
   [_listeners removeListener:listener];
 }
 
 #pragma mark - PVListening
 
-- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
+- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   // Main queue optimization: If we're supposed to run on the main queue and we're currently on the main thread,
   // invoke synchronously.

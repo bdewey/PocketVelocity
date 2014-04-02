@@ -122,7 +122,7 @@
 		0AB4581318D8058100C47B8C /* VOArrayChangeDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOArrayChangeDescription.m; sourceTree = "<group>"; };
 		0AB4581618D80D9100C47B8C /* VOChangeDescribingArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOChangeDescribingArray.h; sourceTree = "<group>"; };
 		0AB4581718D80D9100C47B8C /* VOChangeDescribingArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOChangeDescribingArray.m; sourceTree = "<group>"; };
-		0AB4581A18DCF89B00C47B8C /* VOListenable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VOListenable.h; sourceTree = "<group>"; };
+		0AB4581A18DCF89B00C47B8C /* VOPipelining.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VOPipelining.h; sourceTree = "<group>"; };
 		0AB4581F18DCFBEB00C47B8C /* VOListenersCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOListenersCollection.h; sourceTree = "<group>"; };
 		0AB4582018DCFBEB00C47B8C /* VOListenersCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOListenersCollection.m; sourceTree = "<group>"; };
 		0AB4582318DD06E000C47B8C /* PVSectionedDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVSectionedDataSource.h; sourceTree = "<group>"; };
@@ -261,13 +261,13 @@
 				0A206C5818DF2545002ABA88 /* VOChangeDescribingArray_Internal.h */,
 				D5CBC3B318E79A8D0087992F /* VODebugDescribable.h */,
 				D513F26E18E735D700306EB0 /* VOInvalidating.h */,
-				0AB4581A18DCF89B00C47B8C /* VOListenable.h */,
 				0AB4581F18DCFBEB00C47B8C /* VOListenersCollection.h */,
 				0AB4582018DCFBEB00C47B8C /* VOListenersCollection.m */,
 				0A206C5518DE40E3002ABA88 /* VOMutableChangeDescribingArray.h */,
 				0A206C5618DE40E3002ABA88 /* VOMutableChangeDescribingArray.m */,
 				D560D2E618E63D4D00B7915E /* VOPipeline.h */,
 				D560D2E718E63D4D00B7915E /* VOPipeline.m */,
+				0AB4581A18DCF89B00C47B8C /* VOPipelining.h */,
 				D5066D9F18E3E3A600DD0F0B /* VOValueObject.h */,
 				D5066DA018E3E3A600DD0F0B /* VOValueObject.m */,
 				D584913718E4630500584F66 /* VOValueTransforming.h */,

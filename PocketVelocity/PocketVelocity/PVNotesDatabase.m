@@ -179,13 +179,13 @@
 
 #pragma mark - PVListenable
 
-- (id)addListener:(id<VOListening>)listener
+- (id)addListener:(id<VOPipelineSink>)listener
 {
   [_listeners addListener:listener];
   return _notes;
 }
 
-- (void)removeListener:(id<VOListening>)listener
+- (void)removeListener:(id<VOPipelineSink>)listener
 {
   [_listeners removeListener:listener];
 }

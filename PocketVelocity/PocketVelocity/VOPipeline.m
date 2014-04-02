@@ -17,7 +17,7 @@
 
 @implementation VOPipeline
 {
-  id<VOListenable> _source;
+  id<VOPipelineSource> _source;
   dispatch_queue_t _queue;
   VOListenersCollection *_listeners;
   id _currentValue;
@@ -26,7 +26,7 @@
 
 @synthesize valid = _valid;
 
-- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source transformer:(id<VOValueTransforming>)transformer queue:(dispatch_queue_t)queue
+- (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer queue:(dispatch_queue_t)queue
 {
   self = [super init];
   if (self != nil) {
@@ -44,14 +44,14 @@
   return self;
 }
 
-- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source transformer:(id<VOValueTransforming>)transformer
+- (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer
 {
   dispatch_queue_t serialQueue = dispatch_queue_create([name cStringUsingEncoding:NSUTF8StringEncoding], DISPATCH_QUEUE_SERIAL);
   dispatch_set_target_queue(serialQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
   return [self initWithName:name source:source transformer:transformer queue:serialQueue];
 }
 
-- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source
+- (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source
 {
   return [self initWithName:name source:source transformer:nil];
 }
@@ -104,7 +104,7 @@
 
 #pragma mark - VOListening
 
-- (void)listenableObject:(id<VOListening>)listenableObject didUpdateToValue:(id)value
+- (void)listenableObject:(id<VOPipelineSink>)listenableObject didUpdateToValue:(id)value
 {
   VO_RETURN_IF_INVALID();
   dispatch_block_t block = ^{
@@ -124,12 +124,12 @@
 
 #pragma mark - VOListenable
 
-- (id)addListener:(id<VOListening>)listener
+- (id)addListener:(id<VOPipelineSink>)listener
 {
   return [_listeners addListener:listener];
 }
 
-- (void)removeListener:(id<VOListening>)listener
+- (void)removeListener:(id<VOPipelineSink>)listener
 {
   [_listeners removeListener:listener];
 }

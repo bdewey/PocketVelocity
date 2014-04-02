@@ -19,7 +19,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
   return CACurrentMediaTime() - startTime;
 }
 
-@interface _SampleListener : NSObject <VOListening>
+@interface _SampleListener : NSObject <VOPipelineSink>
 
 @property (nonatomic, readonly, strong) id currentValue;
 
@@ -27,7 +27,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
 
 @implementation _SampleListener
 
-- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(NSNumber *)value
+- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(NSNumber *)value
 {
   // We validate that we get no gaps. Every value that we get is one more than the previous value we saw.
   if (_currentValue != nil) {

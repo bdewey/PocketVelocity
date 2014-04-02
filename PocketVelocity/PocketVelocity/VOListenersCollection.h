@@ -8,11 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VOListenable.h"
+#import "VOPipelining.h"
 
-@class PVListenerQueuePair;
-
-@interface VOListenersCollection : NSObject <VOListenable, VOListening>
+@interface VOListenersCollection : NSObject <VOPipelineSource, VOPipelineSink>
 
 @property (atomic, readonly, strong) id currentValue;
 - (instancetype)initWithCurrentValue:(id)currentValue;

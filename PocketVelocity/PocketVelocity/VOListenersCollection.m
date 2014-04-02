@@ -44,7 +44,7 @@
 
 #pragma mark - VOListenable
 
-- (id)addListener:(id<VOListening>)observer
+- (id)addListener:(id<VOPipelineSink>)observer
 {
   @synchronized(self) {
     [_listeners addObject:observer];
@@ -52,7 +52,7 @@
   }
 }
 
-- (void)removeListener:(id<VOListening>)observer
+- (void)removeListener:(id<VOPipelineSink>)observer
 {
   @synchronized(self) {
     [_listeners removeObject:observer];
@@ -61,14 +61,14 @@
 
 #pragma mark - VOListening
 
-- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
+- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   NSHashTable *listenersCopy;
   @synchronized(self) {
     _currentValue = value;
     listenersCopy = [_listeners copy];
   }
-  for (id<VOListening> listener in listenersCopy) {
+  for (id<VOPipelineSink> listener in listenersCopy) {
     [listener listenableObject:listenableObject didUpdateToValue:value];
   }
 }

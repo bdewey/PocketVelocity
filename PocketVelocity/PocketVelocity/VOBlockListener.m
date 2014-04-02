@@ -17,7 +17,7 @@
 
 @synthesize valid;
 
-- (instancetype)initWithSource:(id<VOListenable>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block
+- (instancetype)initWithSource:(id<VOPipelineSource>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block
 {
   self = [super init];
   if (self != nil) {
@@ -32,7 +32,7 @@
   return self;
 }
 
-- (instancetype)initWithSource:(id<VOListenable>)source block:(VOBlockListenerBlock)block
+- (instancetype)initWithSource:(id<VOPipelineSource>)source block:(VOBlockListenerBlock)block
 {
   return [self initWithSource:source callbackQueue:dispatch_get_main_queue() block:block];
 }
@@ -50,7 +50,7 @@
 
 #pragma mark - VOListening
 
-- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
+- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   if (!_valid) {
     return;

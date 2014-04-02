@@ -17,7 +17,7 @@
 static NSString *const kEvenString = @"Even";
 static NSString *const kOddString  = @"Odd";
 
-@interface VOPipelineTests : XCTestCase <VOListening>
+@interface VOPipelineTests : XCTestCase <VOPipelineSink>
 
 @end
 
@@ -78,7 +78,7 @@ static NSString *const kOddString  = @"Odd";
 
 #pragma mark - VOListening
 
-- (void)listenableObject:(id<VOListenable>)listenableObject didUpdateToValue:(id)value
+- (void)listenableObject:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   _pipelineResult = value;
 }

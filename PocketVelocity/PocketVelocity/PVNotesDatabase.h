@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VOListenable.h"
+#import "VOPipelining.h"
 
 @class VOBlockListener;
 @class VOChangeDescribingArray;
@@ -16,7 +16,7 @@
 
 typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescribingArray *currentNotes);
 
-@interface PVNotesDatabase : NSObject <VOListenable>
+@interface PVNotesDatabase : NSObject <VOPipelineSource>
 
 @property (nonatomic, readonly, copy) NSURL *directory;
 @property (nonatomic, readonly, copy) VOChangeDescribingArray *notes;

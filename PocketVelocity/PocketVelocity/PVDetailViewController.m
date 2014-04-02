@@ -74,7 +74,7 @@
   }
 }
 
-+ (VOPipeline *)_pipelineForFilteringWithTitle:(NSString *)title fromSource:(id<VOListenable>)source
++ (VOPipeline *)_pipelineForFilteringWithTitle:(NSString *)title fromSource:(id<VOPipelineSource>)source
 {
   VOBlockTransformer *filterItem = [[VOBlockTransformer alloc] initWithBlock:^id(PVNote *value) {
     if ([title isEqualToString:value.title]) {

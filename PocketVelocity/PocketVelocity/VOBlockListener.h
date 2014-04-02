@@ -9,18 +9,18 @@
 #import <Foundation/Foundation.h>
 
 #import "VOInvalidating.h"
-#import "VOListenable.h"
+#import "VOPipelining.h"
 #import "VOPipeline.h"
 
 typedef void (^VOBlockListenerBlock)(id value);
 
-@interface VOBlockListener : NSObject <VOListening, VOInvalidating>
+@interface VOBlockListener : NSObject <VOPipelineSink, VOInvalidating>
 
-@property (nonatomic, readonly, strong) id<VOListenable> source;
+@property (nonatomic, readonly, strong) id<VOPipelineSource> source;
 @property (nonatomic, readonly, strong) dispatch_queue_t queue;
 
-- (instancetype)initWithSource:(id<VOListenable>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block;
-- (instancetype)initWithSource:(id<VOListenable>)source block:(VOBlockListenerBlock)block;
+- (instancetype)initWithSource:(id<VOPipelineSource>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block;
+- (instancetype)initWithSource:(id<VOPipelineSource>)source block:(VOBlockListenerBlock)block;
 
 - (void)invalidate;
 
