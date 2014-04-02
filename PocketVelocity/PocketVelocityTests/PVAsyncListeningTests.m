@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 
-#import "PVAsyncListening.h"
+#import "VOAsyncPipelineStage.h"
 #import "VOPipelineStage.h"
 #import "VOTestUtilities.h"
 
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
 
 - (void)testBackgroundQueue
 {
-  PVAsyncListening *async = [[PVAsyncListening alloc] initWithListenableObject:_listeners queue:_queue];
+  VOAsyncPipelineStage *async = [[VOAsyncPipelineStage alloc] initWithSource:_listeners queue:_queue];
   [async addPipelineSink:self];
   [_listeners pipelineSource:nil didUpdateToValue:nil];
   XCTAssertFalse(_callbackInvoked, @"");
@@ -62,8 +62,8 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
 
 - (void)testMainQueueOptimization
 {
-  PVAsyncListening *async = [[PVAsyncListening alloc] initWithListenableObject:_listeners
-                                                                         queue:dispatch_get_main_queue()];
+  VOAsyncPipelineStage *async = [[VOAsyncPipelineStage alloc] initWithSource:_listeners
+                                                                       queue:dispatch_get_main_queue()];
   [async addPipelineSink:self];
   [_listeners pipelineSource:nil didUpdateToValue:nil];
   XCTAssertTrue(_callbackInvoked, @"");
