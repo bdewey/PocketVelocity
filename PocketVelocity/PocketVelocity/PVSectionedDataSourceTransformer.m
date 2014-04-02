@@ -50,7 +50,7 @@
 - (VOPipeline *)pipelineTransformingToSectionedDataSource
 {
   PVSectionedDataSourceTransformer *transformer = [[PVSectionedDataSourceTransformer alloc] initWithPipelineSemantics:YES];
-  return [[VOPipeline alloc] initWithPipeline:self stages:@[transformer]];
+  return [[VOPipeline alloc] initWithPipeline:self transformer:transformer];
 }
 
 @end

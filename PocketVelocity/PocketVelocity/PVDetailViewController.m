@@ -87,7 +87,7 @@
                                   validationBlock:^BOOL(VOChangeDescribingArray *currentValue) {
                                     return currentValue.count < 2;
                                   }];
-  VOPipeline *pipeline = [[VOPipeline alloc] initWithName:@"com.brians-brian.pocket-velocity.detail-view" source:source stages:@[filterArray]];
+  VOPipeline *pipeline = [[VOPipeline alloc] initWithName:@"com.brians-brian.pocket-velocity.detail-view" source:source transformer:filterArray];
   return pipeline;
 }
 

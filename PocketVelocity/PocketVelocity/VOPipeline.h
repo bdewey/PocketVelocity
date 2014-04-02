@@ -11,16 +11,18 @@
 #import "VOInvalidating.h"
 #import "VOListenable.h"
 
+@protocol VOValueTransforming;
+
 @interface VOPipeline : NSObject <VOInvalidating, VOListenable, VOListening>
 
 @property (nonatomic, readonly, copy) NSString *name;
-@property (nonatomic, readonly, copy) NSArray *stages;
+@property (nonatomic, readonly, strong) id<VOValueTransforming> transformer;
 @property (nonatomic, readonly, assign) BOOL mainQueuePipeline;
 @property (nonatomic, readonly, assign) BOOL chainedPipeline;
 
 - (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source;
-- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source stages:(NSArray *)stages;
-- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source stages:(NSArray *)stages queue:(dispatch_queue_t)queue;
-- (instancetype)initWithPipeline:(VOPipeline *)pipeline stages:(NSArray *)stages;
+- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source transformer:(id<VOValueTransforming>)transformer;
+- (instancetype)initWithName:(NSString *)name source:(id<VOListenable>)source transformer:(id<VOValueTransforming>)transformer queue:(dispatch_queue_t)queue;
+- (instancetype)initWithPipeline:(VOPipeline *)pipeline transformer:(id<VOValueTransforming>)transformer;
 
 @end

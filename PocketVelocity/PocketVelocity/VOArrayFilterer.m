@@ -57,13 +57,13 @@
 {
   VOBlockTransformer *blockTransformer = [[VOBlockTransformer alloc] initWithBlock:block];
   VOArrayFilterer *arrayFilterer = [[VOArrayFilterer alloc] initWithTransformer:blockTransformer expectsPipelineSemantics:YES];
-  return [[VOPipeline alloc] initWithPipeline:self stages:@[arrayFilterer]];
+  return [[VOPipeline alloc] initWithPipeline:self transformer:arrayFilterer];
 }
 
 - (VOPipeline *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer
 {
   VOArrayFilterer *arrayFilterer = [[VOArrayFilterer alloc] initWithTransformer:transformer expectsPipelineSemantics:YES];
-  return [[VOPipeline alloc] initWithPipeline:self stages:@[arrayFilterer]];
+  return [[VOPipeline alloc] initWithPipeline:self transformer:arrayFilterer];
 }
 
 @end

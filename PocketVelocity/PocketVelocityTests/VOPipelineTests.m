@@ -22,8 +22,6 @@ static NSString *const kOddString  = @"Odd";
 @end
 
 @implementation VOPipelineTests {
-  VOArrayFilterer *_oddNumberFilter;
-  VOArrayMapTransformer *_numberToStringMap;
   VOPipeline *_pipeline;
   VOListenersCollection *_listeners;
   id _pipelineResult;
@@ -35,29 +33,25 @@ static NSString *const kOddString  = @"Odd";
 
   _pipelineResult = nil;
   _listeners = [[VOListenersCollection alloc] initWithCurrentValue:nil];
-  _oddNumberFilter = [[VOArrayFilterer alloc] initWithTransformer:[VOBlockTransformer blockTransformerWithBlock:^id(id value) {
+  _pipeline = [[[[VOPipeline alloc] initWithName:@"VOPipelineTests" source:_listeners transformer:nil queue:dispatch_get_main_queue()] pipelineWithArrayFilteringBlock:^id(NSNumber *value) {
     NSInteger number = [value integerValue];
     if (number % 2) {
       return value;
     }
     return nil;
-  }] expectsPipelineSemantics:YES];
-  _numberToStringMap = [[VOArrayMapTransformer alloc] initWithValueTransformer:[VOBlockTransformer blockTransformerWithBlock:^id(id value) {
+  }] pipelineWithArrayMappingBlock:^id(NSNumber *value) {
     NSInteger number = [value integerValue];
     if (number % 2) {
       return kOddString;
     }
     return kEvenString;
-  }] expectsPipelineSemantics:YES];
-  _pipeline = [[VOPipeline alloc] initWithName:@"VOPipelineTests" source:_listeners stages:@[_oddNumberFilter, _numberToStringMap] queue:dispatch_get_main_queue()];
+  }];
   [_pipeline addListener:self];
 }
 
 - (void)tearDown
 {
   [_pipeline removeListener:self];
-  _oddNumberFilter = nil;
-  _numberToStringMap = nil;
   _pipeline = nil;
   _listeners = nil;
   _pipelineResult = nil;
