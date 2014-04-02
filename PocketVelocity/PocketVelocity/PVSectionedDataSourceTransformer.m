@@ -10,6 +10,7 @@
 #import "PVSectionedDataSource.h"
 
 #import "VOChangeDescribingArray.h"
+#import "VOTransformingPipelineStage.h"
 
 @implementation PVSectionedDataSourceTransformer
 {
@@ -45,12 +46,12 @@
 
 @end
 
-@implementation VOTransformingPipelineStage (PVSectionedDataSourceTransformer)
+@implementation VOPipelineStage (PVSectionedDataSourceTransformer)
 
-- (VOTransformingPipelineStage *)pipelineTransformingToSectionedDataSource
+- (VOPipelineStage *)pipelineTransformingToSectionedDataSource
 {
   PVSectionedDataSourceTransformer *transformer = [[PVSectionedDataSourceTransformer alloc] initWithPipelineSemantics:YES];
-  return [[VOTransformingPipelineStage alloc] initWithPipeline:self transformer:transformer];
+  return [[VOTransformingPipelineStage alloc] initWithSource:self transformer:transformer];
 }
 
 @end

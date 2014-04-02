@@ -51,19 +51,19 @@
 
 @end
 
-@implementation VOTransformingPipelineStage (VOArrayFilterer)
+@implementation VOPipelineStage (VOArrayFilterer)
 
-- (VOTransformingPipelineStage *)pipelineWithArrayFilteringBlock:(VOValueTransformingBlock)block
+- (VOPipelineStage *)pipelineWithArrayFilteringBlock:(VOValueTransformingBlock)block
 {
   VOBlockTransformer *blockTransformer = [[VOBlockTransformer alloc] initWithBlock:block];
   VOArrayFilterer *arrayFilterer = [[VOArrayFilterer alloc] initWithTransformer:blockTransformer expectsPipelineSemantics:YES];
-  return [[VOTransformingPipelineStage alloc] initWithPipeline:self transformer:arrayFilterer];
+  return [[VOTransformingPipelineStage alloc] initWithSource:self transformer:arrayFilterer];
 }
 
-- (VOTransformingPipelineStage *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer
+- (VOPipelineStage *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer
 {
   VOArrayFilterer *arrayFilterer = [[VOArrayFilterer alloc] initWithTransformer:transformer expectsPipelineSemantics:YES];
-  return [[VOTransformingPipelineStage alloc] initWithPipeline:self transformer:arrayFilterer];
+  return [[VOTransformingPipelineStage alloc] initWithSource:self transformer:arrayFilterer];
 }
 
 @end

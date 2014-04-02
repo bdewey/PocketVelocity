@@ -78,19 +78,19 @@
 
 @end
 
-@implementation VOTransformingPipelineStage (VOArrayMapTransformer)
+@implementation VOPipelineStage (VOArrayMapTransformer)
 
-- (VOTransformingPipelineStage *)pipelineWithArrayMappingBlock:(VOValueTransformingBlock)block
+- (VOPipelineStage *)pipelineWithArrayMappingBlock:(VOValueTransformingBlock)block
 {
   VOBlockTransformer *itemTransformer = [[VOBlockTransformer alloc] initWithBlock:block];
   VOArrayMapTransformer *mapTransformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:itemTransformer expectsPipelineSemantics:YES];
-  return [[VOTransformingPipelineStage alloc] initWithPipeline:self transformer:mapTransformer];
+  return [[VOTransformingPipelineStage alloc] initWithSource:self transformer:mapTransformer];
 }
 
-- (VOTransformingPipelineStage *)pipelineWithArrayMappingTransformer:(id<VOValueTransforming>)transformer
+- (VOPipelineStage *)pipelineWithArrayMappingTransformer:(id<VOValueTransforming>)transformer
 {
   VOArrayMapTransformer *mapTransformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:transformer expectsPipelineSemantics:YES];
-  return [[VOTransformingPipelineStage alloc] initWithPipeline:self transformer:mapTransformer];
+  return [[VOTransformingPipelineStage alloc] initWithSource:self transformer:mapTransformer];
 }
 
 @end

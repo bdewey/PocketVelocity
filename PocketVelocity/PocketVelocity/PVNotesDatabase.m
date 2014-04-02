@@ -8,6 +8,7 @@
 
 #import "VOArrayChangeDescription.h"
 #import "VOArrayFilterer.h"
+#import "VOAsyncPipelineStage.h"
 #import "VOBlockListener.h"
 #import "VOPipelineStage.h"
 #import "VOMutableChangeDescribingArray.h"
@@ -131,7 +132,7 @@
 - (VOBlockListener *)autoSaveListener
 {
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-  return [[[[VOTransformingPipelineStage alloc] initWithName:@"com.brians-brain.pocket-velocity.autosave" source:self] pipelineWithArrayFilteringBlock:^id(PVNote *note) {
+  return [[[[VOAsyncPipelineStage alloc] initWithSource:self queueName:@"com.brians-brain.pocket-velocity.autosave"] pipelineWithArrayFilteringBlock:^id(PVNote *note) {
     if (note.dirty) {
       return note;
     }

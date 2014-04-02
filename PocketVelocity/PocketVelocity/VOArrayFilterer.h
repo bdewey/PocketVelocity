@@ -31,9 +31,9 @@ typedef BOOL (^VOArrayFilterValidationBlock)(VOChangeDescribingArray *currentVal
 
 @end
 
-@interface VOTransformingPipelineStage (VOArrayFilterer)
+@interface VOPipelineStage (VOArrayFilterer)
 
-- (VOTransformingPipelineStage *)pipelineWithArrayFilteringBlock:(VOValueTransformingBlock)block;
-- (VOTransformingPipelineStage *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer;
+- (VOPipelineStage *)pipelineWithArrayFilteringBlock:(VOValueTransformingBlock)block;
+- (VOPipelineStage *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer;
 
 @end

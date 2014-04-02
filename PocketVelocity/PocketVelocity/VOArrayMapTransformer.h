@@ -22,9 +22,9 @@
 
 @end
 
-@interface VOTransformingPipelineStage (VOArrayMapTransformer)
+@interface VOPipelineStage (VOArrayMapTransformer)
 
-- (VOTransformingPipelineStage *)pipelineWithArrayMappingBlock:(VOValueTransformingBlock)block;
-- (VOTransformingPipelineStage *)pipelineWithArrayMappingTransformer:(id<VOValueTransforming>)transformer;
+- (VOPipelineStage *)pipelineWithArrayMappingBlock:(VOValueTransformingBlock)block;
+- (VOPipelineStage *)pipelineWithArrayMappingTransformer:(id<VOValueTransforming>)transformer;
 
 @end

@@ -10,6 +10,7 @@
 #import "PVNote.h"
 #import "PVNotesDatabase.h"
 #import "PVUtilities.h"
+#import "VOAsyncPipelineStage.h"
 #import "VOArrayFilterer.h"
 #import "VOBlockListener.h"
 #import "VOBlockTransformer.h"
@@ -54,7 +55,7 @@
 
 - (void)_configureCurrentNotePipeline
 {
-  VOTransformingPipelineStage *pipeline = [[self class] _pipelineForFilteringWithTitle:_detailItem fromSource:_notesDatabase];
+  VOPipelineStage *pipeline = [[self class] _pipelineForFilteringWithTitle:_detailItem fromSource:_notesDatabase];
   [_currentNoteListener invalidate];
   __weak PVDetailViewController *weakSelf = self;
   _currentNoteListener = [[VOBlockListener alloc] initWithSource:pipeline block:^(VOChangeDescribingArray *value) {
@@ -74,21 +75,14 @@
   }
 }
 
-+ (VOTransformingPipelineStage *)_pipelineForFilteringWithTitle:(NSString *)title fromSource:(id<VOPipelineSource>)source
++ (VOPipelineStage *)_pipelineForFilteringWithTitle:(NSString *)title fromSource:(id<VOPipelineSource>)source
 {
-  VOBlockTransformer *filterItem = [[VOBlockTransformer alloc] initWithBlock:^id(PVNote *value) {
+  return [[[VOAsyncPipelineStage alloc] initWithSource:source queueName:@"com.brians-brain.pocket-velocity.detail-view"] pipelineWithArrayFilteringBlock:^id(PVNote *value) {
     if ([title isEqualToString:value.title]) {
       return value;
     }
     return nil;
   }];
-  VOArrayFilterer *filterArray = [[VOArrayFilterer alloc] initWithTransformer:filterItem
-                                                     expectsPipelineSemantics:YES
-                                  validationBlock:^BOOL(VOChangeDescribingArray *currentValue) {
-                                    return currentValue.count < 2;
-                                  }];
-  VOTransformingPipelineStage *pipeline = [[VOTransformingPipelineStage alloc] initWithName:@"com.brians-brian.pocket-velocity.detail-view" source:source transformer:filterArray];
-  return pipeline;
 }
 
 - (void)viewDidLoad

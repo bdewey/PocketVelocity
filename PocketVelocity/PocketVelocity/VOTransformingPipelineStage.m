@@ -26,40 +26,13 @@
 @synthesize currentValue = _currentValue;
 @synthesize valid = _valid;
 
-- (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer queue:(dispatch_queue_t)queue
+- (instancetype)initWithSource:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer
 {
   self = [super initWithCurrentValue:nil];
   if (self != nil) {
-    _name = [name copy];
     _source = source;
     _transformer = transformer;
-    _queue = queue;
-    _valid = YES;
-    
-    _mainQueuePipeline = (_queue == dispatch_get_main_queue());
-    
     [self pipelineSource:source didUpdateToValue:[source addPipelineSink:self]];
-  }
-  return self;
-}
-
-- (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer
-{
-  dispatch_queue_t serialQueue = dispatch_queue_create([name cStringUsingEncoding:NSUTF8StringEncoding], DISPATCH_QUEUE_SERIAL);
-  dispatch_set_target_queue(serialQueue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
-  return [self initWithName:name source:source transformer:transformer queue:serialQueue];
-}
-
-- (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source
-{
-  return [self initWithName:name source:source transformer:nil];
-}
-
-- (instancetype)initWithPipeline:(VOTransformingPipelineStage *)pipeline transformer:(id<VOValueTransforming>)transformer
-{
-  self = [self initWithName:pipeline->_name source:pipeline transformer:transformer queue:pipeline->_queue];
-  if (self != nil) {
-    _chainedPipeline = YES;
   }
   return self;
 }
@@ -84,9 +57,6 @@
     [(id<VODebugDescribable>)_source vo_describeInMutableString:mutableString];
   }
   [mutableString appendFormat:@"<%@ %p: ", NSStringFromClass([self class]), self];
-  if (!_chainedPipeline) {
-    [mutableString appendFormat:@"%@ ", _name];
-  }
   if (!sourceConformsToDescribable) {
     [mutableString appendFormat:@"%@ ", _source];
   }
