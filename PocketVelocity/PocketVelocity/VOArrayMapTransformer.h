@@ -8,7 +8,7 @@
 
 #import "VOBlockTransformer.h"
 #import "VOChangeDescribingArray.h"
-#import "VOPipeline.h"
+#import "VOTransformingPipelineStage.h"
 #import "VOValueTransforming.h"
 
 @interface VOArrayMapTransformer : NSObject <VOValueTransforming>
@@ -22,9 +22,9 @@
 
 @end
 
-@interface VOPipeline (VOArrayMapTransformer)
+@interface VOTransformingPipelineStage (VOArrayMapTransformer)
 
-- (VOPipeline *)pipelineWithArrayMappingBlock:(VOValueTransformingBlock)block;
-- (VOPipeline *)pipelineWithArrayMappingTransformer:(id<VOValueTransforming>)transformer;
+- (VOTransformingPipelineStage *)pipelineWithArrayMappingBlock:(VOValueTransformingBlock)block;
+- (VOTransformingPipelineStage *)pipelineWithArrayMappingTransformer:(id<VOValueTransforming>)transformer;
 
 @end

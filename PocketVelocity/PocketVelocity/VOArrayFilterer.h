@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VOPipeline.h"
+#import "VOTransformingPipelineStage.h"
 #import "VOBlockTransformer.h"
 #import "VOValueTransforming.h"
 
@@ -31,9 +31,9 @@ typedef BOOL (^VOArrayFilterValidationBlock)(VOChangeDescribingArray *currentVal
 
 @end
 
-@interface VOPipeline (VOArrayFilterer)
+@interface VOTransformingPipelineStage (VOArrayFilterer)
 
-- (VOPipeline *)pipelineWithArrayFilteringBlock:(VOValueTransformingBlock)block;
-- (VOPipeline *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer;
+- (VOTransformingPipelineStage *)pipelineWithArrayFilteringBlock:(VOValueTransformingBlock)block;
+- (VOTransformingPipelineStage *)pipelineWithArrayFilteringTransformer:(id<VOValueTransforming>)transformer;
 
 @end

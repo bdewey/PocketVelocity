@@ -6,20 +6,19 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
-#import "VOPipeline.h"
+#import "VOTransformingPipelineStage.h"
 
 #import "VODebugDescribable.h"
-#import "VOPipelineStage.h"
+#import "VOPipelineStage_Subclassing.h"
 #import "VOValueTransforming.h"
 
-@interface VOPipeline () <VODebugDescribable>
+@interface VOTransformingPipelineStage () <VODebugDescribable>
 @end
 
-@implementation VOPipeline
+@implementation VOTransformingPipelineStage
 {
   id<VOPipelineSource> _source;
   dispatch_queue_t _queue;
-  VOPipelineStage *_listeners;
   id _currentValue;
   BOOL _valid;
 }
@@ -29,13 +28,12 @@
 
 - (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer queue:(dispatch_queue_t)queue
 {
-  self = [super init];
+  self = [super initWithCurrentValue:nil];
   if (self != nil) {
     _name = [name copy];
     _source = source;
     _transformer = transformer;
     _queue = queue;
-    _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
     _valid = YES;
     
     _mainQueuePipeline = (_queue == dispatch_get_main_queue());
@@ -57,7 +55,7 @@
   return [self initWithName:name source:source transformer:nil];
 }
 
-- (instancetype)initWithPipeline:(VOPipeline *)pipeline transformer:(id<VOValueTransforming>)transformer
+- (instancetype)initWithPipeline:(VOTransformingPipelineStage *)pipeline transformer:(id<VOValueTransforming>)transformer
 {
   self = [self initWithName:pipeline->_name source:pipeline transformer:transformer queue:pipeline->_queue];
   if (self != nil) {
@@ -103,36 +101,16 @@
   return mutableString;
 }
 
-#pragma mark - VOListening
+#pragma mark - Subclass override
 
-- (void)pipelineSource:(id<VOPipelineSink>)listenableObject didUpdateToValue:(id)value
+- (id)transformValue:(id)value shouldContinueToSinks:(BOOL *)shouldContinueToSinks
 {
-  VO_RETURN_IF_INVALID();
-  dispatch_block_t block = ^{
-    if (_transformer) {
-      _currentValue = [_transformer transformValue:value];
-    } else {
-      _currentValue = value;
-    }
-    [_listeners pipelineSource:self didUpdateToValue:_currentValue];
-  };
-  if (_chainedPipeline || (_mainQueuePipeline && [NSThread isMainThread])) {
-    block();
+  *shouldContinueToSinks = YES;
+  if (_transformer) {
+    return [_transformer transformValue:value];
   } else {
-    dispatch_async(_queue, block);
+    return value;
   }
-}
-
-#pragma mark - VOListenable
-
-- (id)addPipelineSink:(id<VOPipelineSink>)listener
-{
-  return [_listeners addPipelineSink:listener];
-}
-
-- (void)removePipelineSink:(id<VOPipelineSink>)listener
-{
-  [_listeners removePipelineSink:listener];
 }
 
 @end

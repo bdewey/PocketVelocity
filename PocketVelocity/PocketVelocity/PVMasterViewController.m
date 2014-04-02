@@ -21,11 +21,11 @@
 #import "VOArrayMapTransformer.h"
 #import "VOBlockListener.h"
 #import "VOBlockTransformer.h"
-#import "VOPipeline.h"
+#import "VOTransformingPipelineStage.h"
 
 @interface PVMasterViewController () {
   PVNotesDatabase *_notesDatabase;
-  VOPipeline *_cellConfigurationsPipeline;
+  VOTransformingPipelineStage *_cellConfigurationsPipeline;
   VOBlockListener *_cellConfigurationsListener;
   VOBlockListener *_autoSaveListener;
 }
@@ -71,7 +71,7 @@
 - (VOBlockListener *)_cellConfigurationListenerForSource:(id<VOPipelineSource>)source
 {
   __weak PVMasterViewController *weakSelf = self;
-  return [[[[[VOPipeline alloc] initWithName:@"com.brians-brain.pocket-velocity.master-list" source:source] pipelineWithArrayMappingBlock:^PVMasterViewCellConfiguration *(PVNote *value) {
+  return [[[[[VOTransformingPipelineStage alloc] initWithName:@"com.brians-brain.pocket-velocity.master-list" source:source] pipelineWithArrayMappingBlock:^PVMasterViewCellConfiguration *(PVNote *value) {
     return [[PVMasterViewCellConfiguration alloc] initWithNote:value];
   }] pipelineTransformingToSectionedDataSource] mainQueueBlock:^(PVSectionedDataSource *value) {
     [weakSelf setCellConfigurations:value animated:YES];

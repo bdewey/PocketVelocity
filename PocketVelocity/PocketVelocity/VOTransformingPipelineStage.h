@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 #import "VOInvalidating.h"
-#import "VOPipelining.h"
+#import "VOPipelineStage.h"
 
 @protocol VOValueTransforming;
 
-@interface VOPipeline : NSObject <VOInvalidating, VOPipelineSource, VOPipelineSink>
+@interface VOTransformingPipelineStage : VOPipelineStage <VOInvalidating, VOPipelineSource, VOPipelineSink>
 
 @property (nonatomic, readonly, copy) NSString *name;
 @property (nonatomic, readonly, strong) id<VOValueTransforming> transformer;
@@ -23,6 +23,6 @@
 - (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source;
 - (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer;
 - (instancetype)initWithName:(NSString *)name source:(id<VOPipelineSource>)source transformer:(id<VOValueTransforming>)transformer queue:(dispatch_queue_t)queue;
-- (instancetype)initWithPipeline:(VOPipeline *)pipeline transformer:(id<VOValueTransforming>)transformer;
+- (instancetype)initWithPipeline:(VOTransformingPipelineStage *)pipeline transformer:(id<VOValueTransforming>)transformer;
 
 @end

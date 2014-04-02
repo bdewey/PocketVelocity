@@ -7,6 +7,7 @@
 //
 
 #import "VOPipelineStage.h"
+#import "VOPipelineStage_Subclassing.h"
 
 @implementation VOPipelineStage
 {
@@ -32,7 +33,7 @@
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ currentValue = %@, listeners = %@", [super description], _currentValue, _listeners];
+  return [NSString stringWithFormat:@"%@ currentValue = %@", [super description], _currentValue];
 }
 
 - (id)currentValue
@@ -40,6 +41,14 @@
   @synchronized(self) {
     return _currentValue;
   }
+}
+
+#pragma mark - Override point for subclasses
+
+- (id)transformValue:(id)value shouldContinueToSinks:(BOOL *)shouldPassToSinks 
+{
+  *shouldPassToSinks = YES;
+  return value;
 }
 
 #pragma mark - VOListenable
@@ -64,12 +73,18 @@
 - (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   NSHashTable *listenersCopy;
+  BOOL shouldContinueToSinks = NO;
+  value = [self transformValue:value shouldContinueToSinks:&shouldContinueToSinks];
   @synchronized(self) {
     _currentValue = value;
-    listenersCopy = [_listeners copy];
+    if (shouldContinueToSinks) {
+      listenersCopy = [_listeners copy];
+    }
   }
-  for (id<VOPipelineSink> listener in listenersCopy) {
-    [listener pipelineSource:listenableObject didUpdateToValue:value];
+  if (shouldContinueToSinks) {
+    for (id<VOPipelineSink> listener in listenersCopy) {
+      [listener pipelineSource:listenableObject didUpdateToValue:value];
+    }
   }
 }
 

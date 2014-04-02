@@ -10,7 +10,7 @@
 
 #import "VOInvalidating.h"
 #import "VOPipelining.h"
-#import "VOPipeline.h"
+#import "VOTransformingPipelineStage.h"
 
 typedef void (^VOBlockListenerBlock)(id value);
 
@@ -26,7 +26,7 @@ typedef void (^VOBlockListenerBlock)(id value);
 
 @end
 
-@interface VOPipeline (VOBlockListener)
+@interface VOTransformingPipelineStage (VOBlockListener)
 
 - (VOBlockListener *)mainQueueBlock:(VOBlockListenerBlock)block;
 - (VOBlockListener *)blockListenerOnQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block;

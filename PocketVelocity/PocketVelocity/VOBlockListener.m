@@ -66,7 +66,7 @@
 
 @end
 
-@implementation VOPipeline (VOBlockListener)
+@implementation VOTransformingPipelineStage (VOBlockListener)
 
 - (VOBlockListener *)mainQueueBlock:(VOBlockListenerBlock)block
 {

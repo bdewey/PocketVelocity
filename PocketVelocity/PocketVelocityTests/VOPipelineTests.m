@@ -12,7 +12,7 @@
 #import "VOArrayMapTransformer.h"
 #import "VOBlockTransformer.h"
 #import "VOPipelineStage.h"
-#import "VOPipeline.h"
+#import "VOTransformingPipelineStage.h"
 
 static NSString *const kEvenString = @"Even";
 static NSString *const kOddString  = @"Odd";
@@ -22,7 +22,7 @@ static NSString *const kOddString  = @"Odd";
 @end
 
 @implementation VOPipelineTests {
-  VOPipeline *_pipeline;
+  VOTransformingPipelineStage *_pipeline;
   VOPipelineStage *_listeners;
   id _pipelineResult;
 }
@@ -33,7 +33,7 @@ static NSString *const kOddString  = @"Odd";
 
   _pipelineResult = nil;
   _listeners = [[VOPipelineStage alloc] initWithCurrentValue:nil];
-  _pipeline = [[[[VOPipeline alloc] initWithName:@"VOPipelineTests" source:_listeners transformer:nil queue:dispatch_get_main_queue()] pipelineWithArrayFilteringBlock:^id(NSNumber *value) {
+  _pipeline = [[[[VOTransformingPipelineStage alloc] initWithName:@"VOPipelineTests" source:_listeners transformer:nil queue:dispatch_get_main_queue()] pipelineWithArrayFilteringBlock:^id(NSNumber *value) {
     NSInteger number = [value integerValue];
     if (number % 2) {
       return value;
@@ -56,6 +56,12 @@ static NSString *const kOddString  = @"Odd";
   _listeners = nil;
   _pipelineResult = nil;
   [super tearDown];
+}
+
+- (void)testPipelineDescription
+{
+  NSString *description = [_pipeline description];
+  XCTAssertNotNil(description, @"");
 }
 
 - (void)testSimplePipeline

@@ -131,7 +131,7 @@
 - (VOBlockListener *)autoSaveListener
 {
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-  return [[[[VOPipeline alloc] initWithName:@"com.brians-brain.pocket-velocity.autosave" source:self] pipelineWithArrayFilteringBlock:^id(PVNote *note) {
+  return [[[[VOTransformingPipelineStage alloc] initWithName:@"com.brians-brain.pocket-velocity.autosave" source:self] pipelineWithArrayFilteringBlock:^id(PVNote *note) {
     if (note.dirty) {
       return note;
     }

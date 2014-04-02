@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "VOPipeline.h"
+#import "VOTransformingPipelineStage.h"
 #import "VOValueTransforming.h"
 
 @class PVSectionedDataSource;
@@ -22,8 +22,8 @@
 
 @end
 
-@interface VOPipeline (PVSectionedDataSourceTransformer)
+@interface VOTransformingPipelineStage (PVSectionedDataSourceTransformer)
 
-- (VOPipeline *)pipelineTransformingToSectionedDataSource;
+- (VOTransformingPipelineStage *)pipelineTransformingToSectionedDataSource;
 
 @end

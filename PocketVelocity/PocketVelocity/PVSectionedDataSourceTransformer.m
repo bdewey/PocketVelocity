@@ -45,12 +45,12 @@
 
 @end
 
-@implementation VOPipeline (PVSectionedDataSourceTransformer)
+@implementation VOTransformingPipelineStage (PVSectionedDataSourceTransformer)
 
-- (VOPipeline *)pipelineTransformingToSectionedDataSource
+- (VOTransformingPipelineStage *)pipelineTransformingToSectionedDataSource
 {
   PVSectionedDataSourceTransformer *transformer = [[PVSectionedDataSourceTransformer alloc] initWithPipelineSemantics:YES];
-  return [[VOPipeline alloc] initWithPipeline:self transformer:transformer];
+  return [[VOTransformingPipelineStage alloc] initWithPipeline:self transformer:transformer];
 }
 
 @end
