@@ -33,23 +33,23 @@ typedef struct {
 {
   VOChangeDescribingArray *baseArray = [[VOChangeDescribingArray alloc] init];
   XCTAssertEqual(baseArray, [baseArray copy], @"Copy of immutable object should be pointer-equal");
-  XCTAssertEqual(0U, baseArray.count, @"");
+  XCTAssertEqual((NSUInteger)0, baseArray.count, @"");
   XCTAssertNil(baseArray.changeDescription, @"");
   
   VOMutableChangeDescribingArray *mutableArray = [baseArray mutableCopy];
   [mutableArray addObject:@(0)];
-  XCTAssertEqual(1U, mutableArray.count, @"");
-  XCTAssertEqual(0U, baseArray.count, @"");
+  XCTAssertEqual((NSUInteger)1, mutableArray.count, @"");
+  XCTAssertEqual((NSUInteger)0, baseArray.count, @"");
   
   VOMutableChangeDescribingArray *secondMutableArray = [mutableArray mutableCopy];
   [secondMutableArray addObject:@(1)];
-  XCTAssertEqual(2U, secondMutableArray.count, @"");
-  XCTAssertEqual(1U, mutableArray.count, @"");
-  XCTAssertEqual(0U, baseArray.count, @"");
+  XCTAssertEqual((NSUInteger)2, secondMutableArray.count, @"");
+  XCTAssertEqual((NSUInteger)1, mutableArray.count, @"");
+  XCTAssertEqual((NSUInteger)0, baseArray.count, @"");
   
   [mutableArray insertObject:@(3) atIndex:0];
-  XCTAssertEqual(2U, mutableArray.count, @"");
-  XCTAssertEqual(2U, secondMutableArray.count, @"");
+  XCTAssertEqual((NSUInteger)2, mutableArray.count, @"");
+  XCTAssertEqual((NSUInteger)2, secondMutableArray.count, @"");
   XCTAssertEqualObjects(@(3), mutableArray[0], @"");
   XCTAssertEqualObjects(@(0), secondMutableArray[0], @"");
   
@@ -64,12 +64,12 @@ typedef struct {
   for (int i = 0; i < 3; i++) {
     [mutableArray addObject:@(i)];
   }
-  XCTAssertEqual(3U, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual((NSUInteger)3, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
   VOChangeDescribingArray *immutableCopy = [mutableArray copy];
-  XCTAssertEqual(3U, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
-  XCTAssertEqual(3U, immutableCopy.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual((NSUInteger)3, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual((NSUInteger)3, immutableCopy.changeDescription.indexesToAddFromUpdatedValues.count, @"");
   mutableArray = [immutableCopy mutableCopy];
-  XCTAssertEqual(0U, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual((NSUInteger)0, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
 }
 
 - (void)testInsertChangeDescriptions
@@ -79,8 +79,8 @@ typedef struct {
   [mutableArray addObject:@(1)];
   VOArrayChangeDescription *changeDescription = mutableArray.changeDescription;
   XCTAssertNotNil(changeDescription, @"");
-  XCTAssertEqual(0U, changeDescription.indexesToRemoveFromOldValues.count, @"");
-  XCTAssertEqual(2U, changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual((NSUInteger)0, changeDescription.indexesToRemoveFromOldValues.count, @"");
+  XCTAssertEqual((NSUInteger)2, changeDescription.indexesToAddFromUpdatedValues.count, @"");
   XCTAssertTrue([changeDescription.indexesToAddFromUpdatedValues containsIndex:0], @"");
   XCTAssertTrue([changeDescription.indexesToAddFromUpdatedValues containsIndex:1], @"");
 }
@@ -92,12 +92,12 @@ typedef struct {
   [mutableArray addObject:@(1)];
   VOChangeDescribingArray *immutableCopy = [mutableArray copy];
   mutableArray = [immutableCopy mutableCopy];
-  XCTAssertEqual(0U, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
-  XCTAssertEqual(0U, mutableArray.changeDescription.indexesToRemoveFromOldValues.count, @"");
+  XCTAssertEqual((NSUInteger)0, mutableArray.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual((NSUInteger)0, mutableArray.changeDescription.indexesToRemoveFromOldValues.count, @"");
   [mutableArray removeLastObject];
   [mutableArray removeLastObject];
-  XCTAssertEqual(0U, mutableArray.count, @"");
-  XCTAssertEqual(2U, mutableArray.changeDescription.indexesToRemoveFromOldValues.count, @"");
+  XCTAssertEqual((NSUInteger)0, mutableArray.count, @"");
+  XCTAssertEqual((NSUInteger)2, mutableArray.changeDescription.indexesToRemoveFromOldValues.count, @"");
   XCTAssertTrue([mutableArray.changeDescription.indexesToRemoveFromOldValues containsIndex:0], @"");
   XCTAssertTrue([mutableArray.changeDescription.indexesToRemoveFromOldValues containsIndex:1], @"");
 }

@@ -36,14 +36,14 @@
   values[@"brian"] = @(312);
   values[@"alex"]  = @(319);
   
-  XCTAssertEqual(2u, values.count, @"");
+  XCTAssertEqual((NSUInteger)2, values.count, @"");
   
   VOMutableChangeDescribingDictionary *mutableCopy = [values mutableCopy];
   mutableCopy[@"brian"] = @"father";
   mutableCopy[@"patrick"] = @"son";
   
-  XCTAssertEqual(3u, mutableCopy.count, @"");
-  XCTAssertEqual(2u, values.count, @"");
+  XCTAssertEqual((NSUInteger)3, mutableCopy.count, @"");
+  XCTAssertEqual((NSUInteger)2, values.count, @"");
   XCTAssertEqualObjects(@(312), values[@"brian"], @"");
   XCTAssertEqualObjects(@"father", mutableCopy[@"brian"], @"");
   XCTAssertEqualObjects(@(319), mutableCopy[@"alex"], @"");

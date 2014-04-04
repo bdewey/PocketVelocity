@@ -68,8 +68,8 @@ static VOChangeDescribingArray *CreateTestArray() {
   mutableState[1] = @(13);      // replace one odd value with another
   VOChangeDescribingArray *output = [transformer transformValue:mutableState previousResult:originalOutput];
   XCTAssertEqualObjects(originalOutput, output, @"");
-  XCTAssertEqual(0U, output.changeDescription.indexesToAddFromUpdatedValues.count, @"");
-  XCTAssertEqual(0U, output.changeDescription.indexesToRemoveFromOldValues.count, @"");
+  XCTAssertEqual((NSUInteger)0, output.changeDescription.indexesToAddFromUpdatedValues.count, @"");
+  XCTAssertEqual((NSUInteger)0, output.changeDescription.indexesToRemoveFromOldValues.count, @"");
 }
 
 #pragma mark - VOValueTransforming

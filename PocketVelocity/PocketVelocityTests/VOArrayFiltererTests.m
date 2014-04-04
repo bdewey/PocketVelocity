@@ -44,7 +44,7 @@ static VOChangeDescribingArray *CreateTestArray(NSUInteger length) {
 {
   VOChangeDescribingArray *input = CreateTestArray(10);
   VOChangeDescribingArray *output = [_filterer transformValue:input previousResult:nil];
-  XCTAssertEqual(5u, output.count, @"");
+  XCTAssertEqual((NSUInteger)5, output.count, @"");
 }
 
 #pragma mark - VOValueTransforming
