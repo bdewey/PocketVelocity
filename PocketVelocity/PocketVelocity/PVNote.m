@@ -7,7 +7,7 @@
 //
 
 #import "PVNote.h"
-#import "PVUtilities.h"
+#import "VOUtilities.h"
 
 @implementation PVNote
 {
@@ -54,11 +54,11 @@
     return NO;
   }
   PVNote *otherNote = (PVNote *)object;
-  return PVStringsAreEqual(_title, otherNote->_title) &&
-    PVStringsAreEqual(_note, otherNote->_note) &&
-    PVObjectsAreEqual(_tags, otherNote->_tags) &&
-    PVObjectsAreEqual(_dateAdded, otherNote->_dateAdded) &&
-    PVObjectsAreEqual(_dateModified, otherNote->_dateModified) &&
+  return VOStringsAreEqual(_title, otherNote->_title) &&
+    VOStringsAreEqual(_note, otherNote->_note) &&
+    VOObjectsAreEqual(_tags, otherNote->_tags) &&
+    VOObjectsAreEqual(_dateAdded, otherNote->_dateAdded) &&
+    VOObjectsAreEqual(_dateModified, otherNote->_dateModified) &&
     _dirty == otherNote->_dirty;
 }
 

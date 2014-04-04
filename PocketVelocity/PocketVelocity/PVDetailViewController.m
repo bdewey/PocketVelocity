@@ -9,7 +9,7 @@
 #import "PVDetailViewController.h"
 #import "PVNote.h"
 #import "PVNotesDatabase.h"
-#import "PVUtilities.h"
+#import "VOUtilities.h"
 #import "VOAsyncPipelineStage.h"
 #import "VOArrayFilterer.h"
 #import "VOBlockListener.h"
@@ -57,7 +57,7 @@
 
 - (void)setCurrentNote:(PVNote *)currentNote
 {
-  if (!PVObjectsAreEqual(_currentNote, currentNote)) {
+  if (!VOObjectsAreEqual(_currentNote, currentNote)) {
     _currentNote = currentNote;
     [self configureView];
   }

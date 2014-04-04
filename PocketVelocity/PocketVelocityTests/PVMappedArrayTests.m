@@ -11,7 +11,7 @@
 #import "PVArrayChangeDescription.h"
 #import "VOArrayMapTransformer.h"
 #import "PVMutableChangeDescribingArray.h"
-#import "PVUtilities.h"
+#import "VOUtilities.h"
 
 static NSUInteger kArraySize = 10;
 static NSString * const kOddString = @"Odd";

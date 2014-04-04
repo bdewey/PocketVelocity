@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-NS_INLINE BOOL PVObjectsAreEqual(id<NSObject> object1, id<NSObject> object2)
+NS_INLINE BOOL VOObjectsAreEqual(id<NSObject> object1, id<NSObject> object2)
 {
   return (object1 == object2) || [object1 isEqual:object2];
 }
 
-NS_INLINE BOOL PVStringsAreEqual(NSString *string1, NSString *string2)
+NS_INLINE BOOL VOStringsAreEqual(NSString *string1, NSString *string2)
 {
   return (string1 == string2) || [string1 isEqualToString:string2];
 }

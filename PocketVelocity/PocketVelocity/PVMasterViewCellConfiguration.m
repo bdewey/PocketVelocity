@@ -8,7 +8,7 @@
 
 #import "PVMasterViewCellConfiguration.h"
 #import "PVNote.h"
-#import "PVUtilities.h"
+#import "VOUtilities.h"
 
 @implementation PVMasterViewCellConfiguration
 {
@@ -46,7 +46,7 @@
 {
   PVMasterViewCellConfiguration *objectAsConfiguration = (PVMasterViewCellConfiguration *)object;
   return [object isKindOfClass:[self class]] &&
-    PVStringsAreEqual(_titleText, objectAsConfiguration->_titleText) &&
+    VOStringsAreEqual(_titleText, objectAsConfiguration->_titleText) &&
     _dirty == objectAsConfiguration->_dirty;
 }
 

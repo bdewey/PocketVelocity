@@ -9,7 +9,7 @@
 #import "VOChangeDescribingDictionary.h"
 #import "VODictionaryChangeDescription.h"
 #import "VOMutableChangeDescribingDictionary.h"
-#import "PVUtilities.h"
+#import "VOUtilities.h"
 
 @implementation VOChangeDescribingDictionary
 {
@@ -44,7 +44,7 @@
   }
   if ([object isKindOfClass:[VOChangeDescribingDictionary class]]) {
     VOChangeDescribingDictionary *objectAsDictionary = object;
-    return PVObjectsAreEqual(_values, objectAsDictionary->_values);
+    return VOObjectsAreEqual(_values, objectAsDictionary->_values);
   }
   if ([object conformsToProtocol:@protocol(VODictionary)]) {
     NSDictionary *otherDictionary = [object dictionary];

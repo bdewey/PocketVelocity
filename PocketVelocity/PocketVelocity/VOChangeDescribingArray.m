@@ -12,7 +12,7 @@
 #import "VOChangeDescribingArray_Internal.h"
 #import "VOPipelineStage.h"
 #import "VOMutableChangeDescribingArray.h"
-#import "PVUtilities.h"
+#import "VOUtilities.h"
 
 @implementation VOChangeDescribingArray
 {
@@ -45,10 +45,10 @@
 - (BOOL)isEqual:(id)object
 {
   if ([object isKindOfClass:[NSArray class]]) {
-    return PVObjectsAreEqual(_values, object);
+    return VOObjectsAreEqual(_values, object);
   } else if ([object isKindOfClass:[VOChangeDescribingArray class]]) {
     VOChangeDescribingArray *otherArray = (VOChangeDescribingArray *)object;
-    return PVObjectsAreEqual(_values, otherArray->_values);
+    return VOObjectsAreEqual(_values, otherArray->_values);
   }
   return NO;
 }

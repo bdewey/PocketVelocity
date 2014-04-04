@@ -7,7 +7,7 @@
 //
 
 #import "VODictionaryChangeDescription.h"
-#import "PVUtilities.h"
+#import "VOUtilities.h"
 
 @implementation VODictionaryChangeDescription
 
@@ -32,8 +32,8 @@
     return NO;
   }
   VODictionaryChangeDescription *otherChangeDescription = object;
-  return PVObjectsAreEqual(_insertedOrUpdatedKeys, otherChangeDescription->_insertedOrUpdatedKeys) &&
-    PVObjectsAreEqual(_removedKeys, otherChangeDescription->_removedKeys);
+  return VOObjectsAreEqual(_insertedOrUpdatedKeys, otherChangeDescription->_insertedOrUpdatedKeys) &&
+    VOObjectsAreEqual(_removedKeys, otherChangeDescription->_removedKeys);
 }
 
 - (NSUInteger)hash
