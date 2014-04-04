@@ -22,6 +22,7 @@
     _titleText = [note.title copy];
     _reuseIdentifier = NSStringFromClass([self class]);
     _noteIdentifier = [note.title copy];
+    _dirty = note.dirty;
   }
   return self;
 }
@@ -33,7 +34,7 @@
 
 - (void)configureCell:(UITableViewCell *)cell
 {
-  cell.textLabel.text = _titleText;
+  cell.textLabel.text = [NSString stringWithFormat:@"%@%@", _dirty?@"* ":@"", _titleText];
 }
 
 - (NSString *)description
@@ -43,13 +44,15 @@
 
 - (BOOL)isEqual:(id)object
 {
+  PVMasterViewCellConfiguration *objectAsConfiguration = (PVMasterViewCellConfiguration *)object;
   return [object isKindOfClass:[self class]] &&
-    PVStringsAreEqual(_titleText, ((PVMasterViewCellConfiguration *)object)->_titleText);
+    PVStringsAreEqual(_titleText, objectAsConfiguration->_titleText) &&
+    _dirty == objectAsConfiguration->_dirty;
 }
 
 - (NSUInteger)hash
 {
-  return [_titleText hash];
+  return [_titleText hash] * 31 + [@(_dirty) hash];
 }
 
 @end

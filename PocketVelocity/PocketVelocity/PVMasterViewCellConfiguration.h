@@ -14,6 +14,7 @@
 
 @property (nonatomic, readonly, copy) NSString *reuseIdentifier;
 @property (nonatomic, readonly, copy) NSString *noteIdentifier;
+@property (nonatomic, readonly, assign) BOOL dirty;
 
 - (instancetype)initWithNote:(PVNote *)note;
 - (void)configureCell:(UITableViewCell *)cell;

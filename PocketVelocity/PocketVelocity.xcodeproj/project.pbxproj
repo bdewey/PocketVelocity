@@ -64,6 +64,8 @@
 		D5A3BAF718EE6DC0006DC981 /* NSObject+VOUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A3BAF618EE6DC0006DC981 /* NSObject+VOUtilities.m */; };
 		D5A3BAF818EE6DC0006DC981 /* NSObject+VOUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A3BAF618EE6DC0006DC981 /* NSObject+VOUtilities.m */; };
 		D5A8820818E0A734007E32A9 /* PVAsyncListeningTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A8820718E0A734007E32A9 /* PVAsyncListeningTests.m */; };
+		D5A8B81F18EF50E100014A66 /* VOCoalescingPipelineStage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A8B81E18EF50E100014A66 /* VOCoalescingPipelineStage.m */; };
+		D5A8B82018EF50E100014A66 /* VOCoalescingPipelineStage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5A8B81E18EF50E100014A66 /* VOCoalescingPipelineStage.m */; };
 		D5B7335318EBE26E00B23309 /* VOAsyncPipelineStage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5B7335218EBE26E00B23309 /* VOAsyncPipelineStage.m */; };
 		D5B7335418EBE26E00B23309 /* VOAsyncPipelineStage.m in Sources */ = {isa = PBXBuildFile; fileRef = D5B7335218EBE26E00B23309 /* VOAsyncPipelineStage.m */; };
 		D5CBC3B518E9C1970087992F /* VOListenersCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D5CBC3B418E9C1970087992F /* VOListenersCollectionTests.m */; };
@@ -167,6 +169,8 @@
 		D5A3BAF518EE6DC0006DC981 /* NSObject+VOUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+VOUtilities.h"; sourceTree = "<group>"; };
 		D5A3BAF618EE6DC0006DC981 /* NSObject+VOUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+VOUtilities.m"; sourceTree = "<group>"; };
 		D5A8820718E0A734007E32A9 /* PVAsyncListeningTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVAsyncListeningTests.m; sourceTree = "<group>"; };
+		D5A8B81D18EF50E100014A66 /* VOCoalescingPipelineStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOCoalescingPipelineStage.h; sourceTree = "<group>"; };
+		D5A8B81E18EF50E100014A66 /* VOCoalescingPipelineStage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOCoalescingPipelineStage.m; sourceTree = "<group>"; };
 		D5B7335118EBE26E00B23309 /* VOAsyncPipelineStage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VOAsyncPipelineStage.h; sourceTree = "<group>"; };
 		D5B7335218EBE26E00B23309 /* VOAsyncPipelineStage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOAsyncPipelineStage.m; sourceTree = "<group>"; };
 		D5CBC3B418E9C1970087992F /* VOListenersCollectionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VOListenersCollectionTests.m; sourceTree = "<group>"; };
@@ -293,6 +297,8 @@
 				0A206C5818DF2545002ABA88 /* VOChangeDescribingArray_Internal.h */,
 				D5D4810C18ED1DA800181E88 /* VOChangeDescribingDictionary.h */,
 				D5D4810D18ED1DA800181E88 /* VOChangeDescribingDictionary.m */,
+				D5A8B81D18EF50E100014A66 /* VOCoalescingPipelineStage.h */,
+				D5A8B81E18EF50E100014A66 /* VOCoalescingPipelineStage.m */,
 				D5D4811B18ED289100181E88 /* VODictionary.h */,
 				D5D4811018ED1DCE00181E88 /* VODictionaryChangeDescription.h */,
 				D5D4811118ED1DCE00181E88 /* VODictionaryChangeDescription.m */,
@@ -465,6 +471,7 @@
 				D5A3BAF718EE6DC0006DC981 /* NSObject+VOUtilities.m in Sources */,
 				D5D4812818ED9C9100181E88 /* VODictionaryToValuesTransformer.m in Sources */,
 				0AB457ED18D4CEF300C47B8C /* PVNote.m in Sources */,
+				D5A8B81F18EF50E100014A66 /* VOCoalescingPipelineStage.m in Sources */,
 				D560D2D618E625A500B7915E /* VOArrayFilterer.m in Sources */,
 				D5B7335318EBE26E00B23309 /* VOAsyncPipelineStage.m in Sources */,
 				0A206C5718DE40E3002ABA88 /* VOMutableChangeDescribingArray.m in Sources */,
@@ -497,6 +504,7 @@
 				0A206C6F18DFF8CB002ABA88 /* PVNotesDatabase.m in Sources */,
 				D5D4811718ED1FB300181E88 /* VOMutableChangeDescribingDictionary.m in Sources */,
 				0AB4581918D80D9100C47B8C /* VOChangeDescribingArray.m in Sources */,
+				D5A8B82018EF50E100014A66 /* VOCoalescingPipelineStage.m in Sources */,
 				D513F26218E6A09800306EB0 /* VOBlockListener.m in Sources */,
 				D5D4811D18ED2D2900181E88 /* VOMutableChangeDescribingDictionaryTests.m in Sources */,
 				D5A3BAF818EE6DC0006DC981 /* NSObject+VOUtilities.m in Sources */,

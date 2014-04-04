@@ -35,7 +35,7 @@
   VOMutableChangeDescribingArray *section2 = [[VOMutableChangeDescribingArray alloc] init];
   PVSectionedDataSource *dataSource = [[PVSectionedDataSource alloc] initWithSections:@[section1, section2]];
   
-  XCTAssertEqual(2U, [dataSource countOfSections], @"");
+  XCTAssertEqual((NSUInteger)2, [dataSource countOfSections], @"");
   NSMutableSet *expectedAddedIndexPaths = [[NSMutableSet alloc] init];
   for (int i = 0; i < 10; i++) {
     [section1 addObject:@(i)];
@@ -51,10 +51,10 @@
   mutableDataSource[1] = section2;
   PVSectionedDataSource *updatedDataSource = [mutableDataSource copy];
   
-  XCTAssertEqual(0U, [dataSource countOfItemsInSection:0], @"");
-  XCTAssertEqual(10U, [updatedDataSource countOfItemsInSection:0], @"");
+  XCTAssertEqual((NSUInteger)0, [dataSource countOfItemsInSection:0], @"");
+  XCTAssertEqual((NSUInteger)10, [updatedDataSource countOfItemsInSection:0], @"");
   XCTAssertEqualObjects(expectedAddedIndexPaths, [NSSet setWithArray:updatedDataSource.changeDescription.insertedIndexPaths], @"");
-  XCTAssertEqual(0U, updatedDataSource.changeDescription.removedIndexPaths.count, @"");
+  XCTAssertEqual((NSUInteger)0, updatedDataSource.changeDescription.removedIndexPaths.count, @"");
   
   // Clear changeDescription from section1
   section1 = [[section1 copy] mutableCopy];
@@ -71,7 +71,7 @@
   NSMutableSet *expectedRemovedIndexPaths = [[NSMutableSet alloc] init];
   [expectedRemovedIndexPaths addObject:[NSIndexPath indexPathForItem:3 inSection:0]];
   
-  XCTAssertEqual(11U, [updatedDataSource countOfItemsInSection:0], @"");
+  XCTAssertEqual((NSUInteger)11, [updatedDataSource countOfItemsInSection:0], @"");
   XCTAssertEqualObjects(expectedAddedIndexPaths, [NSSet setWithArray:updatedDataSource.changeDescription.insertedIndexPaths], @"");
   XCTAssertEqualObjects(expectedRemovedIndexPaths, [NSSet setWithArray:updatedDataSource.changeDescription.removedIndexPaths], @"");
 }

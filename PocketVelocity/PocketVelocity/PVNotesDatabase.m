@@ -11,6 +11,7 @@
 #import "VOAsyncPipelineStage.h"
 #import "VOBlockListener.h"
 #import "VOChangeDescribingDictionary.h"
+#import "VOCoalescingPipelineStage.h"
 #import "VODictionaryChangeDescription.h"
 #import "VODictionaryFilterer.h"
 #import "VOPipelineStage.h"
@@ -136,32 +137,34 @@ static NSString * const kNoteExtension = @"txt";
 - (VOBlockListener *)autoSaveListener
 {
   dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-  return [[[[VOAsyncPipelineStage alloc] initWithSource:self queueName:@"com.brians-brain.pocket-velocity.autosave"] pipelineByFilteringDictionaryWithBlock:^BOOL(NSString *noteTitle, PVNote *note) {
+  return [[[[[VOAsyncPipelineStage alloc] initWithSource:self queueName:@"com.brians-brain.pocket-velocity.autosave"] pipelineByFilteringDictionaryWithBlock:^BOOL(NSString *noteTitle, PVNote *note) {
     if (note.dirty) {
       return YES;
     }
     return NO;
-  }] blockListenerOnQueue:queue block:^(VOChangeDescribingDictionary *notes) {
-    if (!notes.count) {
-      return;
-    }
-    for (PVNote *note in notes.dictionary.allValues) {
-      NSURL *url = [self _fileURLFromNote:note];
-      [note.note writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:NULL];
-    }
-    [self updateNotesWithBlock:^VOChangeDescribingDictionary *(VOChangeDescribingDictionary *currentNotes) {
-      VOMutableChangeDescribingDictionary *mutableNotes = [currentNotes mutableCopy];
-      [notes.dictionary enumerateKeysAndObjectsUsingBlock:^(NSString *noteTitle, PVNote *savedNote, BOOL *stop) {
-        PVNote *existingNote = mutableNotes[noteTitle];
-        if ([savedNote.note isEqualToString:existingNote.note]) {
-          PVMutableNote *mutableNote = [existingNote mutableCopy];
-          mutableNote.dirty = NO;
-          mutableNotes[noteTitle] = mutableNote;
+  }] pipelineStageCoalescedWithTimeInterval:10]
+      blockListenerOnQueue:queue block:^(VOChangeDescribingDictionary *notes) {
+        NSDictionary *notesDictionary = notes.dictionary;
+        if (!notesDictionary.count) {
+          return;
         }
+        for (PVNote *note in notesDictionary.allValues) {
+          NSURL *url = [self _fileURLFromNote:note];
+          [note.note writeToURL:url atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+        }
+        [self updateNotesWithBlock:^VOChangeDescribingDictionary *(VOChangeDescribingDictionary *currentNotes) {
+          VOMutableChangeDescribingDictionary *mutableNotes = [currentNotes mutableCopy];
+          [notesDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *noteTitle, PVNote *savedNote, BOOL *stop) {
+            PVNote *existingNote = mutableNotes[noteTitle];
+            if ([savedNote.note isEqualToString:existingNote.note]) {
+              PVMutableNote *mutableNote = [existingNote mutableCopy];
+              mutableNote.dirty = NO;
+              mutableNotes[noteTitle] = mutableNote;
+            }
+          }];
+          return [mutableNotes copy];
+        }];
       }];
-      return [mutableNotes copy];
-    }];
-  }];
 }
 
 - (void)updateNote:(PVNote *)noteToUpdate

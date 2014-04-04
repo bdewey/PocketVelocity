@@ -43,7 +43,7 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
   if (_currentValue != nil) {
     NSUInteger currentInteger = [_currentValue unsignedIntegerValue];
     NSUInteger updatedInteger = [value unsignedIntegerValue];
-    NSAssert(updatedInteger == currentInteger + 1, @"Gap in values: %u -> %u", currentInteger, updatedInteger);
+    NSAssert(updatedInteger == currentInteger + 1, @"Gap in values: %lu -> %lu", (unsigned long)currentInteger, (unsigned long)updatedInteger);
   }
   _currentValue = value;
 }
