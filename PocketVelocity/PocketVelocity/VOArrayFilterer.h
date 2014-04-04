@@ -27,7 +27,7 @@ typedef BOOL (^VOArrayFilterValidationBlock)(VOChangeDescribingArray *currentVal
 
 - (instancetype)initWithTransformer:(id<VOValueTransforming>)transformer
            expectsPipelineSemantics:(BOOL)expectsPipelineSemantics;
-- (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)value;
+- (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)value previousResult:(VOChangeDescribingArray *)previousResult;
 
 @end
 

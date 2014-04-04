@@ -19,6 +19,11 @@
 - (instancetype)initWithIndexesToRemoveFromOldValues:(NSIndexSet *)indexesToRemoveFromOldValues
                        indexesToAddFromUpdatedValues:(NSIndexSet *)indexesToAddFromUpdatedValues;
 
+/**
+ Diffs `oldArray` and `updatedArray` and returns an VOArrayChangeDescription that describes the differences.
+ */
++ (instancetype)arrayChangeDescriptionFromOldArray:(NSArray *)oldArray updatedArray:(NSArray *)updatedArray;
+
 @end
 
 /**

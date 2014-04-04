@@ -26,6 +26,16 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
 @end
 
 @implementation _SampleListener
+{
+  BOOL _valid;
+}
+
+@synthesize valid = _valid;
+
+- (void)invalidate
+{
+  _valid = NO;
+}
 
 - (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(NSNumber *)value
 {
@@ -36,6 +46,11 @@ static CFTimeInterval _TimeBlock(dispatch_block_t block) {
     NSAssert(updatedInteger == currentInteger + 1, @"Gap in values: %u -> %u", currentInteger, updatedInteger);
   }
   _currentValue = value;
+}
+
+- (void)pipelineSourceDidStop:(id<VOPipelineSource>)pipelineSource
+{
+  // NOTHING
 }
 
 @end

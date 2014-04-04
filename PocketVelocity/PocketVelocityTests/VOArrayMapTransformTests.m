@@ -43,8 +43,8 @@ static VOChangeDescribingArray *CreateTestArray() {
 
 - (void)testBasicMapping
 {
-  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self expectsPipelineSemantics:NO];
-  VOChangeDescribingArray *output = [transformer transformValue:CreateTestArray()];
+  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self];
+  VOChangeDescribingArray *output = [transformer transformValue:CreateTestArray() previousResult:nil];
   // spot check because I'm lazy
   XCTAssertEqualObjects(kEvenString, output[0], @"");
   XCTAssertEqualObjects(kOddString, output[1], @"");
@@ -52,8 +52,8 @@ static VOChangeDescribingArray *CreateTestArray() {
 
 - (void)testPipelinedMapping
 {
-  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self expectsPipelineSemantics:YES];
-  VOChangeDescribingArray *output = [transformer transformValue:CreateTestArray()];
+  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self];
+  VOChangeDescribingArray *output = [transformer transformValue:CreateTestArray() previousResult:nil];
   // spot check because I'm lazy
   XCTAssertEqualObjects(kEvenString, output[0], @"");
   XCTAssertEqualObjects(kOddString, output[1], @"");
@@ -61,12 +61,12 @@ static VOChangeDescribingArray *CreateTestArray() {
 
 - (void)testSuppressedPipelineUpdate
 {
-  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self expectsPipelineSemantics:YES];
+  VOArrayMapTransformer *transformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:self];
   VOChangeDescribingArray *startingState = CreateTestArray();
-  VOChangeDescribingArray *originalOutput = [transformer transformValue:startingState];
+  VOChangeDescribingArray *originalOutput = [transformer transformValue:startingState previousResult:nil];
   VOMutableChangeDescribingArray *mutableState = [startingState mutableCopy];
   mutableState[1] = @(13);      // replace one odd value with another
-  VOChangeDescribingArray *output = [transformer transformValue:mutableState];
+  VOChangeDescribingArray *output = [transformer transformValue:mutableState previousResult:originalOutput];
   XCTAssertEqualObjects(originalOutput, output, @"");
   XCTAssertEqual(0U, output.changeDescription.indexesToAddFromUpdatedValues.count, @"");
   XCTAssertEqual(0U, output.changeDescription.indexesToRemoveFromOldValues.count, @"");
@@ -74,7 +74,7 @@ static VOChangeDescribingArray *CreateTestArray() {
 
 #pragma mark - VOValueTransforming
 
-- (id)transformValue:(NSNumber *)value
+- (id)transformValue:(NSNumber *)value previousResult:(id)previousResult
 {
   NSInteger number = [value integerValue];
   if (number % 2) {

@@ -6,16 +6,18 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
+#import "NSObject+VOUtilities.h"
 #import "VOPipelineStage.h"
-#import "VOPipelineStage_Subclassing.h"
 
 @implementation VOPipelineStage
 {
   id _currentValue;
   NSHashTable *_listeners;
+  VOPipelineState _pipelineState;
   BOOL _valid;
 }
 
+@synthesize pipelineState = _pipelineState;
 @synthesize valid = _valid;
 
 - (instancetype)initWithSource:(id<VOPipelineSource>)source
@@ -23,7 +25,7 @@
   self = [super init];
   if (self != nil) {
     _source = source;
-    _currentValue = [_source addPipelineSink:self];
+    [_source addPipelineSink:self];
     _listeners = [[NSHashTable alloc] initWithOptions:(NSPointerFunctionsObjectPointerPersonality | NSHashTableWeakMemory)
                                              capacity:4];
     _valid = YES;
@@ -41,9 +43,27 @@
   [_source removePipelineSink:self];
 }
 
+- (void)invalidate
+{
+  _valid = NO;
+  [_source removePipelineSink:self];
+}
+
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ currentValue = %@", [super description], _currentValue];
+  return [self vo_descriptionWithProperties:@{@"currentValue": NSNULL_IF_NIL(_currentValue)}];
+}
+
+#pragma mark - VOPipelineSource
+
+- (NSString *)pipelineDescription
+{
+  NSString *sourceDescription = [_source pipelineDescription];
+  if (sourceDescription != nil) {
+    return [NSString stringWithFormat:@"%@\n\n  >>>>>>>> NEXT STAGE >>>>>>>> \n\n%@", sourceDescription, [self description]];
+  } else {
+    return [self description];
+  }
 }
 
 - (id)currentValue
@@ -53,21 +73,37 @@
   }
 }
 
-- (void)invalidate
+- (void)startPipeline
 {
-  _valid = NO;
-  [_source removePipelineSink:self];
+  BOOL needsStarting = NO;
+  @synchronized(self) {
+    if (_pipelineState == VOPipelineStateInitialized) {
+      _pipelineState = VOPipelinePendingStart;
+      needsStarting = YES;
+    }
+  }
+  if (needsStarting) {
+    [_source pipelineSinkWantsToStart:self];
+  }
 }
 
-#pragma mark - Override point for subclasses
-
-- (id)transformValue:(id)value shouldContinueToSinks:(BOOL *)shouldPassToSinks 
+- (void)stopPipeline
 {
-  *shouldPassToSinks = YES;
-  return value;
+  BOOL needsStopping = NO;
+  NSHashTable *listenersCopy = nil;
+  @synchronized(self) {
+    if (_pipelineState != VOPipelineStateStopped) {
+      needsStopping = YES;
+      _pipelineState = VOPipelineStateStopped;
+      listenersCopy = [_listeners copy];
+    }
+  }
+  if (needsStopping) {
+    for (id<VOPipelineSink> sink in listenersCopy) {
+      [sink pipelineSourceDidStop:self];
+    }
+  }
 }
-
-#pragma mark - VOListenable
 
 - (id)addPipelineSink:(id<VOPipelineSink>)observer
 {
@@ -84,25 +120,41 @@
   }
 }
 
-#pragma mark - VOListening
+- (void)pipelineSinkWantsToStart:(id<VOPipelineSink>)pipelineSink
+{
+  if (_pipelineState == VOPipelineStateStarted) {
+    [pipelineSink pipelineSource:self didUpdateToValue:self.currentValue];
+  } else {
+    [self startPipeline];
+  }
+}
+
+#pragma mark - VOPipelineSink
 
 - (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   VO_RETURN_IF_INVALID();
   NSHashTable *listenersCopy;
-  BOOL shouldContinueToSinks = NO;
-  value = [self transformValue:value shouldContinueToSinks:&shouldContinueToSinks];
+  VOPipelineState pipelineStateCopy;
   @synchronized(self) {
+    if (_pipelineState < VOPipelineStateStarted) {
+      _pipelineState = VOPipelineStateStarted;
+    }
     _currentValue = value;
-    if (shouldContinueToSinks) {
-      listenersCopy = [_listeners copy];
-    }
+    pipelineStateCopy = _pipelineState;
+    listenersCopy = [_listeners copy];
   }
-  if (shouldContinueToSinks) {
-    for (id<VOPipelineSink> listener in listenersCopy) {
-      [listener pipelineSource:listenableObject didUpdateToValue:value];
-    }
+  if (pipelineStateCopy == VOPipelineStateStopped) {
+    return;
   }
+  for (id<VOPipelineSink> listener in listenersCopy) {
+    [listener pipelineSource:listenableObject didUpdateToValue:value];
+  }
+}
+
+- (void)pipelineSourceDidStop:(id<VOPipelineSource>)pipelineSource
+{
+  [self stopPipeline];
 }
 
 @end

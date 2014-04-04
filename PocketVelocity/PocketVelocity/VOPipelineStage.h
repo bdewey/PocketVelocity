@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-#import "VOInvalidating.h"
 #import "VOPipelining.h"
 
-@interface VOPipelineStage : NSObject <VOInvalidating, VOPipelineSource, VOPipelineSink>
+@interface VOPipelineStage : NSObject <VOPipelineSource, VOPipelineSink>
 
 @property (nonatomic, readonly, strong) id<VOPipelineSource> source;
 @property (atomic, readonly, strong) id currentValue;

@@ -25,7 +25,11 @@ static NSString *const kOddString  = @"Odd";
   VOPipelineStage *_pipeline;
   VOPipelineStage *_listeners;
   id _pipelineResult;
+  BOOL _receivedDidStopMessage;
+  BOOL _valid;
 }
+
+@synthesize valid = _valid;
 
 - (void)setUp
 {
@@ -33,6 +37,8 @@ static NSString *const kOddString  = @"Odd";
 
   _pipelineResult = nil;
   _listeners = [[VOPipelineStage alloc] init];
+  _receivedDidStopMessage = NO;
+  _valid = YES;
   _pipeline = [[_listeners pipelineWithArrayFilteringBlock:^id(NSNumber *value) {
     NSInteger number = [value integerValue];
     if (number % 2) {
@@ -80,13 +86,26 @@ static NSString *const kOddString  = @"Odd";
   
   XCTAssertNotNil(_pipelineResult, @"");
   XCTAssertEqualObjects(_pipelineResult, expectedResults, @"");
+  
+  [_listeners stopPipeline];
+  XCTAssertTrue(_receivedDidStopMessage, @"");
 }
 
-#pragma mark - VOListening
+#pragma mark - VOPipelineSink
+
+- (void)invalidate
+{
+  _valid = NO;
+}
 
 - (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
   _pipelineResult = value;
+}
+
+- (void)pipelineSourceDidStop:(id<VOPipelineSource>)pipelineSource
+{
+  _receivedDidStopMessage = YES;
 }
 
 @end

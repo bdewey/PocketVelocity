@@ -154,5 +154,10 @@
   return self;
 }
 
+- (NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ inserted = %@ removed = %@", [super description], _insertedIndexPaths, _removedIndexPaths];
+}
+
 @end
 

@@ -26,7 +26,7 @@
   return self;
 }
 
-- (PVSectionedDataSource *)transformValue:(VOChangeDescribingArray *)value
+- (PVSectionedDataSource *)transformValue:(VOChangeDescribingArray *)value previousResult:(id)previousResult
 {
   PVSectionedDataSource *updatedValue;
   if (value == nil) {

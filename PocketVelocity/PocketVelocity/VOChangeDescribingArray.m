@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
+#import "NSObject+VOUtilities.h"
 #import "VOArrayChangeDescription.h"
 #import "VOChangeDescribingArray.h"
 #import "VOChangeDescribingArray_Internal.h"
@@ -35,7 +36,10 @@
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ _values = %@", [super description], _values];
+  return [self vo_descriptionWithProperties:@{
+            @"values": NSNULL_IF_NIL(_values),
+            @"changeDescription": NSNULL_IF_NIL(_changeDescription)}
+          ];
 }
 
 - (BOOL)isEqual:(id)object

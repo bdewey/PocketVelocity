@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Brian Dewey. All rights reserved.
 //
 
+#import "NSObject+VOUtilities.h"
 #import "VOAsyncPipelineStage.h"
 
 @implementation VOAsyncPipelineStage
@@ -29,6 +30,14 @@
   dispatch_queue_t queue = dispatch_queue_create(cstring, DISPATCH_QUEUE_SERIAL);
   dispatch_set_target_queue(queue, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0));
   return [self initWithSource:source queue:queue];
+}
+
+- (NSString *)vo_descriptionWithProperties:(NSDictionary *)properties
+{
+  NSMutableDictionary *mutableProperties = [properties mutableCopy];
+  NSString *queueLabel = [NSString stringWithCString:dispatch_queue_get_label(_queue) encoding:NSUTF8StringEncoding];
+  [mutableProperties addEntriesFromDictionary:@{@"queue": NSNULL_IF_NIL(queueLabel)}];
+  return [super vo_descriptionWithProperties:mutableProperties];
 }
 
 #pragma mark - VOPipelineSink

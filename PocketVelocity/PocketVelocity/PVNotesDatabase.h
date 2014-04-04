@@ -11,19 +11,18 @@
 #import "VOPipelining.h"
 
 @class VOBlockListener;
-@class VOChangeDescribingArray;
-@class VOMutableChangeDescribingArray;
+@class VOChangeDescribingDictionary;
+@class VOMutableChangeDescribingDictionary;
 
-typedef VOChangeDescribingArray * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescribingArray *currentNotes);
+typedef VOChangeDescribingDictionary * (^PVNotesDatabaseUpdatingBlock)(VOChangeDescribingDictionary *currentNotes);
 
 @interface PVNotesDatabase : NSObject <VOPipelineSource>
 
 @property (nonatomic, readonly, copy) NSURL *directory;
-@property (nonatomic, readonly, copy) VOChangeDescribingArray *notes;
+@property (nonatomic, readonly, copy) VOChangeDescribingDictionary *notes;
 
 - (instancetype)initWithDirectory:(NSURL *)directory;
 - (void)updateNotesWithBlock:(PVNotesDatabaseUpdatingBlock)block;
-- (void)loadNotesFromDisk;
 - (void)removeNoteWithTitle:(NSString *)noteTitle;
 - (void)updateNote:(PVNote *)note;
 - (VOBlockListener *)autoSaveListener;

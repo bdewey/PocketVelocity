@@ -16,52 +16,44 @@
 @end
 
 @implementation VOArrayMapTransformer
-{
-  VOChangeDescribingArray *_oldArray;
-}
 
 - (instancetype)initWithValueTransformer:(id<VOValueTransforming>)transformer
-                expectsPipelineSemantics:(BOOL)expectsPipelineSemantics
 {
   self = [super init];
   if (self != nil) {
     _transformer = transformer;
-    _expectsPipelineSemantics = expectsPipelineSemantics;
   }
   return self;
 }
 
 - (NSString *)description
 {
-  return [NSString stringWithFormat:@"%@ pipelining = %@ oldArray = %@ transformer = %@",
+  return [NSString stringWithFormat:@"%@ transformer = %@",
           [super description],
-          (_expectsPipelineSemantics) ? @"YES" : @"NO",
-          _oldArray,
           _transformer];
 }
 
 #pragma mark - VOValueTransforming
 
 - (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)value
+                             previousResult:(VOChangeDescribingArray *)previousResult
 {
   VOChangeDescribingArray *immutableResults;
-  if (_oldArray == nil) {
+  if (previousResult == nil) {
     VOMutableChangeDescribingArray *updatedValues = [[VOMutableChangeDescribingArray alloc] init];
     for (int i = 0; i < value.count; i++) {
-      id updatedValue = [_transformer transformValue:value[i]];
+      id updatedValue = [_transformer transformValue:value[i] previousResult:nil];
       [updatedValues addObject:updatedValue];
     }
     immutableResults = [updatedValues copy];
   } else {
-    immutableResults = [self _transformValue:value asDeltaFromOldValue:_oldArray];
-  }
-  if (_expectsPipelineSemantics) {
-    _oldArray = immutableResults;
+    immutableResults = [self _transformValue:value asDeltaFromOldValue:previousResult];
   }
   return immutableResults;
 }
 
-- (VOChangeDescribingArray *)_transformValue:(VOChangeDescribingArray *)value asDeltaFromOldValue:(VOChangeDescribingArray *)oldValue
+- (VOChangeDescribingArray *)_transformValue:(VOChangeDescribingArray *)value
+                         asDeltaFromOldValue:(VOChangeDescribingArray *)oldValue
 {
   VOArrayChangeDescription *changeDescription = value.changeDescription;
   VOMutableChangeDescribingArray *updatedMappedValues = (oldValue != nil) ? [oldValue mutableCopy] : [[VOMutableChangeDescribingArray alloc] init];
@@ -69,7 +61,7 @@
     [updatedMappedValues removeObjectAtIndex:idx];
   }];
   [changeDescription.indexesToAddFromUpdatedValues enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-    id transformedValue = [_transformer transformValue:value[idx]];
+    id transformedValue = [_transformer transformValue:value[idx] previousResult:nil];
     [updatedMappedValues insertObject:transformedValue atIndex:idx];
   }];
   VOChangeDescribingArray *immutableCopy = [updatedMappedValues copy];
@@ -83,13 +75,13 @@
 - (VOPipelineStage *)pipelineWithArrayMappingBlock:(VOValueTransformingBlock)block
 {
   VOBlockTransformer *itemTransformer = [[VOBlockTransformer alloc] initWithBlock:block];
-  VOArrayMapTransformer *mapTransformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:itemTransformer expectsPipelineSemantics:YES];
+  VOArrayMapTransformer *mapTransformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:itemTransformer];
   return [[VOTransformingPipelineStage alloc] initWithSource:self transformer:mapTransformer];
 }
 
 - (VOPipelineStage *)pipelineWithArrayMappingTransformer:(id<VOValueTransforming>)transformer
 {
-  VOArrayMapTransformer *mapTransformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:transformer expectsPipelineSemantics:YES];
+  VOArrayMapTransformer *mapTransformer = [[VOArrayMapTransformer alloc] initWithValueTransformer:transformer];
   return [[VOTransformingPipelineStage alloc] initWithSource:self transformer:mapTransformer];
 }
 

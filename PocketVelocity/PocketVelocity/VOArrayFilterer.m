@@ -32,12 +32,12 @@
   return [self initWithTransformer:transformer expectsPipelineSemantics:expectsPipelineSemantics validationBlock:nil];
 }
 
-- (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)values
+- (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)values previousResult:(VOChangeDescribingArray *)previousResult
 {
   VOMutableChangeDescribingArray *mutableResults = [[VOMutableChangeDescribingArray alloc] init];
 
   for (id value in values) {
-    id outcome = [_transformer transformValue:value];
+    id outcome = [_transformer transformValue:value previousResult:nil];
     if (outcome != nil) {
       [mutableResults addObject:value];
     }

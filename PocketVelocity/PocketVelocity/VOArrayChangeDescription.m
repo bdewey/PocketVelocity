@@ -21,6 +21,18 @@
   return self;
 }
 
++ (instancetype)arrayChangeDescriptionFromOldArray:(NSArray *)oldArray updatedArray:(NSArray *)updatedArray
+{
+  BDLongestCommonSubsequence *subsequence = [BDLongestCommonSubsequence subsequenceWithFirstArray:oldArray
+                                                                                   andSecondArray:updatedArray];
+  NSMutableIndexSet *oldIndexes = [[NSMutableIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, oldArray.count)];
+  NSMutableIndexSet *updatedIndexes = [[NSMutableIndexSet alloc] initWithIndexesInRange:NSMakeRange(0, updatedArray.count)];
+  [oldIndexes removeIndexes:subsequence.firstArraySubsequenceIndexes];
+  [updatedIndexes removeIndexes:subsequence.secondArraySubsequenceIndexes];
+  return [[[self class] alloc] initWithIndexesToRemoveFromOldValues:oldIndexes
+                                      indexesToAddFromUpdatedValues:updatedIndexes];
+}
+
 - (NSString *)description
 {
   return [NSString stringWithFormat:@"%@ indexesToRemoveFromOldValues = %@; indexesToAddFromUpdatedValues = %@",

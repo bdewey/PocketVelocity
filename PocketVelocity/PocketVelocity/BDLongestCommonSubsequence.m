@@ -111,8 +111,8 @@
   //  Next step: Backtrace through the |subsequenceLengths| array
   //
   
-  int i = firstArray.count - 1;
-  int j = secondArray.count - 1;
+  NSInteger i = firstArray.count - 1;
+  NSInteger j = secondArray.count - 1;
   while ((i >= 0) && (j >= 0) && (subsequenceLengths[i+1][j+1] > 0)) {
     
     id<NSObject> firstObject = [firstArray objectAtIndex:i];

@@ -29,7 +29,7 @@
 
 #pragma mark - VOValueTransforming
 
-- (id)transformValue:(id)value
+- (id)transformValue:(id)value previousResult:(id)previousResult
 {
   return _block(value);
 }

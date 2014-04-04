@@ -14,7 +14,7 @@
 
 typedef void (^VOBlockListenerBlock)(id value);
 
-@interface VOBlockListener : NSObject <VOPipelineSink, VOInvalidating>
+@interface VOBlockListener : NSObject <VOPipelineSink>
 
 @property (nonatomic, readonly, strong) id<VOPipelineSource> source;
 @property (nonatomic, readonly, strong) dispatch_queue_t queue;

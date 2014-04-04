@@ -16,9 +16,13 @@
   VOChangeDescribing
 >
 
-@property (nonatomic, readonly, assign) NSUInteger count;
+@property (nonatomic, readonly, strong) NSArray *values;
 @property (nonatomic, readonly, copy) VOArrayChangeDescription *changeDescription;
 
+- (instancetype)initWithValues:(NSArray *)values changeDescription:(VOArrayChangeDescription *)changeDescription;
+- (instancetype)init;
+
+@property (nonatomic, readonly, assign) NSUInteger count;
 - (id)objectAtIndex:(NSUInteger)index;
 - (id)objectAtIndexedSubscript:(NSUInteger)index;
 

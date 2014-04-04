@@ -10,6 +10,6 @@
 
 @protocol VOValueTransforming <NSObject>
 
-- (id)transformValue:(id)value;
+- (id)transformValue:(id)value previousResult:(id)previousResult;
 
 @end

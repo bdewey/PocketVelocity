@@ -42,7 +42,7 @@
 
 - (NSString *)description
 {
-  return [_title copy];
+  return [NSString stringWithFormat:@"%@%@", _title, _dirty?@" (dirty)":@""];
 }
 
 - (BOOL)isEqual:(id)object

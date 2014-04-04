@@ -27,11 +27,14 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   VOPipelineStage *_listeners;
   PVAsyncListeningTestCallbackQueue _callbackQueueIdentifier;
   BOOL _callbackInvoked;
+  BOOL _valid;
 }
 
 @end
 
 @implementation PVAsyncListeningTests
+
+@synthesize valid = _valid;
 
 - (void)setUp
 {
@@ -41,6 +44,7 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
   _listeners = [[VOPipelineStage alloc] init];
   _callbackQueueIdentifier = kCallbackQueueInvalid;
   _callbackInvoked = NO;
+  _valid = YES;
 }
 
 - (void)tearDown
@@ -76,6 +80,16 @@ typedef NS_ENUM(NSUInteger, PVAsyncListeningTestCallbackQueue) {
 {
   _callbackQueueIdentifier = (dispatch_get_specific(kQueueIdentifierKey) == kQueueIdentifierValue) ? kCallbackQueueBackgroundQueue : kCallbackQueueMainQueue;
   _callbackInvoked = YES;
+}
+
+- (void)pipelineSourceDidStop:(id<VOPipelineSource>)pipelineSource
+{
+  
+}
+
+- (void)invalidate
+{
+  _valid = NO;
 }
 
 @end

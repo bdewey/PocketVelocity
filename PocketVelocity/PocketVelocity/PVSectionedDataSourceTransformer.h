@@ -18,7 +18,7 @@
 @property (nonatomic, readonly, assign) BOOL expectsPipelineSemantics;
 
 - (instancetype)initWithPipelineSemantics:(BOOL)expectsPipelineSemantics;
-- (PVSectionedDataSource *)transformValue:(VOChangeDescribingArray *)value;
+- (PVSectionedDataSource *)transformValue:(VOChangeDescribingArray *)value previousResult:(PVSectionedDataSource *)previousResult;
 
 @end
 

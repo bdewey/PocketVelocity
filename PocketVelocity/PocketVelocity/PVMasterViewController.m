@@ -21,6 +21,10 @@
 #import "VOAsyncPipelineStage.h"
 #import "VOBlockListener.h"
 #import "VOBlockTransformer.h"
+#import "VOChangeDescribingDictionary.h"
+#import "VODictionaryMapTransformer.h"
+#import "VODictionaryToValuesTransformer.h"
+#import "VOMutableChangeDescribingDictionary.h"
 #import "VOTransformingPipelineStage.h"
 
 @interface PVMasterViewController () {
@@ -64,14 +68,17 @@
   _notesDatabase = [[PVNotesDatabase alloc] initWithDirectory:documents];
   [_cellConfigurationsListener invalidate];
   _cellConfigurationsListener = [self _cellConfigurationListenerForSource:_notesDatabase];
+  [_autoSaveListener invalidate];
   _autoSaveListener = [_notesDatabase autoSaveListener];
-  [_notesDatabase loadNotesFromDisk];
+  [_notesDatabase startPipeline];
 }
 
 - (VOBlockListener *)_cellConfigurationListenerForSource:(id<VOPipelineSource>)source
 {
   __weak PVMasterViewController *weakSelf = self;
-  return [[[[[VOAsyncPipelineStage alloc] initWithSource:source queueName:@"com.brians-brain.pocket-velocity.master-list"] pipelineWithArrayMappingBlock:^PVMasterViewCellConfiguration *(PVNote *value) {
+  return [[[[[[VOAsyncPipelineStage alloc] initWithSource:source queueName:@"com.brians-brain.pocket-velocity.master-list"] pipelineStageWithDictionaryToValuesWithComparator:^NSComparisonResult(PVNote *obj1, PVNote *obj2) {
+    return [obj1.title compare:obj2.title];
+  }] pipelineWithArrayMappingBlock:^PVMasterViewCellConfiguration *(PVNote *value) {
     return [[PVMasterViewCellConfiguration alloc] initWithNote:value];
   }] pipelineTransformingToSectionedDataSource] mainQueueBlock:^(PVSectionedDataSource *value) {
     [weakSelf setCellConfigurations:value animated:YES];
@@ -86,13 +93,13 @@
 
 - (void)insertNewObject:(id)sender
 {
-  [_notesDatabase updateNotesWithBlock:^VOChangeDescribingArray *(VOChangeDescribingArray *currentNotes) {
-    NSString *noteTitle = [NSString stringWithFormat:@"Note %u", currentNotes.count + 1];
+  [_notesDatabase updateNotesWithBlock:^VOChangeDescribingDictionary *(VOChangeDescribingDictionary *currentNotes) {
+    NSString *noteTitle = [NSString stringWithFormat:@"Note %lu", (unsigned long)currentNotes.count + 1];
     NSDate *now = [NSDate date];
     PVNote *note = [[PVNote alloc] initWithTitle:noteTitle note:@"Note body" tags:@[@"tag1", @"tag2"] dateAdded:now dateModified:now dirty:YES];
-    VOMutableChangeDescribingArray *mutableNotes = [currentNotes mutableCopy];
-    [mutableNotes addObject:note];
-    return mutableNotes;
+    VOMutableChangeDescribingDictionary *mutableNotes = [currentNotes mutableCopy];
+    mutableNotes[noteTitle] = note;
+    return [mutableNotes copy];
   }];
 }
 

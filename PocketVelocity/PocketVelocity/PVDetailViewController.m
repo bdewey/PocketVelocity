@@ -14,6 +14,8 @@
 #import "VOArrayFilterer.h"
 #import "VOBlockListener.h"
 #import "VOBlockTransformer.h"
+#import "VODictionaryFilterer.h"
+#import "VODictionaryToValuesTransformer.h"
 #import "VOPipelineStage.h"
 #import "VOMutableChangeDescribingArray.h"
 #import "VOTransformingPipelineStage.h"
@@ -22,12 +24,12 @@
 @interface PVDetailViewController () <UITextViewDelegate>
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 @property (strong, nonatomic) IBOutlet UITextView *noteTextView;
+@property (strong, nonatomic) PVNote *currentNote;
 - (void)configureView;
 @end
 
 @implementation PVDetailViewController
 {
-  PVNote *_currentNote;
   VOBlockListener *_currentNoteListener;
 }
 
@@ -53,6 +55,14 @@
   }
 }
 
+- (void)setCurrentNote:(PVNote *)currentNote
+{
+  if (!PVObjectsAreEqual(_currentNote, currentNote)) {
+    _currentNote = currentNote;
+    [self configureView];
+  }
+}
+
 - (void)_configureCurrentNotePipeline
 {
   VOPipelineStage *pipeline = [[self class] _pipelineForFilteringWithTitle:_detailItem fromSource:_notesDatabase];
@@ -61,10 +71,10 @@
   _currentNoteListener = [[VOBlockListener alloc] initWithSource:pipeline block:^(VOChangeDescribingArray *value) {
     PVDetailViewController *strongSelf = weakSelf;
     if (value.count > 0) {
-      strongSelf->_currentNote = value[0];
-      [strongSelf configureView];
+      strongSelf.currentNote = value[0];
     }
   }];
+  [pipeline startPipeline];
 }
 
 - (void)configureView
@@ -77,11 +87,13 @@
 
 + (VOPipelineStage *)_pipelineForFilteringWithTitle:(NSString *)title fromSource:(id<VOPipelineSource>)source
 {
-  return [[[VOAsyncPipelineStage alloc] initWithSource:source queueName:@"com.brians-brain.pocket-velocity.detail-view"] pipelineWithArrayFilteringBlock:^id(PVNote *value) {
-    if ([title isEqualToString:value.title]) {
-      return value;
+  return [[[[VOAsyncPipelineStage alloc] initWithSource:source queueName:@"com.brians-brain.pocket-velocity.detail-view"] pipelineByFilteringDictionaryWithBlock:^BOOL(NSString *noteTitle, PVNote *note) {
+    if ([title isEqualToString:noteTitle]) {
+      return YES;
     }
-    return nil;
+    return NO;
+  }] pipelineStageWithDictionaryToValuesWithComparator:^NSComparisonResult(PVNote *obj1, PVNote *obj2) {
+    return [obj1.title compare:obj2.title];
   }];
 }
 

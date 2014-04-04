@@ -16,9 +16,8 @@
 @property (nonatomic, readonly, assign) BOOL expectsPipelineSemantics;
 @property (nonatomic, readonly, strong) id<VOValueTransforming> transformer;
 
-- (instancetype)initWithValueTransformer:(id<VOValueTransforming>)transformer
-                expectsPipelineSemantics:(BOOL)expectsPipelineSemantics;
-- (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)value;
+- (instancetype)initWithValueTransformer:(id<VOValueTransforming>)transformer;
+- (VOChangeDescribingArray *)transformValue:(VOChangeDescribingArray *)value previousResult:(VOChangeDescribingArray *)previousResult;
 
 @end
 

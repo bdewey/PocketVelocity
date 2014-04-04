@@ -15,7 +15,7 @@
   BOOL _valid;
 }
 
-@synthesize valid;
+@synthesize valid = _valid;
 
 - (instancetype)initWithSource:(id<VOPipelineSource>)source callbackQueue:(dispatch_queue_t)queue block:(VOBlockListenerBlock)block
 {
@@ -48,13 +48,11 @@
   [_source removePipelineSink:self];
 }
 
-#pragma mark - VOListening
+#pragma mark - VOPipelineSink
 
 - (void)pipelineSource:(id<VOPipelineSource>)listenableObject didUpdateToValue:(id)value
 {
-  if (!_valid) {
-    return;
-  }
+  VO_RETURN_IF_INVALID();
   if (_mainQueueOptimize && [NSThread isMainThread]) {
     _block(value);
   } else {
@@ -62,6 +60,11 @@
       _block(value);
     });
   }
+}
+
+- (void)pipelineSourceDidStop:(id<VOPipelineSource>)pipelineSource
+{
+  // NOTHING
 }
 
 @end

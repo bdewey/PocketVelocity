@@ -43,14 +43,14 @@ static VOChangeDescribingArray *CreateTestArray(NSUInteger length) {
 - (void)testSimpleFilter
 {
   VOChangeDescribingArray *input = CreateTestArray(10);
-  VOChangeDescribingArray *output = [_filterer transformValue:input];
+  VOChangeDescribingArray *output = [_filterer transformValue:input previousResult:nil];
   XCTAssertEqual(5u, output.count, @"");
 }
 
 #pragma mark - VOValueTransforming
 
 // Only pass odd numbers through.
-- (id)transformValue:(NSNumber *)value
+- (id)transformValue:(NSNumber *)value previousResult:(NSNumber *)previousResult
 {
   NSInteger number = [value integerValue];
   if (number % 2) {
